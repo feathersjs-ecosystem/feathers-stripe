@@ -6,6 +6,7 @@
 
 ## About
 
+It's still a work in progress. **Not ready for use.** Pull requests welcome! :smile:
 
 ## Changelog
 
