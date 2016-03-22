@@ -17,6 +17,7 @@ class Service {
 
   find(params) {
     // TODO (EK): Handle pagination
+    // TODO handle any special query params
     return this.stripe.plans.list(params).catch(errorHandler);
   }
 
