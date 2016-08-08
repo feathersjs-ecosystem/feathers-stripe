@@ -15,7 +15,7 @@ var app = feathers()
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
   // A simple Message service that we can used for testing
-  .use('/stripe/charges', stripe.charge({ apiKey: 'your api key' }))
+  .use('/stripe/charges', stripe.charge({ secretKey: 'your api key' }))
   .use('/', feathers.static(__dirname + '/public'))
   .use(errorHandler({ html: false }));
 

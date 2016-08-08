@@ -7,11 +7,11 @@ const debug = makeDebug('feathers-stripe:customer');
 class Service {
   constructor(options = {}) {
 
-    if (!options.apiKey) {
-      throw new Error('Stripe `apiKey` needs to be provided');
+    if (!options.secretKey) {
+      throw new Error('Stripe `secretKey` needs to be provided');
     }
 
-    this.stripe = Stripe(options.apiKey);
+    this.stripe = Stripe(options.secretKey);
     this.paginate = options.paginate = {};
   }
 
