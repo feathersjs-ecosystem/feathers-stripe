@@ -16,17 +16,15 @@ class Service {
   }
 
   find(params) {
-    // TODO (EK): Handle pagination
-    // TODO handle any special query params
-    return this.stripe.cards.list(params).catch(errorHandler);
+    return this.stripe.customers.listCards(params).catch(errorHandler);
   }
 
   get(id) {
-    return this.stripe.cards.retrieve(id).catch(errorHandler);
+    return this.stripe.customers.retrieveCard(params.customer, id).catch(errorHandler);
   }
 
   create(data) {
-    return this.stripe.cards.create(data).catch(errorHandler);
+    return this.stripe.customers.createSource(params.customer, data).catch(errorHandler);
   }
 
   patch(... args) {
@@ -34,11 +32,11 @@ class Service {
   }
 
   update(id, data) {
-    return this.stripe.cards.update(id, data).catch(errorHandler);
+    return this.stripe.customers.updateCard(params.customer, id, data).catch(errorHandler);
   }
 
   remove(id) {
-    return this.stripe.cards.del(id).catch(errorHandler);
+    return this.stripe.customers.deleteCard(params.customer, id).catch(errorHandler);
   }
 }
 
