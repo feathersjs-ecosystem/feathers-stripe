@@ -3,7 +3,7 @@ import normalizeQuery from '../normalize-query';
 import makeDebug from 'debug';
 import Stripe from 'stripe';
 
-const debug = makeDebug('feathers-stripe:charge');
+const debug = makeDebug('feathers-stripe:invoiceItem');
 
 class Service {
   constructor(options = {}) {
@@ -19,32 +19,32 @@ class Service {
   find(params) {
     // TODO (EK): Handle pagination
     const query = normalizeQuery(params);
-    return this.stripe.charges.list(query).catch(errorHandler);
+    return this.stripe.invoiceItems.list(query).catch(errorHandler);
   }
 
   get(id) {
-    return this.stripe.charges.retrieve(id).catch(errorHandler);
+    return this.stripe.invoiceItems.retrieve(id).catch(errorHandler);
   }
 
   create(data) {
-    return this.stripe.charges.create(data).catch(errorHandler);
+    return this.stripe.invoiceItems.create(data).catch(errorHandler);
   }
 
-  patch(id, data) {
-    if (data.capture) {
-      return this.stripe.charges.capture(id).catch(errorHandler);
-    }
-
-    return this.update(id, data);
+  patch(... args) {
+    return this.update(...args);
   }
 
   update(id, data) {
-    return this.stripe.charges.update(id, data).catch(errorHandler);
+    return this.stripe.invoiceItems.update(id, data).catch(errorHandler);
+  }
+
+  remove(id) {
+    return this.stripe.invoiceItems.del(id).catch(errorHandler);
   }
 }
 
 export default function init(options) {
-  debug('Initializing feathers-stripe:charge plugin');
+  debug('Initializing feathers-stripe:invoiceItem plugin');
 
   return new Service(options);
 }
