@@ -22,14 +22,19 @@ class Service {
     }
     // TODO (EK): Handle pagination
     const query = normalizeQuery(params);
-    return this.stripe.customers.listCards(params.customer, query).catch(errorHandler);
+
+    if (!query.type) {
+      query.type = 'bank_account';
+    }
+
+    return this.stripe.customers.listSources(params.customer, query).catch(errorHandler);
   }
 
   get(id, params) {
     if (!params || !params.customer) {
       debug('Missing Stripe customer id');
     }
-    return this.stripe.customers.retrieveCard(params.customer, id).catch(errorHandler);
+    return this.stripe.customers.retrieveSource(params.customer, id).catch(errorHandler);
   }
 
   create(data, params) {
@@ -54,7 +59,7 @@ class Service {
     if (!params || !params.customer) {
       debug('Missing Stripe customer id');
     }
-    return this.stripe.customers.deleteCard(params.customer, id).catch(errorHandler);
+    return this.stripe.customers.deleteSource(params.customer, id).catch(errorHandler);
   }
 }
 

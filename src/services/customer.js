@@ -1,4 +1,5 @@
 import errorHandler from '../error-handler';
+import normalizeQuery from '../normalize-query';
 import makeDebug from 'debug';
 import Stripe from 'stripe';
 
@@ -17,8 +18,8 @@ class Service {
 
   find(params) {
     // TODO (EK): Handle pagination
-    // TODO handle any special query params
-    return this.stripe.customers.list(params).catch(errorHandler);
+    const query = normalizeQuery(params);
+    return this.stripe.customers.list(query).catch(errorHandler);
   }
 
   get(id) {
