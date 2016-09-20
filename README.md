@@ -163,7 +163,7 @@ __0.3.0__
 - Updating cards service to use the appropriate methods
 - Updating stripe-node dependency
 - Adding the majority of the services
-- Adding support for `limit` for find queries
+- Adding support for `$limit` for find queries
 - Updating documentation and adding some more tests
 
 __0.2.0__
