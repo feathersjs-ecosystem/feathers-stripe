@@ -25,14 +25,6 @@ describe('errorHandler', () => {
       });
     });
 
-    it('handles StripeCardError', () => {
-      error.type = 'StripeCardError';
-
-      return errorHandler(error).catch(e => {
-        expect(e instanceof errors.PaymentError).to.equal(true);
-      });
-    });
-
     it('handles StripeInvalidRequestError', () => {
       error.type = 'StripeInvalidRequestError';
 
