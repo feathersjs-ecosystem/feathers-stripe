@@ -1,4 +1,4 @@
-export default function normalizeQuery(params) {
+export default function normalizeQuery (params) {
   let query = Object.assign({}, params.query);
 
   if (query.$limit) {

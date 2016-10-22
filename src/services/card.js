@@ -6,8 +6,7 @@ import Stripe from 'stripe';
 const debug = makeDebug('feathers-stripe:card');
 
 class Service {
-  constructor(options = {}) {
-
+  constructor (options = {}) {
     if (!options.secretKey) {
       throw new Error('Stripe `secretKey` needs to be provided');
     }
@@ -16,7 +15,7 @@ class Service {
     this.paginate = options.paginate = {};
   }
 
-  find(params) {
+  find (params) {
     if (!params || !params.customer) {
       debug('Missing Stripe customer id');
     }
@@ -25,32 +24,32 @@ class Service {
     return this.stripe.customers.listCards(params.customer, query).catch(errorHandler);
   }
 
-  get(id, params) {
+  get (id, params) {
     if (!params || !params.customer) {
       debug('Missing Stripe customer id');
     }
     return this.stripe.customers.retrieveCard(params.customer, id).catch(errorHandler);
   }
 
-  create(data, params) {
+  create (data, params) {
     if (!params || !params.customer) {
       debug('Missing Stripe customer id');
     }
     return this.stripe.customers.createSource(params.customer, data).catch(errorHandler);
   }
 
-  patch(... args) {
+  patch (...args) {
     return this.update(...args);
   }
 
-  update(id, data, params) {
+  update (id, data, params) {
     if (!params || !params.customer) {
       debug('Missing Stripe customer id');
     }
     return this.stripe.customers.updateCard(params.customer, id, data).catch(errorHandler);
   }
 
-  remove(id, params) {
+  remove (id, params) {
     if (!params || !params.customer) {
       debug('Missing Stripe customer id');
     }
@@ -58,7 +57,7 @@ class Service {
   }
 }
 
-export default function init(options) {
+export default function init (options) {
   debug('Initializing feathers-stripe:card plugin');
 
   return new Service(options);

@@ -5,8 +5,7 @@ import Stripe from 'stripe';
 const debug = makeDebug('feathers-stripe:token');
 
 class Service {
-  constructor(options = {}) {
-
+  constructor (options = {}) {
     if (!options.secretKey) {
       throw new Error('Stripe `secretKey` needs to be provided');
     }
@@ -15,16 +14,16 @@ class Service {
     this.paginate = options.paginate = {};
   }
 
-  get(id) {
+  get (id) {
     return this.stripe.tokens.retrieve(id).catch(errorHandler);
   }
 
-  create(data) {
+  create (data) {
     return this.stripe.tokens.create(data).catch(errorHandler);
   }
 }
 
-export default function init(options) {
+export default function init (options) {
   debug('Initializing feathers-stripe:token plugin');
 
   return new Service(options);

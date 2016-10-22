@@ -15,7 +15,7 @@ describe('errorHandler', () => {
   describe('when it is a Stripe error', () => {
     let error;
 
-    beforeEach(() => error = new Error('Stripe Error'));
+    beforeEach(() => (error = new Error('Stripe Error')));
 
     it('handles StripeCardError', () => {
       error.type = 'StripeCardError';

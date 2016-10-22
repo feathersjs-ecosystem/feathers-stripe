@@ -1,10 +1,10 @@
 import errors from 'feathers-errors';
 
-export default function errorHandler(error) {
+export default function errorHandler (error) {
   let feathersError = error;
 
   if (error.type) {
-    switch(error.type) {
+    switch (error.type) {
       case 'StripeCardError':
         // A declined card error
         feathersError = new errors.PaymentError(error);
