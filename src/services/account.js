@@ -6,8 +6,7 @@ import Stripe from 'stripe';
 const debug = makeDebug('feathers-stripe:account');
 
 class Service {
-  constructor(options = {}) {
-
+  constructor (options = {}) {
     if (!options.secretKey) {
       throw new Error('Stripe `secretKey` needs to be provided');
     }
@@ -16,30 +15,30 @@ class Service {
     this.paginate = options.paginate = {};
   }
 
-  find(params) {
+  find (params) {
     // TODO (EK): Handle pagination
     const query = normalizeQuery(params);
     return this.stripe.accounts.list(query).catch(errorHandler);
   }
 
-  get(id) {
+  get (id) {
     return this.stripe.accounts.retrieve(id).catch(errorHandler);
   }
 
-  create(data) {
+  create (data) {
     return this.stripe.accounts.create(data).catch(errorHandler);
   }
 
-  patch(... args) {
+  patch (...args) {
     return this.update(...args);
   }
 
-  update(id, data) {
+  update (id, data) {
     return this.stripe.accounts.update(id, data).catch(errorHandler);
   }
 }
 
-export default function init(options) {
+export default function init (options) {
   debug('Initializing feathers-stripe:account plugin');
 
   return new Service(options);

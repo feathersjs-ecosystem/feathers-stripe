@@ -34,9 +34,17 @@
     "release:major": "npm version major && npm publish",
     "compile": "rm -rf lib/ && babel -d lib/ src/",
     "watch": "babel --watch -d lib/ src/",
-    "jshint": "jshint src/. test/. --config",
+    "lint": "eslint-if-supported semistandard --fix",
     "mocha": "mocha test/ --compilers js:babel-core/register",
-    "test": "npm run compile && npm run jshint && npm run mocha"
+    "test": "npm run compile && npm run lint && npm run mocha"
+  },
+  "semistandard": {
+    "env": [
+      "mocha"
+    ],
+    "ignore": [
+      "/lib"
+    ]
   },
   "directories": {
     "lib": "lib"
@@ -54,11 +62,12 @@
     "babel-preset-es2015": "^6.5.0",
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
+    "eslint-if-supported": "^1.0.1",
     "feathers": "^2.0.0",
     "feathers-hooks": "^1.5.0",
     "feathers-rest": "^1.2.4",
     "feathers-socketio": "^1.3.3",
-    "jshint": "^2.9.1",
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "semistandard": "^9.1.0"
   }
 }

@@ -5,6 +5,7 @@ var hooks = require('feathers-hooks');
 var bodyParser = require('body-parser');
 var errorHandler = require('feathers-errors/handler');
 var stripe = require('../lib/index');
+var path = require('path');
 
 // Initialize the application
 var app = feathers()
@@ -16,16 +17,14 @@ var app = feathers()
   .use(bodyParser.urlencoded({ extended: true }))
   // A simple Message service that we can used for testing
   .use('/stripe/charges', stripe.charge({ secretKey: 'your api key' }))
-  .use('/', feathers.static(__dirname + '/public'))
+  .use('/', feathers.static(path.join(__dirname, 'public')))
   .use(errorHandler({ html: false }));
 
-
-function validateCharge() {
-  return function(hook) {
+function validateCharge () {
+  return function (hook) {
     console.log('Validating charge code goes here');
   };
 }
-
 
 var cardService = app.service('stripe/charges');
 
@@ -35,9 +34,9 @@ cardService.before({
 
 var Charge = {
   amount: 400,
-  currency: "cad",
-  source: "tok_87rau6axWXeqLq", // obtained with Stripe.js
-  description: "Charge for test@example.com"
+  currency: 'cad',
+  source: 'tok_87rau6axWXeqLq', // obtained with Stripe.js
+  description: 'Charge for test@example.com'
 };
 
 cardService.create(Charge).then(result => {
