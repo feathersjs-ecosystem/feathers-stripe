@@ -1,4 +1,21 @@
 language: node_js
 node_js:
-  - 'node'
-  - 'iojs'
+- node
+- '6'
+- '4'
+- iojs
+- '0.12'
+- '0.10'
+sudo: false
+before_script:
+- npm install -g codeclimate-test-reporter
+after_script:
+- codeclimate-test-reporter < coverage/lcov.info
+addons:
+  code_climate:
+    repo_token: 2855b582dc8d9fe0c3784cb988a7aff22fa00040e225f857b45f7b05137cefe6
+notifications:
+  email: false
+  slack:
+    rooms:
+      secure: RuCfcKh85LiLabpuNweQV/MSHoQthVEeiS2XcgJdU7JkaEQ5qiDPs9w1r5f+9xdwsoRoHCgAvSXrcmKquqzlet1S9W5L/5jvcAc8T67nyvR88ZWB9YO+uw2dZTMEBq6jtA02M3B8Xqj/XEZTlkvGSD7meu5By8bWHZQ4YNXJzGeDv4vKdvxsdPVmB0wujutiNMw1zUyqqj0JzYFfsrcZGRv5jwilkNQB7MLlHCjT4toKaiK6nluAN2s1QD9HrxM/VFA7usOpLAUlazjA7SybhyzpmQrZSZ8sPSS3bkdLrdlFUOQ+IQFRFZQZExV1NquJLeweZpHmDldtvggEolPSoG+ytpbsNa8x5DzOUYCY9OQGr9syka0UND/mJURuQqMlz0yF9YKzivXay3WPeLBcCnbO9Qspyh6NxPRHvssS2kbgMwDwQmx1BOOjiatIblY9E1pZxHV0GO45qwbOdZkH3dXozQ56i7bqnIi+7Q++jdaqym7VUv9GO3C0dJ+Aax8BNcylCt2C2ysUYpHY0pQNmXAMWAkbUoEGK+n7eGo2IVWh4OxbTxb31+Pa27DQFTrkts95hRT+xs2mFV3r5X2u4Z5O3dqV5bBli24clSFEitobSL2d+gpj3A4YBFld+VNIwbnph+xhv/mdiTlhuAt8l5WZ9eI4+//xntzjaujDRz8=
