@@ -1,5 +1,3 @@
-if (!global._babelPolyfill) { require('babel-polyfill'); }
-
 import account from './services/account';
 import balance from './services/balance';
 import bankAccount from './services/bank-account';
@@ -22,6 +20,8 @@ import token from './services/token';
 import transaction from './services/transaction';
 import transfer from './services/transfer';
 import transferReversal from './services/transfer-reversal';
+
+if (!global._babelPolyfill) { require('babel-polyfill'); }
 
 export default {
   account,
