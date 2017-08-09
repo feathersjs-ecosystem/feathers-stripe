@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.13.0",
-    "debug": "^2.2.0",
+    "debug": "^3.0.0",
     "feathers-errors": "^2.4.0",
     "stripe": "^4.11.0"
   },
