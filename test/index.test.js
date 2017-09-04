@@ -46,6 +46,10 @@ describe('feathers-stripe', () => {
     expect(typeof stripe.event).to.equal('function');
   });
 
+  it('supports external accounts', () => {
+    expect(typeof stripe.externalAccount).to.equal('function');
+  });
+
   it('supports invoiceItems', () => {
     expect(typeof stripe.invoiceItem).to.equal('function');
   });
