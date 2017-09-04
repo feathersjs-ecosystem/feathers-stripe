@@ -3,8 +3,8 @@ const stripe = require('../lib');
 
 const CLASSES = ['Account',
   'Balance',
-  'BankAccount',
   'ExternalAccount',
+  'BankAccount',
   'Card',
   'Charge',
   'Coupon',
