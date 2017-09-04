@@ -58,6 +58,10 @@ describe('feathers-stripe', () => {
     expect(typeof stripe.order).to.equal('function');
   });
 
+  it('supports payouts', () => {
+    expect(typeof stripe.payout).to.equal('function');
+  });
+
   it('supports plans', () => {
     expect(typeof stripe.plan).to.equal('function');
   });
