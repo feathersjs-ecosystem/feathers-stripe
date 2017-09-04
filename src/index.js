@@ -6,6 +6,7 @@ import charge from './services/charge';
 import coupon from './services/coupon';
 import customer from './services/customer';
 import dispute from './services/dispute';
+import externalAccount from './services/external-account';
 import event from './services/event';
 import invoice from './services/invoice';
 import invoiceItem from './services/invoice-item';
@@ -33,6 +34,7 @@ export default {
   customer,
   dispute,
   event,
+  externalAccount,
   invoice,
   invoiceItem,
   order,
