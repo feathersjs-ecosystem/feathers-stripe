@@ -10,6 +10,7 @@ import event from './services/event';
 import invoice from './services/invoice';
 import invoiceItem from './services/invoice-item';
 import order from './services/order';
+import payout from './services/payout';
 import plan from './services/plan';
 import product from './services/product';
 import recipient from './services/recipient';
@@ -36,6 +37,7 @@ export default {
   invoice,
   invoiceItem,
   order,
+  payout,
   plan,
   product,
   recipient,
