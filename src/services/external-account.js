@@ -30,7 +30,7 @@ class Service {
     if (!params || !params.account) {
       debug('Missing Stripe account id');
     }
-    return this.stripe.customers
+    return this.stripe.accounts
       .retrieveExternalAccount(params.account, id)
       .catch(errorHandler);
   }
