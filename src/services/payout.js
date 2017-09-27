@@ -29,6 +29,9 @@ class Service {
     // Pull out stripe connect arguments
     const { connect = {} } = data;
 
+    // Remove connect from main arguments
+    delete data.connect;
+
     return this.stripe.payouts.create(data, connect).catch(errorHandler);
   }
 
