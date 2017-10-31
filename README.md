@@ -46,6 +46,7 @@ The following services are supported and map to the appropriate Stripe resource:
 - `customerSubscription`
 - `dispute`
 - `event`
+- `externalAccount`
 - `invoiceItem`
 - `invoice`
 - `order`
