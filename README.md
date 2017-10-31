@@ -32,7 +32,6 @@ If a method is not supported by Stripe for a given resource it is not support he
 
 The following services are supported and map to the appropriate Stripe resource:
 
-- `Account`
 - `BankAccount`
 - `Balance`
 - `Card`
@@ -42,6 +41,7 @@ The following services are supported and map to the appropriate Stripe resource:
 - `CustomerSubscription`
 - `Dispute`
 - `Event`
+- `ExternalAccount`
 - `InvoiceItem`
 - `Invoice`
 - `Order`
@@ -58,32 +58,6 @@ The following services are supported and map to the appropriate Stripe resource:
 - `Transfer`
 - `TransferReversal`
 
-They are all referenced by `stripe.<resource>` and can be used like so:
-
-```js
-const stripe = require('feathers-stripe');
-const { Account } = require('feathers-stripe');
-
-app.use('/stripe/charges', new stripe.Charge({ secretKey: 'your secret stripe key' }));
-app.use('/payment/accounts', new Account({ secretKey: 'your secret stripe key' }));
-```
-
-### Currently Unsupported Resources
-
-The following are not fully supported. If you wish to add support pull requests are very welcome.
-
-- `applePayDomains`
-- charge meta data
-- customer metadata
-- recipient metadata
-- transfer metadata
-- bank account verification
-- `threeDSecure`
-- `bitcoinReceivers`
-
-Pagination is also not currently supported. You can `limit` results for finds but you need to handle pagination yourself.
-
-### Security
 
 **This is pretty important!** Since this connects to your Stripe account you want to make sure that you don't expose these endpoints via your app unless the user has the appropriate permissions. You can prevent any external access by doing this:
 
@@ -157,6 +131,6 @@ console.log('Feathers authentication app started on 127.0.0.1:3030');
 
 ## License
 
-Copyright (c) 2018
+Copyright (c) 2019
 
 Licensed under the [MIT license](LICENSE).
