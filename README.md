@@ -36,45 +36,40 @@ If a method is not supported by Stripe for a given resource it is not support he
 
 The following services are supported and map to the appropriate Stripe resource:
 
-- `account`
-- `bankAccount`
-- `balance`
-- `card`
-- `charge`
-- `coupon`
-- `customer`
-- `customerSubscription`
-- `dispute`
-- `event`
-- `invoiceItem`
-- `invoice`
-- `order`
-- `payout`
-- `plan`
-- `product`
-- `recipient`
-- `refund`
-- `sku`
-- `subscription`
-- `token`
-- `transaction`
-- `transfer`
-- `transferReversal`
+- `Account`
+- `BankAccount`
+- `Balance`
+- `Card`
+- `Charge`
+- `Coupon`
+- `Customer`
+- `CustomerSubscription`
+- `Dispute`
+- `Event`
+- `InvoiceItem`
+- `Invoice`
+- `Order`
+- `Payout`
+- `Plan`
+- `Product`
+- `Recipient`
+- `Refund`
+- `Sku`
+- `Subscription`
+- `Token`
+- `Transaction`
+- `Transfer`
+- `TransferReversal`
 
 They are all referenced by `stripe.<resource>` and can be used like so:
 
 ```js
-var stripe = require('feathers-stripe');
-app.use('/stripe/charges', stripe.charge({ secretKey: 'your secret stripe key' }));
+const stripe = require('feathers-stripe');
+const { Account } = require('feathers-stripe');
+
+app.use('/stripe/charges', new stripe.Charge({ secretKey: 'your secret stripe key' }));
+app.use('/payment/accounts', new Account({ secretKey: 'your secret stripe key' }));
 ```
-
-#### Webhooks
-
-Coming Soon!
-
-#### Connect
-
-Coming soon!
 
 ### Currently Unsupported Resources
 
@@ -96,40 +91,40 @@ Pagination is also not currently supported. You can `limit` results for finds bu
 **This is pretty important!** Since this connects to your Stripe account you want to make sure that you don't expose these endpoints via your app unless the user has the appropriate permissions. You can prevent any external access by doing this:
 
 ```js
-var hooks = require('feathers-hooks');
+const { Forbidden } = require('@feathersjs/errors');
 
 app.service('/stripe/charges').before({
-  all: [hooks.disable('external')]
+  all: [
+    context => {
+      if(context.params.provider) {
+        throw new Forbidden('You are not allowed to access this');
+      }
+    }
+  ]
 });
 ```
-
-To learn what that actually did you can read [about some of the built-in Feathers hooks](https://docs.feathersjs.com/hooks/bundled.html#disable) and [about securing your Feathers app](https://docs.feathersjs.com/SECURITY.html).
 
 ## Complete Example
 
 Here's an example of a Feathers server that uses `feathers-authentication` for local auth.  It includes a `users` service that uses `feathers-mongoose`.  *Note that it does NOT implement any authorization.*
 
 ```js
-var feathers = require('feathers');
-var rest = require('feathers-rest');
-var socketio = require('feathers-socketio');
-var hooks = require('feathers-hooks');
-var bodyParser = require('body-parser');
-var errorHandler = require('feathers-errors/handler');
-var stripe = require('feather-stripe');
+const feathers = require('@feathersjs/feathers');
+const express = require('@feathersjs/express');
+const socketio = require('@feathersjs/socketio');
+var { Charge } = require('feather-stripe');
 
 // Initialize the application
 var app = feathers()
-  .configure(rest())
+  .configure(express.rest())
   .configure(socketio())
-  .configure(hooks())
   // Needed for parsing bodies (login)
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: true }))
+  .use(express.json())
+  .use(express.urlencoded({ extended: true }))
   // A simple Message service that we can used for testing
-  .use('/stripe/charges', stripe.charge({ secretKey: 'your secret stripe key' }))
+  .use('/stripe/charges', new Charge({ secretKey: 'your secret stripe key' }))
   .use('/', feathers.static(__dirname + '/public'))
-  .use(errorHandler({ html: false }));
+  .use(express.errorHandler({ html: false }));
 
 
 function validateCharge() {
@@ -139,20 +134,20 @@ function validateCharge() {
 }
 
 
-var chargeService = app.service('stripe/charges');
+const chargeService = app.service('stripe/charges');
 
 chargeService.before({
   create: [validateCharge()]
 });
 
-var Charge = {
+const charge = {
   amount: 400,
   currency: "cad",
   source: "tok_87rau6axWXeqLq", // obtained with Stripe.js
   description: "Charge for test@example.com"
 };
 
-chargeService.create(Charge).then(result => {
+chargeService.create(charge).then(result => {
   console.log('Charge created', result);
 }).catch(error => {
   console.log('Error creating charge', error);
@@ -163,27 +158,8 @@ app.listen(3030);
 console.log('Feathers authentication app started on 127.0.0.1:3030');
 ```
 
-
-## Changelog
-
-__0.3.0__
-
-- Updating cards service to use the appropriate methods
-- Updating stripe-node dependency
-- Adding the majority of the services
-- Adding support for `$limit` for find queries
-- Updating documentation and adding some more tests
-
-__0.2.0__
-
-- Adding some more resources
-
-__0.1.0__
-
-- Initial release
-
 ## License
 
-Copyright (c) 2015
+Copyright (c) 2018
 
 Licensed under the [MIT license](LICENSE).
