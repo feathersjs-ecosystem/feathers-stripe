@@ -49,6 +49,7 @@ The following services are supported and map to the appropriate Stripe resource:
 - `invoiceItem`
 - `invoice`
 - `order`
+- `payout`
 - `plan`
 - `product`
 - `recipient`
