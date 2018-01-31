@@ -27,8 +27,8 @@
     "node": ">= 6"
   },
   "scripts": {
-    "start": "node example/app",
-    "publish": "git push origin && git push origin --tags",
+    "changelog": "github_changelog_generator --no-issues && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "publish": "git push origin --tags && npm run changelog && git push origin",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
