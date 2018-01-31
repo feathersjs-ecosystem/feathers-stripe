@@ -3,8 +3,6 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-stripe.svg)](https://greenkeeper.io/)
 
 [![Build Status](https://travis-ci.org/feathersjs-ecosystem/feathers-stripe.png?branch=master)](https://travis-ci.org/feathersjs-ecosystem/feathers-stripe)
-[![Code Climate](https://codeclimate.com/github/feathersjs-ecosystem/feathers-stripe.png)](https://codeclimate.com/github/feathersjs-ecosystem/feathers-stripe)
-[![Test Coverage](https://codeclimate.com/github/feathersjs-ecosystem/feathers-stripe/badges/coverage.svg)](https://codeclimate.com/github/feathersjs-ecosystem/feathers-stripe/coverage)
 [![Dependency Status](https://img.shields.io/david/feathersjs-ecosystem/feathers-stripe.svg?style=flat-square)](https://david-dm.org/feathersjs-ecosystem/feathers-stripe)
 [![Download Status](https://img.shields.io/npm/dm/feathers-stripe.svg?style=flat-square)](https://www.npmjs.com/package/feathers-stripe)
 [![Slack Status](http://slack.feathersjs.com/badge.svg)](http://slack.feathersjs.com)

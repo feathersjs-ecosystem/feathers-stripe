@@ -47,8 +47,8 @@
   },
   "dependencies": {
     "@feathersjs/errors": "^3.2.2",
-    "debug": "^3.0.0",
-    "stripe": "^5.0.0"
+    "debug": "^3.1.0",
+    "stripe": "^5.4.0"
   },
   "devDependencies": {
     "@feathersjs/express": "^1.1.2",
@@ -59,29 +59,5 @@
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.0.0",
     "semistandard": "^12.0.0"
-  },
-  "resolutions": {
-    "debug": "2.6.3",
-    "ms": "0.7.2",
-    "object-assign": "4.1.1",
-    "qs": "6.4.0",
-    "glob": "7.1.1",
-    "source-map": "0.5.6",
-    "minimist": "1.2.0",
-    "user-home": "2.0.0",
-    "isarray": "1.0.0",
-    "nopt": "4.0.1",
-    "string-width": "2.0.0",
-    "is-fullwidth-code-point": "2.0.0",
-    "assert-plus": "1.0.0",
-    "supports-color": "3.1.2",
-    "jsesc": "1.3.0",
-    "type-detect": "1.0.0",
-    "component-emitter": "1.2.1",
-    "async": "2.3.0",
-    "wordwrap": "1.0.0",
-    "strip-bom": "3.0.0",
-    "estraverse": "4.2.0",
-    "acorn": "5.0.3"
   }
 }
