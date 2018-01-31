@@ -1,11 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/HEAD)
-
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.1...HEAD)
+## [v0.4.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.4.0) (2018-01-31)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.1...v0.4.0)
 
 **Merged pull requests:**
 
+- Rename repository and generate initial changelog [\#36](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/36) ([daffl](https://github.com/daffl))
 - Refactor to export service classes directly and update Readme [\#35](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/35) ([daffl](https://github.com/daffl))
 - Update to new plugin infrastructure and Feathers 3 [\#34](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/34) ([daffl](https://github.com/daffl))
 - Update mocha to the latest version 🚀 [\#33](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/33) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
