@@ -1,6 +1,6 @@
-import { expect } from 'chai';
-import errors from 'feathers-errors';
-import errorHandler from '../src/error-handler';
+const { expect } = require('chai');
+const errors = require('@feathersjs/errors');
+const errorHandler = require('../lib/error-handler');
 
 describe('errorHandler', () => {
   describe('when it is not a Stripe error', () => {

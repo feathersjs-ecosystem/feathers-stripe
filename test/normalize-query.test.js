@@ -1,5 +1,6 @@
-import { expect } from 'chai';
-import normalize from '../src/normalize-query';
+const { expect } = require('chai');
+
+const normalize = require('../lib/normalize-query');
 
 describe('normalizeQuery', () => {
   describe('when $limit is present', () => {
