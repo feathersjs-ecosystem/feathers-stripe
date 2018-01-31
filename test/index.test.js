@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import stripe from '../src';
+const { expect } = require('chai');
+const stripe = require('../lib');
 
 describe('feathers-stripe', () => {
   it.skip('is CommonJS compatible', () => {
