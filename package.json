@@ -2,7 +2,7 @@
   "name": "feathers-stripe",
   "description": "A Feathers service for Stripe",
   "version": "0.3.1",
-  "homepage": "https://github.com/feathersjs/feathers-stripe",
+  "homepage": "https://github.com/feathersjs-ecosystem/feathers-stripe",
   "main": "lib/",
   "keywords": [
     "stripe",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/feathersjs/feathers-stripe.git"
+    "url": "git://github.com/feathersjs-ecosystem/feathers-stripe.git"
   },
   "author": {
     "name": "Feathers contributors",
@@ -21,7 +21,7 @@
   },
   "contributors": [],
   "bugs": {
-    "url": "https://github.com/feathersjs/feathers-stripe/issues"
+    "url": "https://github.com/feathersjs-ecosystem/feathers-stripe/issues"
   },
   "engines": {
     "node": ">= 6"
