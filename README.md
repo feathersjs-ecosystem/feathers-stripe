@@ -11,8 +11,6 @@
 
 > A Feathers service for Stripe
 
-**This is still a work in progress and is not ready for production.** Pull requests welcome! :smile:
-
 ## Installation
 
 ```
