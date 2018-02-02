@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.4.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.4.1) (2018-02-02)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.4.0...v0.4.1)
+
+**Merged pull requests:**
+
+- Add a base service [\#37](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/37) ([daffl](https://github.com/daffl))
+
 ## [v0.4.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.4.0) (2018-01-31)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.1...v0.4.0)
 
