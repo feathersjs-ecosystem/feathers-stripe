@@ -52,6 +52,7 @@ The following services are supported and map to the appropriate Stripe resource:
 - `Refund`
 - `Sku`
 - `Subscription`
+- `SubscriptionItem`
 - `Token`
 - `Transaction`
 - `Transfer`
