@@ -1,5 +1,14 @@
 # Change Log
 
+## [v0.5.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.5.0) (2018-08-21)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.4.1...v0.5.0)
+
+**Merged pull requests:**
+
+- Add SubscriptionItem service [\#42](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/42) ([wdmtech](https://github.com/wdmtech))
+- Add params to remove method for Subscriptions [\#41](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/41) ([wdmtech](https://github.com/wdmtech))
+- Update stripe to the latest version 🚀 [\#39](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/39) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v0.4.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.4.1) (2018-02-02)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.4.0...v0.4.1)
 
