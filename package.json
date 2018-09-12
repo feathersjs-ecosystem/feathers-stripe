@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@feathersjs/errors": "^3.2.2",
-    "debug": "^3.1.0",
+    "debug": "^4.0.0",
     "stripe": "^6.0.0"
   },
   "devDependencies": {
