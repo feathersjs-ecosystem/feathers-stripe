@@ -1,5 +1,15 @@
 # Change Log
 
+## [v0.6.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.6.0) (2018-12-19)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.5.0...v0.6.0)
+
+**Merged pull requests:**
+
+- Update all dependencies [\#51](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/51) ([daffl](https://github.com/daffl))
+- Update error handler so original error message is supplied in data [\#50](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/50) ([dottodot](https://github.com/dottodot))
+- Update semistandard to the latest version 🚀 [\#46](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/46) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update debug to the latest version 🚀 [\#44](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/44) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v0.5.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.5.0) (2018-08-21)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.4.1...v0.5.0)
 
