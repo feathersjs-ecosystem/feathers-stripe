@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.7.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.0) (2019-01-22)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.6.0...v0.7.0)
+
+**Merged pull requests:**
+
+- External accounts [\#53](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/53) ([daffl](https://github.com/daffl))
+- Add payment intent and source service [\#52](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/52) ([dottodot](https://github.com/dottodot))
+
 ## [v0.6.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.6.0) (2018-12-19)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.5.0...v0.6.0)
 
@@ -27,7 +35,7 @@
 - Add a base service [\#37](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/37) ([daffl](https://github.com/daffl))
 
 ## [v0.4.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.4.0) (2018-01-31)
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.1...v0.4.0)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.3...v0.4.0)
 
 **Merged pull requests:**
 
@@ -38,7 +46,19 @@
 - Update semistandard to the latest version 🚀 [\#32](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/32) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Payouts [\#31](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/31) ([adamvr](https://github.com/adamvr))
 - Update mocha to the latest version 🚀 [\#29](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/29) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v0.3.3](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.3) (2017-09-27)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.2...v0.3.3)
+
+**Merged pull requests:**
+
 - Update stripe to the latest version 🚀 [\#28](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/28) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v0.3.2](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.2) (2017-09-07)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.1...v0.3.2)
+
+**Merged pull requests:**
+
 - Update debug to the latest version 🚀 [\#25](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/25) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update chai to the latest version 🚀 [\#18](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/18) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update feathers-socketio to the latest version 🚀 [\#16](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/16) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
