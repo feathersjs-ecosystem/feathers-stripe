@@ -39,7 +39,7 @@ describe('normalizeQuery', () => {
         }
       };
       const query = normalize(params);
-      expect(query).to.deep.equal({name: 'bob'});
+      expect(query).to.deep.equal({ name: 'bob' });
     });
   });
 });
