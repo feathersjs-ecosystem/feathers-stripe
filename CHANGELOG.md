@@ -1,5 +1,16 @@
 # Change Log
 
+## [v0.7.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.1) (2019-05-30)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.0...v0.7.1)
+
+**Merged pull requests:**
+
+- Add paymentMethod Service [\#59](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/59) ([dottodot](https://github.com/dottodot))
+- Update stripe to the latest version 🚀 [\#58](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/58) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Greenkeeper/stripe 6.34.0 [\#57](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/57) ([daffl](https://github.com/daffl))
+- Update mocha to the latest version 🚀 [\#55](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/55) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update README.md [\#54](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/54) ([fmoessle](https://github.com/fmoessle))
+
 ## [v0.7.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.0) (2019-01-22)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.6.0...v0.7.0)
 
