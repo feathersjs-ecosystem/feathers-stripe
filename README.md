@@ -47,6 +47,7 @@ The following services are supported and map to the appropriate Stripe resource:
 - `Invoice`
 - `Order`
 - `Payout`
+- `PaymentMethod`
 - `Plan`
 - `Product`
 - `Recipient`
