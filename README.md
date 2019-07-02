@@ -24,7 +24,7 @@ Please refer to the [Stripe API Docs](https://stripe.com/docs/api/node) and the 
 - Feathers `create` -> Stripe `create`
 - Feathers `patch` -> Stripe `update` (in most cases). Some special cases in include paying an invoice or an order when you pass `{pay: true}` as part of `hook.data`.
 - Feathers `update` -> Stripe `update`
-- Feathers `remove` -> Stripe `del` (except in the case of transfers where we create a reversal)
+- Feathers `remove` -> Stripe `del` (except in the case of transfers and charges where we create a reversal/refund. Note this creates a full refund/reversal. For more granular control, use the `TransferReversal` and `Refund` services)
 
 If a method is not supported by Stripe for a given resource it is not support here as well.
 
