@@ -1,5 +1,15 @@
 # Change Log
 
+## [v0.8.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.8.0) (2019-07-03)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.1...v0.8.0)
+
+**Merged pull requests:**
+
+- Greenkeeper/stripe 7.4.0 [\#66](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/66) ([daffl](https://github.com/daffl))
+- \#64 Query Account Balances [\#65](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/65) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
+- Feature/62 charge remove [\#63](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/63) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
+- Greenkeeper/stripe 7.3.0 [\#61](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/61) ([daffl](https://github.com/daffl))
+
 ## [v0.7.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.1) (2019-05-30)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.0...v0.7.1)
 
