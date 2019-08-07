@@ -1,5 +1,13 @@
 # Change Log
 
+## [v0.9.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.0) (2019-08-07)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.8.0...v0.9.0)
+
+**Merged pull requests:**
+
+- Change Card Methods [\#69](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/69) ([jordan-mcrae](https://github.com/jordan-mcrae))
+- Greenkeeper/stripe 7.5.2 [\#67](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/67) ([daffl](https://github.com/daffl))
+
 ## [v0.8.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.8.0) (2019-07-03)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.1...v0.8.0)
 
