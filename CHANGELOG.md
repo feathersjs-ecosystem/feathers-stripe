@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.9.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.1) (2019-08-13)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.0...v0.9.1)
+
+**Merged pull requests:**
+
+- Migration for stripe v7 balance transaction [\#70](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/70) ([fazilvp](https://github.com/fazilvp))
+
 ## [v0.9.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.0) (2019-08-07)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.8.0...v0.9.0)
 
