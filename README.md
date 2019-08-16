@@ -47,11 +47,13 @@ The following services are supported and map to the appropriate Stripe resource:
 - `Invoice`
 - `Order`
 - `Payout`
+- `PaymentIntent`
 - `PaymentMethod`
 - `Plan`
 - `Product`
 - `Recipient`
 - `Refund`
+- `SetupIntent`
 - `Sku`
 - `Source`
 - `Subscription`
