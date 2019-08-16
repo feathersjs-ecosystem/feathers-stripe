@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.10.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.0) (2019-08-16)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.1...v0.10.0)
+
+**Merged pull requests:**
+
+- Added stripe SetupIntent feature [\#71](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/71) ([fazilvp](https://github.com/fazilvp))
+
 ## [v0.9.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.1) (2019-08-13)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.0...v0.9.1)
 
