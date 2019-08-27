@@ -46,7 +46,7 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@feathersjs/errors": "^3.3.5",
+    "@feathersjs/errors": "^4.3.0",
     "debug": "^4.1.0",
     "stripe": "^7.5.2"
   },
