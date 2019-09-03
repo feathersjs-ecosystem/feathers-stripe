@@ -8,7 +8,7 @@ describe('normalizeQuery', () => {
       customer: 1,
       query: {
         $limit: 5,
-        'name': 'bob'
+        name: 'bob'
       }
     };
 
@@ -35,7 +35,7 @@ describe('normalizeQuery', () => {
       const params = {
         customer: 1,
         query: {
-          'name': 'bob'
+          name: 'bob'
         }
       };
       const query = normalize(params);
