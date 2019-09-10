@@ -1,5 +1,48 @@
 # Change Log
 
+## [v0.10.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.0) (2019-08-16)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.1...v0.10.0)
+
+**Merged pull requests:**
+
+- Added stripe SetupIntent feature [\#71](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/71) ([fazilvp](https://github.com/fazilvp))
+
+## [v0.9.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.1) (2019-08-13)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.0...v0.9.1)
+
+**Merged pull requests:**
+
+- Migration for stripe v7 balance transaction [\#70](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/70) ([fazilvp](https://github.com/fazilvp))
+
+## [v0.9.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.0) (2019-08-07)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.8.0...v0.9.0)
+
+**Merged pull requests:**
+
+- Change Card Methods [\#69](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/69) ([jordan-mcrae](https://github.com/jordan-mcrae))
+- Greenkeeper/stripe 7.5.2 [\#67](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/67) ([daffl](https://github.com/daffl))
+
+## [v0.8.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.8.0) (2019-07-03)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.1...v0.8.0)
+
+**Merged pull requests:**
+
+- Greenkeeper/stripe 7.4.0 [\#66](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/66) ([daffl](https://github.com/daffl))
+- \#64 Query Account Balances [\#65](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/65) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
+- Feature/62 charge remove [\#63](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/63) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
+- Greenkeeper/stripe 7.3.0 [\#61](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/61) ([daffl](https://github.com/daffl))
+
+## [v0.7.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.1) (2019-05-30)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.0...v0.7.1)
+
+**Merged pull requests:**
+
+- Add paymentMethod Service [\#59](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/59) ([dottodot](https://github.com/dottodot))
+- Update stripe to the latest version 🚀 [\#58](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/58) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Greenkeeper/stripe 6.34.0 [\#57](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/57) ([daffl](https://github.com/daffl))
+- Update mocha to the latest version 🚀 [\#55](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/55) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update README.md [\#54](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/54) ([fmoessle](https://github.com/fmoessle))
+
 ## [v0.7.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.0) (2019-01-22)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.6.0...v0.7.0)
 
