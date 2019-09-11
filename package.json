@@ -1,7 +1,7 @@
 {
   "name": "feathers-stripe",
   "description": "A Feathers service for Stripe",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "homepage": "https://github.com/feathersjs-ecosystem/feathers-stripe",
   "main": "lib/",
   "keywords": [
