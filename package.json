@@ -46,18 +46,18 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@feathersjs/errors": "^4.3.0",
+    "@feathersjs/errors": "^4.3.11",
     "debug": "^4.1.1",
-    "stripe": "^7.8.0"
+    "stripe": "^7.13.0"
   },
   "devDependencies": {
-    "@feathersjs/express": "^4.3.0",
-    "@feathersjs/feathers": "^4.3.0",
-    "@feathersjs/socketio": "^4.3.0",
+    "@feathersjs/express": "^4.3.11",
+    "@feathersjs/feathers": "^4.3.11",
+    "@feathersjs/socketio": "^4.3.11",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^6.2.0",
-    "semistandard": "^14.0.1"
+    "mocha": "^6.2.2",
+    "semistandard": "^14.2.0"
   }
 }
