@@ -57,7 +57,7 @@
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^6.2.2",
+    "mocha": "^7.0.1",
     "semistandard": "^14.2.0"
   }
 }
