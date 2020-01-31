@@ -35,7 +35,7 @@
     "lint": "semistandard --fix",
     "mocha": "mocha --opts mocha.opts",
     "test": "npm run lint && npm run coverage",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts"
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --config .mocharc.json test/"
   },
   "semistandard": {
     "env": [
@@ -46,18 +46,18 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@feathersjs/errors": "^4.3.11",
+    "@feathersjs/errors": "^4.5.1",
     "debug": "^4.1.1",
-    "stripe": "^7.13.0"
+    "stripe": "^8.10.0"
   },
   "devDependencies": {
-    "@feathersjs/express": "^4.3.11",
-    "@feathersjs/feathers": "^4.3.11",
-    "@feathersjs/socketio": "^4.3.11",
+    "@feathersjs/express": "^4.5.1",
+    "@feathersjs/feathers": "^4.5.1",
+    "@feathersjs/socketio": "^4.5.1",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^6.2.2",
+    "mocha": "^7.0.1",
     "semistandard": "^14.2.0"
   }
 }
