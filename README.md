@@ -33,6 +33,7 @@ If a method is not supported by Stripe for a given resource it is not support he
 The following services are supported and map to the appropriate Stripe resource:
 
 - `Account`
+- `AccountLinks`
 - `BankAccount`
 - `Balance`
 - `Card`
