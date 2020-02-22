@@ -25,7 +25,9 @@ const CLASSES = ['Account',
   'Token',
   'Transaction',
   'Transfer',
-  'TransferReversal'
+  'TransferReversal',
+  'Webhook',
+  'setupWebhook'
 ];
 
 describe('feathers-stripe', () => {
