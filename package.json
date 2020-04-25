@@ -48,7 +48,7 @@
   "dependencies": {
     "@feathersjs/errors": "^4.5.1",
     "debug": "^4.1.1",
-    "stripe": "^8.18.0"
+    "stripe": "^8.28.1"
   },
   "devDependencies": {
     "@feathersjs/express": "^4.5.1",

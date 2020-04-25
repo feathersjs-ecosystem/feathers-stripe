@@ -70,14 +70,16 @@ The following services are supported and map to the appropriate Stripe resource:
 ```js
 const { Forbidden } = require('@feathersjs/errors');
 
-app.service('/stripe/charges').before({
-  all: [
-    context => {
-      if(context.params.provider) {
-        throw new Forbidden('You are not allowed to access this');
+app.service('/stripe/charges').hooks({
+  before: {
+    all: [
+      context => {
+        if(context.params.provider) {
+          throw new Forbidden('You are not allowed to access this');
+        }
       }
-    }
-  ]
+    ]
+  }
 });
 ```
 
