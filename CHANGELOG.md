@@ -1,5 +1,22 @@
 # Change Log
 
+## [v0.10.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.1) (2019-09-11)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.10.0...v0.10.1)
+
+**Merged pull requests:**
+
+- Remove attach from payment method data [\#78](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/78) ([dottodot](https://github.com/dottodot))
+- Update all dependencies and run tests [\#77](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/77) ([daffl](https://github.com/daffl))
+- Update @feathersjs/feathers to the latest version 🚀 [\#74](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/74) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update @feathersjs/errors to the latest version 🚀 [\#73](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/73) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v0.10.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.0) (2019-08-16)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.1...v0.10.0)
+
+**Merged pull requests:**
+
+- Added stripe SetupIntent feature [\#71](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/71) ([fazilvp](https://github.com/fazilvp))
+
 ## [v0.9.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.1) (2019-08-13)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.0...v0.9.1)
 

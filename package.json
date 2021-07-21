@@ -1,7 +1,7 @@
 {
   "name": "feathers-stripe",
   "description": "A Feathers service for Stripe",
-  "version": "0.9.1",
+  "version": "0.10.1",
   "homepage": "https://github.com/feathersjs-ecosystem/feathers-stripe",
   "main": "lib/",
   "keywords": [
@@ -35,7 +35,7 @@
     "lint": "semistandard --fix",
     "mocha": "mocha --opts mocha.opts",
     "test": "npm run lint && npm run coverage",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts"
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --config .mocharc.json test/"
   },
   "semistandard": {
     "env": [
@@ -46,18 +46,18 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@feathersjs/errors": "^3.3.5",
-    "debug": "^4.1.0",
-    "stripe": "^7.5.2"
+    "@feathersjs/errors": "^4.5.1",
+    "debug": "^4.1.1",
+    "stripe": "^8.28.1"
   },
   "devDependencies": {
-    "@feathersjs/express": "^1.3.0",
-    "@feathersjs/feathers": "^3.3.0",
-    "@feathersjs/socketio": "^3.2.8",
-    "body-parser": "^1.18.3",
+    "@feathersjs/express": "^4.5.1",
+    "@feathersjs/feathers": "^4.5.1",
+    "@feathersjs/socketio": "^4.5.1",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^6.0.0",
-    "semistandard": "^13.0.1"
+    "mocha": "^7.0.1",
+    "semistandard": "^14.2.0"
   }
 }
