@@ -34,6 +34,7 @@ The following services are supported and map to the appropriate Stripe resource:
 
 - `Account`
 - `AccountLinks`
+- `ApplicationFeeRefund`
 - `BankAccount`
 - `Balance`
 - `Card`
