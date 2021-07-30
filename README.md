@@ -91,7 +91,7 @@ Here's an example of a Feathers server that uses `feathers-authentication` for l
 const feathers = require('@feathersjs/feathers');
 const express = require('@feathersjs/express');
 const socketio = require('@feathersjs/socketio');
-var { Charge } = require('feather-stripe');
+var { Charge } = require('feathers-stripe');
 
 // Initialize the application
 var app = feathers()
