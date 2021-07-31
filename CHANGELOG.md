@@ -1,6 +1,28 @@
-# Change Log
+# Changelog
+
+## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/HEAD)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.11.0...HEAD)
+
+**Merged pull requests:**
+
+- Added stripe Application Fee Refunds feature [\#103](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/103) ([fazilvp](https://github.com/fazilvp))
+- fix typing error [\#102](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/102) ([shakir-abdo](https://github.com/shakir-abdo))
+- Fix Typo in README [\#101](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/101) ([ericirish](https://github.com/ericirish))
+- Pass data forward on capture [\#97](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/97) ([mrfrase3](https://github.com/mrfrase3))
+- Greenkeeper/stripe 8.28.1 [\#96](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/96) ([daffl](https://github.com/daffl))
+- Fixes sample code for preventing external access [\#95](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/95) ([emmanuelgeoffray](https://github.com/emmanuelgeoffray))
+- Add webhook [\#93](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/93) ([ydeshayes](https://github.com/ydeshayes))
+- Greenkeeper/stripe 8.18.0 [\#91](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/91) ([daffl](https://github.com/daffl))
+- adds account links service [\#89](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/89) ([shankarregmi](https://github.com/shankarregmi))
+- Update all dependencies [\#85](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/85) ([daffl](https://github.com/daffl))
+
+## [v0.11.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.11.0) (2021-07-31)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.10.1...v0.11.0)
 
 ## [v0.10.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.1) (2019-09-11)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.10.0...v0.10.1)
 
 **Merged pull requests:**
@@ -11,6 +33,7 @@
 - Update @feathersjs/errors to the latest version 🚀 [\#73](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/73) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v0.10.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.0) (2019-08-16)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.1...v0.10.0)
 
 **Merged pull requests:**
@@ -18,6 +41,7 @@
 - Added stripe SetupIntent feature [\#71](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/71) ([fazilvp](https://github.com/fazilvp))
 
 ## [v0.9.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.1) (2019-08-13)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.9.0...v0.9.1)
 
 **Merged pull requests:**
@@ -25,6 +49,7 @@
 - Migration for stripe v7 balance transaction [\#70](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/70) ([fazilvp](https://github.com/fazilvp))
 
 ## [v0.9.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.9.0) (2019-08-07)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.8.0...v0.9.0)
 
 **Merged pull requests:**
@@ -33,6 +58,7 @@
 - Greenkeeper/stripe 7.5.2 [\#67](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/67) ([daffl](https://github.com/daffl))
 
 ## [v0.8.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.8.0) (2019-07-03)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.1...v0.8.0)
 
 **Merged pull requests:**
@@ -43,6 +69,7 @@
 - Greenkeeper/stripe 7.3.0 [\#61](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/61) ([daffl](https://github.com/daffl))
 
 ## [v0.7.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.1) (2019-05-30)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.7.0...v0.7.1)
 
 **Merged pull requests:**
@@ -54,6 +81,7 @@
 - Update README.md [\#54](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/54) ([fmoessle](https://github.com/fmoessle))
 
 ## [v0.7.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.7.0) (2019-01-22)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.6.0...v0.7.0)
 
 **Merged pull requests:**
@@ -62,6 +90,7 @@
 - Add payment intent and source service [\#52](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/52) ([dottodot](https://github.com/dottodot))
 
 ## [v0.6.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.6.0) (2018-12-19)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.5.0...v0.6.0)
 
 **Merged pull requests:**
@@ -72,6 +101,7 @@
 - Update debug to the latest version 🚀 [\#44](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/44) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v0.5.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.5.0) (2018-08-21)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.4.1...v0.5.0)
 
 **Merged pull requests:**
@@ -81,6 +111,7 @@
 - Update stripe to the latest version 🚀 [\#39](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/39) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v0.4.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.4.1) (2018-02-02)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.4.0...v0.4.1)
 
 **Merged pull requests:**
@@ -88,6 +119,7 @@
 - Add a base service [\#37](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/37) ([daffl](https://github.com/daffl))
 
 ## [v0.4.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.4.0) (2018-01-31)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.3...v0.4.0)
 
 **Merged pull requests:**
@@ -99,26 +131,23 @@
 - Update semistandard to the latest version 🚀 [\#32](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/32) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Payouts [\#31](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/31) ([adamvr](https://github.com/adamvr))
 - Update mocha to the latest version 🚀 [\#29](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/29) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
-
-## [v0.3.3](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.3) (2017-09-27)
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.2...v0.3.3)
-
-**Merged pull requests:**
-
 - Update stripe to the latest version 🚀 [\#28](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/28) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
-
-## [v0.3.2](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.2) (2017-09-07)
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.1...v0.3.2)
-
-**Merged pull requests:**
-
 - Update debug to the latest version 🚀 [\#25](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/25) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update chai to the latest version 🚀 [\#18](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/18) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update feathers-socketio to the latest version 🚀 [\#16](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/16) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update semistandard to the latest version 🚀 [\#15](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/15) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update feathers-hooks to the latest version 🚀 [\#14](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/14) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
+## [v0.3.3](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.3) (2017-09-27)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.2...v0.3.3)
+
+## [v0.3.2](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.2) (2017-09-07)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.1...v0.3.2)
+
 ## [v0.3.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.1) (2017-04-14)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.3.0...v0.3.1)
 
 **Merged pull requests:**
@@ -128,6 +157,7 @@
 - jshint —\> semistandard [\#10](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/10) ([corymsmith](https://github.com/corymsmith))
 
 ## [v0.3.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.3.0) (2016-09-20)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.2.0...v0.3.0)
 
 **Merged pull requests:**
@@ -137,9 +167,13 @@
 - Add subscription service [\#3](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/3) ([bedeoverend](https://github.com/bedeoverend))
 
 ## [v0.2.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.2.0) (2016-08-08)
+
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.1.0...v0.2.0)
 
 ## [v0.1.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.1.0) (2016-03-22)
 
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/e1230dfedefb01ca41bfc2ca127ac7671f11164b...v0.1.0)
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
