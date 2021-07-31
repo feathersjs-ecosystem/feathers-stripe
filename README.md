@@ -64,6 +64,7 @@ The following services are supported and map to the appropriate Stripe resource:
 - `Transaction`
 - `Transfer`
 - `TransferReversal`
+- `Webhook`
 
 
 **This is pretty important!** Since this connects to your Stripe account you want to make sure that you don't expose these endpoints via your app unless the user has the appropriate permissions. You can prevent any external access by doing this:
@@ -136,6 +137,39 @@ chargeService.create(charge).then(result => {
 app.listen(3030);
 
 console.log('Feathers authentication app started on 127.0.0.1:3030');
+```
+
+## Webhook
+
+You can setup a webhook using the helper function `setupWebhook` in your service
+
+setupWebhook: (app, route, {
+  endpointSecret: 'webhook-endpoint-secret',
+  secretKey: 'your-secret-key'
+  handlers: {}
+})
+
+```js
+module.exports = function (app) {
+  setupWebhook(app, '/stripe-webhook', {
+    endpointSecret: 'whsec_ededqwdwqdqwdqwd778qwdwqdq',
+    secretKey: 'sk_test_OINqdwqdE89EFqdwwdwqdqdWDQ',
+    handlers: {
+      customer: {
+        subscription: {
+          async created({ object, event, params, app }) {
+            return {};
+          }
+        }
+      }
+    }
+  });
+
+  // Get our initialized service so that we can register hooks
+  const service = app.service('stripe-webhook');
+
+  service.hooks(hooks);
+};
 ```
 
 ## License
