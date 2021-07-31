@@ -27,7 +27,7 @@
     "node": ">= 6"
   },
   "scripts": {
-    "changelog": "github_changelog_generator --no-issues && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "publish": "git push origin --tags && npm run changelog && git push origin",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
@@ -46,18 +46,18 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@feathersjs/errors": "^4.5.1",
-    "debug": "^4.1.1",
-    "stripe": "^8.28.1"
+    "@feathersjs/errors": "^4.5.11",
+    "debug": "^4.3.2",
+    "stripe": "^8.167.0"
   },
   "devDependencies": {
-    "@feathersjs/express": "^4.5.1",
-    "@feathersjs/feathers": "^4.5.1",
-    "@feathersjs/socketio": "^4.5.1",
+    "@feathersjs/express": "^4.5.11",
+    "@feathersjs/feathers": "^4.5.11",
+    "@feathersjs/socketio": "^4.5.11",
     "body-parser": "^1.19.0",
-    "chai": "^4.2.0",
+    "chai": "^4.3.4",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^7.0.1",
-    "semistandard": "^14.2.0"
+    "mocha": "^9.0.3",
+    "semistandard": "^16.0.1"
   }
 }
