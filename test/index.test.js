@@ -36,4 +36,10 @@ describe('feathers-stripe', () => {
       expect(typeof stripe[name]).to.equal('function');
     });
   });
+
+  it('has underscored methods', () => {
+    CLASSES.forEach(name => {
+      expect(typeof stripe[name]).to.equal('function');
+    });
+  });
 });
