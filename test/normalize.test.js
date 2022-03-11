@@ -1,6 +1,5 @@
 const { expect } = require('chai');
-
-const { normalizeQuery } = require('../lib/normalize');
+const { normalizeQuery, normalizeParams } = require('../lib/normalize');
 
 describe('normalizeQuery', () => {
   describe('when $limit is present', () => {
@@ -40,6 +39,39 @@ describe('normalizeQuery', () => {
       };
       const query = normalizeQuery(params);
       expect(query).to.deep.equal({ name: 'bob' });
+    });
+  });
+});
+
+describe('normalizeParams', () => {
+  describe('when params are not present', () => {
+    const params = undefined;
+
+    it('returns empty objects', () => {
+      const { stripe, query } = normalizeParams(params);
+      expect(stripe).to.deep.equal({});
+      expect(query).to.deep.equal({});
+    });
+  });
+
+  describe('when stripe is present', () => {
+    const params = {
+      stripe: {
+        expand: ['customer']
+      }
+    };
+
+    it('picks off stripe', () => {
+      const { stripe } = normalizeParams(params);
+      expect(stripe).to.deep.equal(params.stripe);
+    });
+  });
+
+  describe('when stripe is not present', () => {
+    it('returns empty object', () => {
+      const params = {};
+      const { stripe } = normalizeParams(params);
+      expect(stripe).to.deep.equal({});
     });
   });
 });
