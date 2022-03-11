@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const { normalizeQuery } = require('../lib/normalize-query');
+const { normalizeQuery } = require('../lib/normalize');
 
 describe('normalizeQuery', () => {
   describe('when $limit is present', () => {
