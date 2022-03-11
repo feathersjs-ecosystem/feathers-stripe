@@ -46,15 +46,11 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@feathersjs/errors": "^4.5.11",
-    "debug": "^4.3.2",
-    "stripe": "^8.167.0"
+    "@feathersjs/errors": "^4.5.12",
+    "debug": "^4.3.3",
+    "stripe": "^8.208.0"
   },
   "devDependencies": {
-    "@feathersjs/express": "^4.5.11",
-    "@feathersjs/feathers": "^4.5.11",
-    "@feathersjs/socketio": "^4.5.11",
-    "body-parser": "^1.19.0",
     "chai": "^4.3.4",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^9.0.3",
