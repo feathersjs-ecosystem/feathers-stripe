@@ -22,48 +22,50 @@ Please refer to the [Stripe API Docs](https://stripe.com/docs/api/node) and the 
 - Feathers `find` -> Stripe `list`
 - Feathers `get` -> Stripe `retrieve`
 - Feathers `create` -> Stripe `create`
-- Feathers `patch` -> Stripe `update` (in most cases). Some special cases in include paying an invoice or an order when you pass `{pay: true}` as part of `hook.data`.
+- Feathers `patch` -> Stripe `update` (in most cases). Some special cases include paying an invoice or an order when you pass `{pay: true}` as part of `hook.data`. See each service's code for more info.
 - Feathers `update` -> Stripe `update`
-- Feathers `remove` -> Stripe `del` (except in the case of transfers and charges where we create a reversal/refund. Note this creates a full refund/reversal. For more granular control, use the `TransferReversal` and `Refund` services)
+- Feathers `remove` -> Stripe `del` (in most cases). Some special cases include transfers and charges create a reversal/refund. Note this creates a full refund/reversal. For more granular control, use the `TransferReversal` and `Refund` services. See each service's code for more info.
 
 If a method is not supported by Stripe for a given resource it is not support here as well.
+
+Use `params.stripe` to pass additional parameters like `expand`, `idempotencyKey`, `apiVersion`, etc to the underlying Stripe methods.
 
 ### Available Services
 
 The following services are supported and map to the appropriate Stripe resource:
 
-- `Account`
 - `AccountLinks`
+- `Account`
 - `ApplicationFeeRefund`
-- `BankAccount`
 - `Balance`
+- `BankAccount`
 - `Card`
 - `Charge`
 - `Coupon`
 - `Customer`
-- `CustomerSubscription`
 - `Dispute`
 - `Event`
 - `ExternalAccount`
 - `InvoiceItem`
 - `Invoice`
 - `Order`
-- `Payout`
 - `PaymentIntent`
 - `PaymentMethod`
+- `Payout`
 - `Plan`
+- `Price`
 - `Product`
 - `Recipient`
 - `Refund`
 - `SetupIntent`
 - `Sku`
 - `Source`
-- `Subscription`
 - `SubscriptionItem`
+- `Subscription`
 - `Token`
 - `Transaction`
-- `Transfer`
 - `TransferReversal`
+- `Transfer`
 - `Webhook`
 
 
