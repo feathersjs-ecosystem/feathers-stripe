@@ -24,7 +24,7 @@
     "url": "https://github.com/feathersjs-ecosystem/feathers-stripe/issues"
   },
   "engines": {
-    "node": ">= 6"
+    "node": ">= 12"
   },
   "scripts": {
     "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
