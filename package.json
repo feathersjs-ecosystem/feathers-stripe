@@ -27,7 +27,7 @@
     "node": ">= 12"
   },
   "scripts": {
-    "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem -t 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 && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "publish": "git push origin --tags && npm run changelog && git push origin",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
