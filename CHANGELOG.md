@@ -6,6 +6,16 @@
 
 **Merged pull requests:**
 
+- Add generic options to service [\#109](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/109) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
+- Add Price service [\#108](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/108) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
+- Add underscored methods to services [\#107](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/107) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
+
+## [v0.11.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.11.0) (2021-07-31)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.10.1...v0.11.0)
+
+**Merged pull requests:**
+
 - Added stripe Application Fee Refunds feature [\#103](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/103) ([fazilvp](https://github.com/fazilvp))
 - fix typing error [\#102](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/102) ([shakir-abdo](https://github.com/shakir-abdo))
 - Fix Typo in README [\#101](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/101) ([ericirish](https://github.com/ericirish))
@@ -16,10 +26,6 @@
 - Greenkeeper/stripe 8.18.0 [\#91](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/91) ([daffl](https://github.com/daffl))
 - adds account links service [\#89](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/89) ([shankarregmi](https://github.com/shankarregmi))
 - Update all dependencies [\#85](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/85) ([daffl](https://github.com/daffl))
-
-## [v0.11.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.11.0) (2021-07-31)
-
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.10.1...v0.11.0)
 
 ## [v0.10.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.1) (2019-09-11)
 
