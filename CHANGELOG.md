@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Add auto pagination support [\#115](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/115) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
 - Add generic options to service [\#109](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/109) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
 - Add Price service [\#108](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/108) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
 - Add underscored methods to services [\#107](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/107) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
