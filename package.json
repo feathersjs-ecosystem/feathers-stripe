@@ -33,7 +33,7 @@
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
     "lint": "semistandard --fix",
-    "mocha": "mocha --opts mocha.opts",
+    "mocha": "mocha",
     "test": "npm run lint && npm run coverage",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --config .mocharc.json test/"
   },
