@@ -3,7 +3,6 @@ const errors = require('@feathersjs/errors');
 const Base = require('../lib/services/base');
 
 describe('handleError', () => {
-
   const service = new Base({ stripe: {} });
 
   describe('when it is not a Stripe error', () => {

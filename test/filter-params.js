@@ -2,7 +2,6 @@ const { expect } = require('chai');
 const Base = require('../lib/services/base');
 
 describe('filterQuery', () => {
-
   const service = new Base({ stripe: {} });
 
   describe('when $limit is present', () => {
@@ -47,7 +46,6 @@ describe('filterQuery', () => {
 });
 
 describe('filterParams', () => {
-
   const service = new Base({ stripe: {} });
 
   describe('when params are not present', () => {
@@ -78,6 +76,42 @@ describe('filterParams', () => {
       const params = {};
       const { stripe } = service.filterParams(params);
       expect(stripe).to.deep.equal({});
+    });
+  });
+});
+
+describe('cleanQuery', () => {
+  const service = new Base({ stripe: {} });
+
+  describe('when $ keys are present', () => {
+    const query = {
+      prop: { $gt: Date.now() },
+      nested: { nested: { $gt: Date.now() } },
+      array: [{ $lt: Date.now() }]
+    };
+
+    const expected = {
+      prop: { gt: Date.now() },
+      nested: { nested: { gt: Date.now() } },
+      array: [{ lt: Date.now() }]
+    };
+
+    it('strips keys that start with $', () => {
+      const cleanQuery = service.cleanQuery(query);
+      expect(cleanQuery).to.deep.equal(expected);
+    });
+  });
+
+  describe('when $ keys are not present', () => {
+    const query = {
+      prop: { gt: Date.now() },
+      nested: { nested: { gt: Date.now() } },
+      array: [{ lt: Date.now() }]
+    };
+
+    it('does not modify orignal keys', () => {
+      const cleanQuery = service.cleanQuery(query);
+      expect(cleanQuery).to.deep.equal(query);
     });
   });
 });

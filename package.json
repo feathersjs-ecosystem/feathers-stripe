@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@feathersjs/adapter-commons": "^4.5.12",
+    "@feathersjs/commons": "^4.5.12",
     "@feathersjs/errors": "^4.5.12",
     "debug": "^4.3.3",
     "stripe": "^8.208.0"
