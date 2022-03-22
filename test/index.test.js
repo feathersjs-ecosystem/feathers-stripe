@@ -1,7 +1,8 @@
 const { expect } = require('chai');
 const stripe = require('../lib');
 
-const CLASSES = ['Account',
+const CLASSES = [
+  'Account',
   'Balance',
   'ExternalAccount',
   'BankAccount',

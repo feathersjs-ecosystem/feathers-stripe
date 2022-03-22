@@ -1,7 +1,10 @@
 const { expect } = require('chai');
-const { normalizeQuery, normalizeParams } = require('../lib/normalize');
+const Base = require('../lib/services/base');
 
-describe('normalizeQuery', () => {
+describe('filterQuery', () => {
+
+  const service = new Base({ stripe: {} });
+
   describe('when $limit is present', () => {
     const params = {
       customer: 1,
@@ -12,19 +15,19 @@ describe('normalizeQuery', () => {
     };
 
     it('replaces $limit with limit', () => {
-      const query = normalizeQuery(params);
+      const query = service.filterQuery(params);
       expect(query.$limit).to.equal(undefined);
       expect(query.limit).to.equal(5);
     });
 
     it('does not modify original params', () => {
       const paramsCopy = Object.assign({}, params);
-      normalizeQuery(params);
+      service.filterQuery(params);
       expect(params).to.deep.equal(paramsCopy);
     });
 
     it('returns original query object params', () => {
-      const query = normalizeQuery(params);
+      const query = service.filterQuery(params);
       expect(query.name).to.equal('bob');
     });
   });
@@ -37,18 +40,21 @@ describe('normalizeQuery', () => {
           name: 'bob'
         }
       };
-      const query = normalizeQuery(params);
+      const query = service.filterQuery(params);
       expect(query).to.deep.equal({ name: 'bob' });
     });
   });
 });
 
-describe('normalizeParams', () => {
+describe('filterParams', () => {
+
+  const service = new Base({ stripe: {} });
+
   describe('when params are not present', () => {
     const params = undefined;
 
     it('returns empty objects', () => {
-      const { stripe, query } = normalizeParams(params);
+      const { stripe, query } = service.filterParams(params);
       expect(stripe).to.deep.equal({});
       expect(query).to.deep.equal({});
     });
@@ -62,7 +68,7 @@ describe('normalizeParams', () => {
     };
 
     it('picks off stripe', () => {
-      const { stripe } = normalizeParams(params);
+      const { stripe } = service.filterParams(params);
       expect(stripe).to.deep.equal(params.stripe);
     });
   });
@@ -70,7 +76,7 @@ describe('normalizeParams', () => {
   describe('when stripe is not present', () => {
     it('returns empty object', () => {
       const params = {};
-      const { stripe } = normalizeParams(params);
+      const { stripe } = service.filterParams(params);
       expect(stripe).to.deep.equal({});
     });
   });

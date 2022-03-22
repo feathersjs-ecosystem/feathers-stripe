@@ -1,11 +1,14 @@
 const { expect } = require('chai');
 const errors = require('@feathersjs/errors');
-const errorHandler = require('../lib/error-handler');
+const Base = require('../lib/services/base');
 
-describe('errorHandler', () => {
+describe('handleError', () => {
+
+  const service = new Base({ stripe: {} });
+
   describe('when it is not a Stripe error', () => {
     it('returns original error', () => {
-      return errorHandler(new Error('Normal Error')).catch(e => {
+      return service.handleError(new Error('Normal Error')).catch(e => {
         expect(e instanceof Error).to.equal(true);
         expect(e.message).to.equal('Normal Error');
       });
@@ -20,7 +23,7 @@ describe('errorHandler', () => {
     it('handles StripeCardError', () => {
       error.type = 'StripeCardError';
 
-      return errorHandler(error).catch(e => {
+      return service.handleError(error).catch(e => {
         expect(e instanceof errors.PaymentError).to.equal(true);
       });
     });
@@ -28,7 +31,7 @@ describe('errorHandler', () => {
     it('handles StripeInvalidRequestError', () => {
       error.type = 'StripeInvalidRequestError';
 
-      return errorHandler(error).catch(e => {
+      return service.handleError(error).catch(e => {
         expect(e instanceof errors.BadRequest).to.equal(true);
       });
     });
@@ -36,7 +39,7 @@ describe('errorHandler', () => {
     it('handles StripeInvalidRequest', () => {
       error.type = 'StripeInvalidRequest';
 
-      return errorHandler(error).catch(e => {
+      return service.handleError(error).catch(e => {
         expect(e instanceof errors.BadRequest).to.equal(true);
       });
     });
@@ -44,7 +47,7 @@ describe('errorHandler', () => {
     it('handles StripeAPIError', () => {
       error.type = 'StripeAPIError';
 
-      return errorHandler(error).catch(e => {
+      return service.handleError(error).catch(e => {
         expect(e instanceof errors.Unavailable).to.equal(true);
       });
     });
@@ -52,7 +55,7 @@ describe('errorHandler', () => {
     it('handles StripeConnectionError', () => {
       error.type = 'StripeConnectionError';
 
-      return errorHandler(error).catch(e => {
+      return service.handleError(error).catch(e => {
         expect(e instanceof errors.Unavailable).to.equal(true);
       });
     });
@@ -60,7 +63,7 @@ describe('errorHandler', () => {
     it('handles StripeAuthenticationError', () => {
       error.type = 'StripeAuthenticationError';
 
-      return errorHandler(error).catch(e => {
+      return service.handleError(error).catch(e => {
         expect(e instanceof errors.NotAuthenticated).to.equal(true);
       });
     });
@@ -68,7 +71,7 @@ describe('errorHandler', () => {
     it('handles unknown Stripe errors', () => {
       error.type = 'Unknown';
 
-      return errorHandler(error).catch(e => {
+      return service.handleError(error).catch(e => {
         expect(e instanceof errors.GeneralError).to.equal(true);
         expect(e.message).to.equal('Unknown Payment Gateway Error');
       });
