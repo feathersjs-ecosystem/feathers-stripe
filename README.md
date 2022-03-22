@@ -174,6 +174,9 @@ module.exports = function (app) {
 };
 ```
 
+## Development
+If you are a maintainer of this package, you will need a Github token to generate the changelog: See: https://github.com/github-changelog-generator/github-changelog-generator#github-token
+
 ## License
 
 Copyright (c) 2019
