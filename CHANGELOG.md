@@ -1,8 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/HEAD)
+## [v1.0.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v1.0.1) (2022-03-23)
 
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v1.0.0...HEAD)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v1.0.0...v1.0.1)
+
+## [v1.0.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v1.0.0) (2022-03-23)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.11.0...v1.0.0)
 
 **Merged pull requests:**
 
@@ -10,10 +14,6 @@
 - Add generic options to service [\#109](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/109) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
 - Add Price service [\#108](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/108) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
 - Add underscored methods to services [\#107](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/107) ([DaddyWarbucks](https://github.com/DaddyWarbucks))
-
-## [v1.0.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v1.0.0) (2022-03-23)
-
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v0.11.0...v1.0.0)
 
 ## [v0.11.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.11.0) (2021-07-31)
 
