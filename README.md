@@ -244,9 +244,6 @@ module.exports = function (app) {
 };
 ```
 
-## Development
-If you are a maintainer of this package, you will need a Github token to generate the changelog: See: https://github.com/github-changelog-generator/github-changelog-generator#github-token. For example, you can use `export CHANGELOG_GITHUB_TOKEN=YOUR_GITHUB_TOKEN && yarn changelog`
-
 ## License
 
 Copyright (c) 2019
