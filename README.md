@@ -24,11 +24,26 @@ Please refer to the [Stripe API Docs](https://stripe.com/docs/api/node) and the 
 - Feathers `create` -> Stripe `create`
 - Feathers `patch` -> Stripe `update` (in most cases). Some special cases include paying an invoice or an order when you pass `{pay: true}` as part of `hook.data`. See each service's code for more info.
 - Feathers `update` -> Stripe `update`
-- Feathers `remove` -> Stripe `del` (in most cases). Some special cases include transfers and charges create a reversal/refund. Note this creates a full refund/reversal. For more granular control, use the `TransferReversal` and `Refund` services. See each service's code for more info.
+- Feathers `remove` -> Stripe `del` (in most cases). Some special cases include transfers and charges create a reversal/refund. See each service's code for more info.
 
 If a method is not supported by Stripe for a given resource it is not support here as well.
 
 Use `params.stripe` to pass additional parameters like `expand`, `idempotencyKey`, `apiVersion`, etc to the underlying Stripe methods.
+
+Many methods support/require passing special properties to `hook.data` and `hook.query` to better inform the underlying stripe methods. You are encouraged to read the source code for each service to better understand their usage. For example, the `Card` service requires a `customer` to be provided.
+
+```js
+const card = await app.service('stripe/cards').create({
+  customer: 'cust_123',
+  source: { token: 'tok_123' }
+});
+// stripe.customers.createSource(customer, { source: { ... } });
+
+const card = await app.service('stripe/cards').get('card_123', {
+  query: { customer: 'cust_123' }
+});
+// stripe.customers.retrieveSource(query.customer, id);
+```
 
 ### Available Services
 
@@ -74,7 +89,7 @@ The following services are supported and map to the appropriate Stripe resource:
 ```js
 const { Forbidden } = require('@feathersjs/errors');
 
-app.service('/stripe/charges').hooks({
+app.service('stripe/cards').hooks({
   before: {
     all: [
       context => {
@@ -83,6 +98,61 @@ app.service('/stripe/charges').hooks({
         }
       }
     ]
+  }
+});
+```
+
+**This is pretty important!** You are also encouraged to use some kind of rate limiter. Checkout the [Stripe Rate Limit Docs](https://stripe.com/docs/rate-limits)
+
+```js
+const Bottleneck = require('bottleneck');
+
+// Configure 100 reqs/second for production, 25 for test mode
+const readLimiter = new Bottleneck({ minTime: 10 });
+const writeLimiter = new Bottleneck({ minTime: 10 });
+// const readLimiter = new Bottleneck({ minTime: 40 });
+// const writeLimiter = new Bottleneck({ minTime: 40 });
+
+const rateLimitHook = async (context) => {
+  const limiter = context.method === 'find' || context.method === 'get'
+    ? readLimiter
+    : writeLimiter;
+
+  context.result = await limiter.schedule(() => {
+    // Use an underscored method to bypass hooks and not end
+    // up in an infinite loop hitting this hook again.
+    if (context.method === 'find') {
+      return context.service._find(context.params);
+    }
+    if (context.method === 'get') {
+      return context.service._get(context.id, context.params);
+    }
+    if (context.method === 'create') {
+      return context.service._create(context.data, context.params);
+    }
+    if (context.method === 'update') {
+      return context.service._update(context.id, context.data, context.params);
+    }
+    if (context.method === 'patch') {
+      return context.service._patch(context.id, context.data, context.params);
+    }
+    if (context.method === 'remove') {
+      return context.service._remove(context.id context.params);
+    }
+  });
+
+  return context;
+}
+
+// The rateLimitHook should be the last before hook for each method.
+app.service('stripe/cards').hooks({
+  before: {
+    find: [ ...hooks, rateLimitHook],
+    get: [ ...hooks, rateLimitHook],
+    create: [ ...hooks, rateLimitHook],
+    update: [ ...hooks, rateLimitHook],
+    patch: [ ...hooks, rateLimitHook],
+    remove: [ ...hooks, rateLimitHook],
   }
 });
 ```
