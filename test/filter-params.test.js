@@ -51,9 +51,9 @@ describe('filterParams', () => {
   describe('when params are not present', () => {
     const params = undefined;
 
-    it('returns empty objects', () => {
+    it('returns empty values', () => {
       const { stripe, query } = service.filterParams(params);
-      expect(stripe).to.deep.equal({});
+      expect(stripe).to.deep.equal(undefined);
       expect(query).to.deep.equal({});
     });
   });
@@ -75,7 +75,7 @@ describe('filterParams', () => {
     it('returns empty object', () => {
       const params = {};
       const { stripe } = service.filterParams(params);
-      expect(stripe).to.deep.equal({});
+      expect(stripe).to.deep.equal(undefined);
     });
   });
 });
