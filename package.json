@@ -26,36 +26,48 @@
   "engines": {
     "node": ">= 12"
   },
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "src/**",
+    "lib/**",
+    "dist/**"
+  ],
   "scripts": {
+    "compile": "shx rm -rf dist/ && tsc",
     "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "publish": "git push origin --tags && npm run changelog && git push origin",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
-    "lint": "semistandard --fix",
+    "lint": "eslint src/**/*.ts test/**/*.ts --fix",
     "mocha": "mocha",
-    "test": "npm run lint && npm run coverage",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --config .mocharc.json test/"
-  },
-  "semistandard": {
-    "env": [
-      "mocha"
-    ]
+    "coverage": "c8 npm run mocha",
+    "test": "npm run lint && npm run coverage"
   },
   "directories": {
     "lib": "lib"
   },
   "dependencies": {
-    "@feathersjs/adapter-commons": "^4.5.12",
-    "@feathersjs/commons": "^4.5.12",
-    "@feathersjs/errors": "^4.5.12",
-    "debug": "^4.3.3",
-    "stripe": "^8.208.0"
+    "@feathersjs/adapter-commons": "^4.5.15",
+    "@feathersjs/commons": "^4.5.15",
+    "@feathersjs/errors": "^4.5.15",
+    "@feathersjs/feathers": "^4.5.15",
+    "debug": "^4.3.4",
+    "stripe": "^10.7.0"
   },
   "devDependencies": {
-    "chai": "^4.3.4",
-    "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^9.0.3",
-    "semistandard": "^16.0.1"
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^18.7.15",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "c8": "^7.12.0",
+    "chai": "^4.3.6",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "mocha": "^10.0.0"
   }
 }

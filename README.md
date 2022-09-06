@@ -22,15 +22,15 @@ Please refer to the [Stripe API Docs](https://stripe.com/docs/api/node) and the 
 - Feathers `find` -> Stripe `list`
 - Feathers `get` -> Stripe `retrieve`
 - Feathers `create` -> Stripe `create`
-- Feathers `patch` -> Stripe `update` (in most cases). Some special cases include paying an invoice or an order when you pass `{pay: true}` as part of `hook.data`. See each service's code for more info.
 - Feathers `update` -> Stripe `update`
+- Feathers `patch` -> Stripe `update` (in most cases). Some special cases include paying an invoice or an order when you pass `{pay: true}` as part of `context.data`. See each service's code for more info.
 - Feathers `remove` -> Stripe `del` (in most cases). Some special cases include transfers and charges create a reversal/refund. See each service's code for more info.
 
 If a method is not supported by Stripe for a given resource it is not support here as well.
 
 Use `params.stripe` to pass additional parameters like `expand`, `idempotencyKey`, `apiVersion`, etc to the underlying Stripe methods.
 
-Many methods support/require passing special properties to `hook.data` and `hook.query` to better inform the underlying stripe methods. You are encouraged to read the source code for each service to better understand their usage. For example, the `Card` service requires a `customer` to be provided.
+Many methods support/require passing special properties to `context.data` and `context.query` to better inform the underlying stripe methods. You are encouraged to read the source code for each service to better understand their usage. For example, the `Card` service requires a `customer` to be provided.
 
 ```js
 const card = await app.service('stripe/cards').create({
@@ -165,7 +165,7 @@ Here's an example of a Feathers server that uses `feathers-authentication` for l
 const feathers = require('@feathersjs/feathers');
 const express = require('@feathersjs/express');
 const socketio = require('@feathersjs/socketio');
-var { Charge } = require('feathers-stripe');
+const { ChargeService } = require('feathers-stripe');
 
 // Initialize the application
 var app = feathers()
@@ -175,7 +175,7 @@ var app = feathers()
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   // A simple Message service that we can used for testing
-  .use('/stripe/charges', new Charge({ secretKey: 'your secret stripe key' }))
+  .use('/stripe/charges', new ChargeService({ secretKey: 'your secret stripe key' }))
   .use('/', feathers.static(__dirname + '/public'))
   .use(express.errorHandler({ html: false }));
 
