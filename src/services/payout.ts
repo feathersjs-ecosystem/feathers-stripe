@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IPayoutService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.Payout[]>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.PayoutListParams>, Stripe.Payout>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Payout>;
   _create: (data: Stripe.PayoutCreateParams, params: ParamsWithStripe) => Promise<Stripe.Payout>;
   _update: (id: string, data: Stripe.PayoutUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Payout>;
@@ -12,7 +12,7 @@ export interface IPayoutService {
 }
 
 export class PayoutService extends BaseService<IPayoutService> implements IPayoutService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.PayoutListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -43,4 +43,4 @@ export class PayoutService extends BaseService<IPayoutService> implements IPayou
     const { stripe } = this.filterParams(params);
     return this.stripe.payouts.cancel(id, stripe);
   }
-};
+}

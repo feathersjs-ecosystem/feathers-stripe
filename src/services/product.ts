@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IProductService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.Product[]>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.ProductListParams>, Stripe.Product>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Product>;
   _create: (data: Stripe.ProductCreateParams, params: ParamsWithStripe) => Promise<Stripe.Product>;
   _update: (id: string, data: Stripe.ProductUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Product>;
@@ -12,7 +12,7 @@ export interface IProductService {
 }
 
 export class ProductService extends BaseService<IProductService> implements IProductService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.ProductListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -43,4 +43,4 @@ export class ProductService extends BaseService<IProductService> implements IPro
     const { stripe } = this.filterParams(params);
     return this.stripe.products.del(id, stripe);
   }
-};
+}

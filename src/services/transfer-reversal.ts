@@ -1,12 +1,12 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe, ParamsWithStripeQuery } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
-const makeDebug = require('debug');
+import makeDebug from 'debug';
 
 const debug = makeDebug('feathers-stripe:transferReversal');
 
 export interface ITransferReversalService {
-  _find: (params: ParamsWithStripeQuery) => Promise<Stripe.ApiList<Stripe.TransferReversal>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.TransferReversalListParams & { transfer: string }>, Stripe.TransferReversal>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.TransferReversal>;
   _create: (data: Stripe.TransferReversalCreateParams & { transfer: string }, params: ParamsWithStripe) => Promise<Stripe.TransferReversal>;
   _update: (id: string, data: Stripe.TransferReversalUpdateParams, params: ParamsWithStripeQuery<{ transfer: string }>) => Promise<Stripe.TransferReversal>;
@@ -15,7 +15,7 @@ export interface ITransferReversalService {
 }
 
 export class TransferReversalService extends BaseService<ITransferReversalService> implements ITransferReversalService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.TransferReversalListParams & { transfer: string }>) {
     const filtered = this.filterParams(params);
     const { transfer, ...query } = filtered.query;
     if (!transfer) {
@@ -62,4 +62,4 @@ export class TransferReversalService extends BaseService<ITransferReversalServic
   }
 
   _remove: never;
-};
+}

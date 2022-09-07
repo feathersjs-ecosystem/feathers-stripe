@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface ISubscriptionService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiList<Stripe.Subscription>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.SubscriptionListParams>, Stripe.Subscription>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Subscription>;
   _create: (data: Stripe.SubscriptionCreateParams, params: ParamsWithStripe) => Promise<Stripe.Subscription>;
   _update: (id: string, data: Stripe.SubscriptionUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Subscription>;
@@ -12,7 +12,7 @@ export interface ISubscriptionService {
 }
 
 export class SubscriptionService extends BaseService<ISubscriptionService> implements ISubscriptionService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.SubscriptionListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -43,4 +43,4 @@ export class SubscriptionService extends BaseService<ISubscriptionService> imple
     const { stripe } = this.filterParams(params);
     return this.stripe.subscriptions.del(id, stripe);
   }
-};
+}

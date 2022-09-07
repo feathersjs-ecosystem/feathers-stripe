@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.3.3",
+    "@types/debug": "^4.1.7",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.7.15",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
@@ -68,6 +69,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "mocha": "^10.0.0"
+    "mocha": "^10.0.0",
+    "shx": "^0.3.4"
   }
 }

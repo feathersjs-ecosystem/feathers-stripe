@@ -1,5 +1,5 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { ParamsWithStripe } from '../types';
 import { BaseService } from './base';
 
 export interface IAccountLinksService {
@@ -23,4 +23,4 @@ export class AccountLinkService extends BaseService<IAccountLinksService> implem
   _update: never
   _patch: never
   _remove: never
-};
+}

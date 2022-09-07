@@ -15,6 +15,14 @@
 npm install feathers-stripe --save
 ```
 
+## Changes
+- import services: names changed
+- oders patch 'pay' method: changed to 'submit': https://github.com/stripe/stripe-node/blob/master/CHANGELOG.md#900---2022-05-09
+- recipients removed: https://github.com/stripe/stripe-node/blob/master/CHANGELOG.md#%EF%B8%8F-removed
+- service('balances').get(id, ...) was not working
+- service('balances').find(...) does not make sense -> removed
+- remove new Service({ secretKey: '' })
+
 ## Documentation
 
 Please refer to the [Stripe API Docs](https://stripe.com/docs/api/node) and the [stripe-node docs](https://github.com/stripe/stripe-node) for options that can be passed. Feathers service methods map to the following Stripe methods:

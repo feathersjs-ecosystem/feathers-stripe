@@ -1,12 +1,12 @@
-const makeDebug = require('debug');
-import Stripe from 'stripe';
-import { ParamsWithStripe, ParamsWithStripeQuery } from '../types';
+import makeDebug from 'debug';
+import type Stripe from 'stripe';
+import type { ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 const debug = makeDebug('feathers-stripe:source');
 
 export interface ISourceService {
-  _find: (params: ParamsWithStripeQuery) => Promise<Stripe.ApiList<Stripe.Source>>;
+  _find: never;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Source>;
   _create:
     ((data: { customer: string } & Stripe.CustomerSourceCreateParams, params: ParamsWithStripe) => Promise<Stripe.CustomerSource>) |
@@ -28,9 +28,10 @@ export class SourceService extends BaseService<ISourceService> implements ISourc
   _create (data: Stripe.SourceCreateParams, params: ParamsWithStripe): Promise<Stripe.Source>;
   _create (data: ({ customer: string } & Stripe.CustomerSourceCreateParams) | Stripe.SourceCreateParams, params: ParamsWithStripe): Promise<Stripe.CustomerSource | Stripe.Source> {
     const { stripe } = this.filterParams(params);
-    if ("customer" in data) {
+    if ('customer' in data) {
       const { customer, ...rest } = data;
       if (customer) {
+        // @ts-ignore
         return this.stripe.customers.createSource(customer, rest, stripe);
       }
     }
@@ -53,4 +54,4 @@ export class SourceService extends BaseService<ISourceService> implements ISourc
     }
     return this.stripe.customers.deleteSource(query.customer, id, stripe);
   }
-};
+}

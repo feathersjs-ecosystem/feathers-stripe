@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface ICustomerService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiListPromise<Stripe.Customer>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.CustomerListParams>, Stripe.Customer>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Customer | Stripe.DeletedCustomer>;
   _create: (data: Stripe.CustomerCreateParams, params: ParamsWithStripe) => Promise<Stripe.Customer>;
   _update: (id: string, data: Stripe.CustomerUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Customer>;
@@ -12,7 +12,7 @@ export interface ICustomerService {
 }
 
 export class CustomerService extends BaseService<ICustomerService> implements ICustomerService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.CustomerListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -43,4 +43,4 @@ export class CustomerService extends BaseService<ICustomerService> implements IC
     const { stripe } = this.filterParams(params);
     return this.stripe.customers.del(id, stripe);
   }
-};
+}

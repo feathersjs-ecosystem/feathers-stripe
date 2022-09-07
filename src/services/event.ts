@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IEventService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.Event[]>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.EventListParams>, Stripe.Event>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Event>;
   _create: never;
   _update: never;
@@ -12,7 +12,7 @@ export interface IEventService {
 }
 
 export class EventService extends BaseService<IEventService> implements IEventService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.EventListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -29,4 +29,4 @@ export class EventService extends BaseService<IEventService> implements IEventSe
   _update: never;
   _patch: never;
   _remove: never;
-};
+}

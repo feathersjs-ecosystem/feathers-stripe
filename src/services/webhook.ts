@@ -1,8 +1,8 @@
 // Heavily inspired from https://github.com/fixate/feathers-stripe-webhooks
 import { BaseService } from './base';
 
-import { Application, Params } from "@feathersjs/feathers";
-import Stripe from 'stripe';
+import type { Application, Params } from '@feathersjs/feathers';
+import type Stripe from 'stripe';
 
 export interface IWebhookService {
   _find: never;
@@ -20,7 +20,7 @@ export type WebHookHandler = (options: {
   app: Application;
 }) => any;
 
-interface Handlers {
+export interface WebHookHandlers {
   [key: string]: {
     [key: string]: WebHookHandler;
   };
@@ -28,15 +28,15 @@ interface Handlers {
 
 interface WebHookOptions {
   app: Application
-  handlers: Handlers
+  handlers: WebHookHandlers
   route: string
   endpointSecret: any
-  secretKey: string
+  stripe: Stripe
 }
 
 export class WebhookService extends BaseService<IWebhookService> implements IWebhookService {
   app: Application
-  handlers: Handlers;
+  handlers: WebHookHandlers;
 
   constructor (options: WebHookOptions) {
     super(options);
@@ -71,7 +71,8 @@ export class WebhookService extends BaseService<IWebhookService> implements IWeb
     const parts = event.type.split('.');
     let node = this.handlers;
 
-    for (const p in parts) {
+    for (const p of parts) {
+
       // @ts-ignore
       node = node[parts[p]];
 
@@ -96,4 +97,4 @@ export class WebhookService extends BaseService<IWebhookService> implements IWeb
   _update: never;
   _patch: never;
   _remove: never;
-};
+}

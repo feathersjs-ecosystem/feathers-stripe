@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface ITransferService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiList<Stripe.Transfer>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.TransferListParams>, Stripe.Transfer>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Transfer>;
   _create: (data: Stripe.TransferCreateParams, params: ParamsWithStripe) => Promise<Stripe.Transfer>;
   _update: (id: string, data: Stripe.TransferUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Transfer>;
@@ -12,7 +12,7 @@ export interface ITransferService {
 }
 
 export class TransferService extends BaseService<ITransferService> implements ITransferService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.TransferListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -43,4 +43,4 @@ export class TransferService extends BaseService<ITransferService> implements IT
     const { stripe } = this.filterParams(params);
     return this.stripe.transfers.createReversal(id, stripe);
   }
-};
+}

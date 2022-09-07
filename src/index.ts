@@ -19,7 +19,6 @@ export { PaymentMethodService } from './services/payment-method';
 export { PlanService } from './services/plan';
 export { PriceService } from './services/price';
 export { ProductService } from './services/product';
-export { RecipientService } from './services/recipient';
 export { RefundService } from './services/refund';
 export { SetupIntentService } from './services/setup-intent';
 export { SkuService } from './services/sku';
@@ -30,16 +29,17 @@ export { TokenService } from './services/token';
 export { TransactionService } from './services/transaction';
 export { TransferService } from './services/transfer';
 export { TransferReversalService } from './services/transfer-reversal';
-import { Application } from '@feathersjs/feathers';
-import { WebHookHandler, WebhookService } from './services/webhook';
+import type { Application } from '@feathersjs/feathers';
+import { WebhookService } from './services/webhook';
+import type { WebHookHandlers } from './services/webhook';
 
 type SetupWebHookOptions = {
   endpointSecret: string;
   secretKey: string;
-  handlers: Record<string, WebHookHandler>;
+  handlers: WebHookHandlers;
 }
 
-function setupWebhook (app: Application, route: string, { endpointSecret, secretKey, handlers }) {
+function setupWebhook (app: Application, route: string, { endpointSecret, secretKey, handlers }: SetupWebHookOptions) {
   app.use(route, new WebhookService({
     route,
     handlers,

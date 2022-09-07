@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface ISkuService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiList<Stripe.Sku>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.SkuListParams>, Stripe.Sku>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Sku | Stripe.DeletedSku>;
   _create: (data: Stripe.SkuCreateParams, params: ParamsWithStripe) => Promise<Stripe.Sku>;
   _update: (id: string, data: Stripe.SkuUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Sku>;
@@ -12,7 +12,7 @@ export interface ISkuService {
 }
 
 export class SkuService extends BaseService<ISkuService> implements ISkuService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.SkuListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -35,7 +35,7 @@ export class SkuService extends BaseService<ISkuService> implements ISkuService 
     return this.stripe.skus.update(id, data, stripe);
   }
 
-  _patch(id: string, data: Stripe.SkuUpdateParams, params: ParamsWithStripe): Promise<Stripe.Sku> {
+  _patch (id: string, data: Stripe.SkuUpdateParams, params: ParamsWithStripe): Promise<Stripe.Sku> {
     return this._update(id, data, params);
   }
 
@@ -43,4 +43,4 @@ export class SkuService extends BaseService<ISkuService> implements ISkuService 
     const { stripe } = this.filterParams(params);
     return this.stripe.skus.del(id, stripe);
   }
-};
+}

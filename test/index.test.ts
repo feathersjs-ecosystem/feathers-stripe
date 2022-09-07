@@ -19,7 +19,6 @@ const CLASSES = [
   'PlanService',
   'PriceService',
   'ProductService',
-  'RecipientService',
   'RefundService',
   'SkuService',
   'SubscriptionService',

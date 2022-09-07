@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IDisputeService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiList<Stripe.Dispute>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.DisputeListParams>, Stripe.Dispute>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Dispute>;
   _create: never;
   _update: (id: string, data: Stripe.DisputeUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Dispute>;
@@ -12,7 +12,7 @@ export interface IDisputeService {
 }
 
 export class DisputeService extends BaseService<IDisputeService> implements IDisputeService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.DisputeListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -36,4 +36,4 @@ export class DisputeService extends BaseService<IDisputeService> implements IDis
 
   _create: never;
   _remove: never;
-};
+}

@@ -1,5 +1,5 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { ParamsWithStripe } from '../types';
 import { BaseService } from './base';
 
 export interface ITokenService {
@@ -26,4 +26,4 @@ export class TokenService extends BaseService<ITokenService> implements ITokenSe
   _update: never;
   _patch: never;
   _remove: never;
-};
+}

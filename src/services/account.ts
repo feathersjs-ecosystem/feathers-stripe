@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IAccountService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.Account>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.AccountListParams>, Stripe.Account>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Account>;
   _create: (data: Stripe.AccountCreateParams, params: ParamsWithStripe) => Promise<Stripe.Account>;
   _update: (id: string, data: Stripe.AccountUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Account>;
@@ -12,7 +12,7 @@ export interface IAccountService {
 }
 
 export class AccountService extends BaseService<IAccountService> implements IAccountService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.AccountListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -20,8 +20,9 @@ export class AccountService extends BaseService<IAccountService> implements IAcc
     );
   }
 
-  _get (id: string, params: ParamsWithStripe) {
+  async _get (id: string, params: ParamsWithStripe) {
     const { stripe } = this.filterParams(params);
+
     return this.stripe.accounts.retrieve(id, stripe);
   }
 
@@ -40,4 +41,4 @@ export class AccountService extends BaseService<IAccountService> implements IAcc
   }
 
   _remove: never
-};
+}

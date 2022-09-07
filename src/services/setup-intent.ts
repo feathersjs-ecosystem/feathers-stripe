@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface ISetupIntentService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiList<Stripe.SetupIntent>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.SetupIntentListParams>, Stripe.SetupIntent>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.SetupIntent>;
   _create: (data: Stripe.SetupIntentCreateParams, params: ParamsWithStripe) => Promise<Stripe.SetupIntent>;
   _update: (id: string, data: Stripe.SetupIntentUpdateParams, params: ParamsWithStripe) => Promise<Stripe.SetupIntent>;
@@ -12,7 +12,7 @@ export interface ISetupIntentService {
 }
 
 export class SetupIntentService extends BaseService<ISetupIntentService> implements ISetupIntentService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.SetupIntentListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -40,4 +40,4 @@ export class SetupIntentService extends BaseService<ISetupIntentService> impleme
   }
 
   _remove: never;
-};
+}

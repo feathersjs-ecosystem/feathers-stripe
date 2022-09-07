@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IRefundService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiList<Stripe.Refund>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.RefundListParams>, Stripe.Refund>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Refund>;
   _create: (data: Stripe.RefundCreateParams, params: ParamsWithStripe) => Promise<Stripe.Refund>;
   _update: (id: string, data: Stripe.RefundUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Refund>;
@@ -12,7 +12,7 @@ export interface IRefundService {
 }
 
 export class RefundService extends BaseService<IRefundService> implements IRefundService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.RefundListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -40,4 +40,4 @@ export class RefundService extends BaseService<IRefundService> implements IRefun
   }
 
   _remove: never;
-};
+}

@@ -1,12 +1,12 @@
-const makeDebug = require('debug');
-import Stripe from 'stripe';
-import { ParamsWithStripeQuery } from '../types';
+import makeDebug from 'debug';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 const debug = makeDebug('feathers-stripe:card');
 
 export interface IBankAccountService {
-  _find: (params: ParamsWithStripeQuery<{ customer: string }>) => Promise<Stripe.CustomerSource>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.CustomerSourceListParams & { customer: string }>, Stripe.CustomerSource>;
   _get: (id: string, params: ParamsWithStripeQuery<{ customer: string }>) => Promise<Stripe.CustomerSource>;
   _create: (data: Stripe.CustomerSourceCreateParams & { customer: string }, params: ParamsWithStripeQuery<{ customer: string }>) => Promise<Stripe.CustomerSource>;
   _update: (id: string, data: Stripe.CustomerSourceUpdateParams, params: ParamsWithStripeQuery<{ customer: string }>) => Promise<Stripe.BankAccount | Stripe.Card | Stripe.Source>;
@@ -15,15 +15,13 @@ export interface IBankAccountService {
 }
 
 export class BankAccountService extends BaseService<IBankAccountService> implements IBankAccountService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.CustomerSourceListParams & { customer: string }>) {
     const filtered = this.filterParams(params);
     const { customer, ...query } = filtered.query;
     if (!customer) {
       debug('Missing Stripe customer id');
     }
-    if (!query.type) {
-      query.type = 'bank_account';
-    }
+
     return this.handlePaginate(
       filtered,
       this.stripe.customers.listSources(customer, query, filtered.stripe)
@@ -65,4 +63,4 @@ export class BankAccountService extends BaseService<IBankAccountService> impleme
     }
     return this.stripe.customers.deleteSource(query.customer, id, stripe);
   }
-};
+}

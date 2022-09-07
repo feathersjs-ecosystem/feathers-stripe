@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface ICouponService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiListPromise<Stripe.Coupon>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.CouponListParams>, Stripe.Coupon>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Coupon>;
   _create: (data: Stripe.CouponCreateParams, params: ParamsWithStripe) => Promise<Stripe.Coupon>;
   _update: (id: string, data: Stripe.CouponUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Coupon>;
@@ -12,7 +12,7 @@ export interface ICouponService {
 }
 
 export class CouponService extends BaseService<ICouponService> implements ICouponService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.CouponListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -40,4 +40,4 @@ export class CouponService extends BaseService<ICouponService> implements ICoupo
   }
 
   _remove: never
-};
+}

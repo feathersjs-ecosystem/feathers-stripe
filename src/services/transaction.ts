@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface ITransactionService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.ApiList<Stripe.BalanceTransaction>>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.BalanceTransactionListParams>, Stripe.BalanceTransaction>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.BalanceTransaction>;
   _create: never;
   _update: never;
@@ -12,7 +12,7 @@ export interface ITransactionService {
 }
 
 export class TransactionService extends BaseService<ITransactionService> implements ITransactionService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.BalanceTransactionListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -29,4 +29,4 @@ export class TransactionService extends BaseService<ITransactionService> impleme
   _update: never;
   _patch: never;
   _remove: never;
-};
+}

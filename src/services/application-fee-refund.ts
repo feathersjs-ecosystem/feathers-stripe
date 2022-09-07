@@ -1,12 +1,12 @@
 import makeDebug from 'debug';
-import Stripe from 'stripe';
-import { ParamsWithStripe, ParamsWithStripeFee } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripeFee, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 const debug = makeDebug('feathers-stripe:application-fee-refund');
 
 export interface IApplicationFeeRefundService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.Account>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.ApplicationFeeListParams & { fee: string }>, Stripe.FeeRefund>;
   _get: (id: string, params: ParamsWithStripeFee) => Promise<Stripe.FeeRefund>;
   _create: (data: Stripe.FeeRefundCreateParams, params: ParamsWithStripeFee) => Promise<Stripe.FeeRefund>;
   _update: (id: string, data: Stripe.FeeRefundUpdateParams, params: ParamsWithStripeFee) => Promise<Stripe.FeeRefund>;
@@ -15,7 +15,7 @@ export interface IApplicationFeeRefundService {
 }
 
 export class ApplicationFeeRefundService extends BaseService<IApplicationFeeRefundService> implements IApplicationFeeRefundService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.ApplicationFeeListParams & { fee: string }>) {
     const filtered = this.filterParams(params);
     if (!filtered.query.fee) {
       debug('Missing Stripe fee id');
@@ -59,4 +59,4 @@ export class ApplicationFeeRefundService extends BaseService<IApplicationFeeRefu
   }
 
   _remove: never
-};
+}

@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IPriceService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.Price[]>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.PriceListParams>, Stripe.Price>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Price>;
   _create: (data: Stripe.PriceCreateParams, params: ParamsWithStripe) => Promise<Stripe.Price>;
   _update: (id: string, data: Stripe.PriceUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Price>;
@@ -12,7 +12,7 @@ export interface IPriceService {
 }
 
 export class PriceService extends BaseService<IPriceService> implements IPriceService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.PriceListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -40,4 +40,4 @@ export class PriceService extends BaseService<IPriceService> implements IPriceSe
   }
 
   _remove: never
-};
+}

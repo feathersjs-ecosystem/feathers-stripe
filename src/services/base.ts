@@ -1,7 +1,15 @@
-import Stripe from 'stripe';
-import errors from '@feathersjs/errors';
+import type Stripe from 'stripe';
+import { BadRequest, NotImplemented, Unavailable, NotAuthenticated, TooManyRequests, GeneralError, PaymentError, MethodNotAllowed } from '@feathersjs/errors';
+import type { FeathersError } from '@feathersjs/errors';
 import { _ } from '@feathersjs/commons';
-import { IUnderScoreFunctions, ParamsWithStripe, StripeServiceOptions } from '../types';
+import type { IUnderScoreFunctions, ParamsWithStripe, StripeServiceOptions } from '../types';
+import type { Params, Query } from '@feathersjs/feathers';
+
+type FilteredParams<T extends ParamsWithStripe = ParamsWithStripe> = {
+  query: T['query'];
+  stripe: T['stripe'];
+  paginate: boolean
+}
 
 export abstract class BaseService<I extends IUnderScoreFunctions> {
   stripe: Stripe;
@@ -14,7 +22,7 @@ export abstract class BaseService<I extends IUnderScoreFunctions> {
   abstract _patch (id: string, data: Parameters<I['_patch']>[1], params: Parameters<I['_patch']>[2]): ReturnType<I['_patch']>;
   abstract _remove (id: string, params: Parameters<I['_remove']>[1]): ReturnType<I['_remove']>;
 
-  constructor (options: StripeServiceOptions, ...rest) {
+  constructor (options: StripeServiceOptions) {
     const opts = {
       // Stripe enforces 100 max and 10 default
       paginate: {
@@ -23,62 +31,56 @@ export abstract class BaseService<I extends IUnderScoreFunctions> {
       },
       ...options
     };
-    if (!opts.secretKey && !opts.stripe) {
-      throw new Error('Stripe service option `secretKey` or `stripe` needs to be provided');
+    if (!opts.stripe) {
+      throw new Error('Stripe service option `stripe` needs to be provided');
     }
-    if (opts.stripe) {
-      this.stripe = opts.stripe;
-    } else {
-      this.stripe = new Stripe(opts.secretKey);
-    }
+
+    this.stripe = opts.stripe;
   }
 
   find (params: Parameters<I['_find']>[0]): ReturnType<I['_find']> {
     if (!(this as any)._find) {
-      throw new errors.NotImplemented('Find method not implemented');
+      throw new NotImplemented('Find method not implemented');
     }
     return (this as any)._find(params).catch(this.handleError);
   }
 
   get (id: string, params: Parameters<I['_get']>[1]): ReturnType<I['_get']> {
     if (!(this as any)._get) {
-      throw new errors.NotImplemented('Get method not implemented');
+      throw new NotImplemented('Get method not implemented');
     }
     return (this as any)._get(id, params).catch(this.handleError);
   }
 
   create (data: Parameters<I['_create']>[0], params: Parameters<I['_create']>[1]): ReturnType<I['_create']> {
     if (!(this as any)._create) {
-      throw new errors.NotImplemented('Create method not implemented');
+      throw new NotImplemented('Create method not implemented');
     }
     return (this as any)._create(data, params).catch(this.handleError);
   }
 
   update (id: string, data: Parameters<I['_update']>[1], params: Parameters<I['_update']>[2]): ReturnType<I['_update']> {
     if (!(this as any)._update) {
-      throw new errors.NotImplemented('Update method not implemented');
+      throw new NotImplemented('Update method not implemented');
     }
     return (this as any)._update(id, data, params).catch(this.handleError);
   }
 
   patch (id: string, data: Parameters<I['_patch']>[1], params: Parameters<I['_patch']>[2]): ReturnType<I['_patch']> {
-    if ((this as any)._patch) {
-      return (this as any)._patch(id, data, params).catch(this.handleError);
+    if (!(this as any)._patch) {
+      throw new NotImplemented('Patch method not implemented');
     }
-    if ((this as any)._update) {
-      return (this as any)._update(id, data, params).catch(this.handleError);
-    }
-    throw new errors.NotImplemented('Patch method not implemented');
+    return (this as any)._patch(id, data, params).catch(this.handleError);
   }
 
   remove (id: string, params: Parameters<I['_remove']>[1]): ReturnType<I['_remove']> {
     if (!(this as any)._remove) {
-      throw new errors.NotImplemented('Remove method not implemented');
+      throw new NotImplemented('Remove method not implemented');
     }
     return (this as any)._remove(id, params).catch(this.handleError);
   }
 
-  getLimit (limit, paramsPaginate) {
+  getLimit (limit: number | undefined, paramsPaginate: false | { max: number } | undefined): number {
     if (paramsPaginate === false) {
       return limit;
     }
@@ -93,8 +95,9 @@ export abstract class BaseService<I extends IUnderScoreFunctions> {
     return limit;
   }
 
-  cleanQuery (query) {
+  cleanQuery <Q extends Query> (query: Q): Q {
     if (Array.isArray(query)) {
+      // @ts-ignore
       return query.map((item) => this.cleanQuery(item));
     }
     if (_.isObject(query)) {
@@ -105,6 +108,7 @@ export abstract class BaseService<I extends IUnderScoreFunctions> {
           delete result[key];
           cleanKey = key.replace('$', '');
         }
+        // @ts-ignore
         result[cleanKey] = this.cleanQuery(value);
       });
       return result;
@@ -112,23 +116,20 @@ export abstract class BaseService<I extends IUnderScoreFunctions> {
     return query;
   }
 
-  filterQuery (params) {
-    const query = Object.assign({}, params.query);
+  filterQuery <P extends Params, Q extends Query> (params: P): Q {
+    const query = Object.assign({}, params.query) as Q;
     const limit = query.$limit || query.limit;
     if (limit) {
+      // @ts-ignore
       query.limit = this.getLimit(limit, params.paginate);
       delete query.$limit;
     }
-    return this.cleanQuery(query);
+    return this.cleanQuery<Q>(query);
   }
 
   filterParams <
     T extends ParamsWithStripe = ParamsWithStripe
-  >(params: T): {
-    query: T['query'];
-    stripe: T['stripe'];
-    paginate: boolean
-  } {
+  > (params: T): FilteredParams<T> {
     return {
       query: this.filterQuery(params),
       stripe: params.stripe,
@@ -136,9 +137,9 @@ export abstract class BaseService<I extends IUnderScoreFunctions> {
     };
   }
 
-  async handlePaginate ({ paginate }, stripeMethod) {
+  async handlePaginate <R = any> ({ paginate }: FilteredParams, stripeMethod: Stripe.ApiListPromise<R>): Promise<R[] | Stripe.ApiList<R>> {
     if (paginate) {
-      return stripeMethod;
+      return await stripeMethod;
     }
     if (stripeMethod.autoPagingEach) {
       // NOTE: This is similar to stripe's autoPagingToArray
@@ -149,57 +150,59 @@ export abstract class BaseService<I extends IUnderScoreFunctions> {
       // size for each page of autoPagingEach. When
       // no $limit is provided, it falls back to a
       // page size of 10.
-      const results = [];
+      const results: R[] = [];
       // console.time('pagination');
       await stripeMethod.autoPagingEach((result) => {
         results.push(result);
       });
       // console.timeEnd('pagination');
-      return Promise.resolve(results);
+      return results;
     }
-    throw new errors.MethodNotAllowed(
+    throw new MethodNotAllowed(
       'Cannot use paginate: false on this method'
     );
   }
 
-  handleError (error) {
-    let feathersError = error;
+  handleError (error: Stripe.errors.StripeError) {
+    let feathersError: FeathersError;
 
     if (error.type) {
       switch (error.type) {
-        case 'StripeCardError':
-          // A declined card error
-          feathersError = new errors.PaymentError(error, error);
-          break;
-        case 'StripeInvalidRequestError':
-        case 'StripeInvalidRequest':
-          // Invalid parameters were supplied to Stripe's API
-          feathersError = new errors.BadRequest(error, error);
-          break;
-        case 'StripeAPIError':
-          // An error occurred internally with Stripe's API
-          feathersError = new errors.Unavailable(error, error);
-          break;
-        case 'StripeConnectionError':
-          // Some kind of error occurred during the HTTPS communication
-          feathersError = new errors.Unavailable(error, error);
-          break;
-        case 'StripeAuthenticationError':
-          // You probably used an incorrect API key
-          feathersError = new errors.NotAuthenticated(error, error);
-          break;
-        case 'StripeRateLimitError':
-          // Too many requests
-          feathersError = new errors.TooManyRequests(error, error);
-          break;
-        default:
-          feathersError = new errors.GeneralError(
-            'Unknown Payment Gateway Error',
-            error
-          );
+      case 'StripeCardError':
+        // A declined card error
+        feathersError = new PaymentError(error, error);
+        break;
+      case 'StripeInvalidRequestError':
+      case 'StripeInvalidRequestError':
+        // Invalid parameters were supplied to Stripe's API
+        feathersError = new BadRequest(error, error);
+        break;
+      case 'StripeAPIError':
+        // An error occurred internally with Stripe's API
+        feathersError = new Unavailable(error, error);
+        break;
+      case 'StripeConnectionError':
+        // Some kind of error occurred during the HTTPS communication
+        feathersError = new Unavailable(error, error);
+        break;
+      case 'StripeAuthenticationError':
+        // You probably used an incorrect API key
+        feathersError = new NotAuthenticated(error, error);
+        break;
+      case 'StripeRateLimitError':
+        // Too many requests
+        feathersError = new TooManyRequests(error, error);
+        break;
+      default:
+        feathersError = new GeneralError(
+          'Unknown Payment Gateway Error',
+          error
+        );
       }
+    } else {
+      feathersError = new GeneralError('Unknown Payment Gateway Error', error);
     }
 
-    return Promise.reject(feathersError);
+    throw feathersError;
   }
-};
+}

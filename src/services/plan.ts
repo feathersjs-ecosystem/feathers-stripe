@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe } from '../types';
+import type Stripe from 'stripe';
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
 import { BaseService } from './base';
 
 export interface IPlanService {
-  _find: (params: ParamsWithStripe) => Promise<Stripe.Plan[]>;
+  _find: FindMethod<ParamsWithStripeQuery<Stripe.PlanListParams>, Stripe.Plan>;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Plan>;
   _create: (data: Stripe.PlanCreateParams, params: ParamsWithStripe) => Promise<Stripe.Plan>;
   _update: (id: string, data: Stripe.PlanUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Plan>;
@@ -12,7 +12,7 @@ export interface IPlanService {
 }
 
 export class PlanService extends BaseService<IPlanService> implements IPlanService {
-  _find (params) {
+  _find (params: ParamsWithStripeQuery<Stripe.PlanListParams>) {
     const filtered = this.filterParams(params);
     return this.handlePaginate(
       filtered,
@@ -43,4 +43,4 @@ export class PlanService extends BaseService<IPlanService> implements IPlanServi
     const { stripe } = this.filterParams(params);
     return this.stripe.plans.del(id, stripe);
   }
-};
+}

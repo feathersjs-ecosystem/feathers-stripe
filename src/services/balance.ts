@@ -1,9 +1,9 @@
-import Stripe from 'stripe';
-import { ParamsWithStripe, ParamsWithStripeQuery } from '../types';
+import type Stripe from 'stripe';
+import type { ParamsWithStripe } from '../types';
 import { BaseService } from './base';
 
 export interface IBalanceService {
-  _find: (params: ParamsWithStripeQuery<Stripe.BalanceRetrieveParams>) => Promise<Stripe.Balance>;
+  _find: never;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Balance>;
   _create: never
   _update: never
@@ -12,18 +12,18 @@ export interface IBalanceService {
 }
 
 export class BalanceService extends BaseService<IBalanceService> implements IBalanceService {
-  _find (params: ParamsWithStripeQuery<Stripe.BalanceRetrieveParams>) {
-    const { query, stripe } = this.filterParams(params);
-    return this.stripe.balance.retrieve(query, stripe);
-  }
-
   _get (id: string, params: ParamsWithStripe) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.balance.retrieve({ stripe_account: id }, stripe);
+    let { stripe } = this.filterParams(params);
+    stripe = Object.assign({}, stripe);
+    if (id) {
+      stripe.stripeAccount = id;
+    }
+    return this.stripe.balance.retrieve(undefined, stripe);
   }
 
+  _find: never;
   _create: never;
   _update: never;
   _patch: never;
   _remove: never;
-};
+}
