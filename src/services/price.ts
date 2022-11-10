@@ -1,6 +1,6 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
 export interface IPriceService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.PriceListParams>, Stripe.Price>;
@@ -39,5 +39,5 @@ export class PriceService extends BaseService<IPriceService> implements IPriceSe
     return this._update(id, data, params);
   }
 
-  _remove: never
+  _remove: never;
 }

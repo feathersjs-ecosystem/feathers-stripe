@@ -1,9 +1,9 @@
-import makeDebug from 'debug';
-import type Stripe from 'stripe';
-import type { ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import makeDebug from "debug";
+import type Stripe from "stripe";
+import type { ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
-const debug = makeDebug('feathers-stripe:source');
+const debug = makeDebug("feathers-stripe:source");
 
 export interface ISourceService {
   _find: never;
@@ -28,7 +28,7 @@ export class SourceService extends BaseService<ISourceService> implements ISourc
   _create (data: Stripe.SourceCreateParams, params: ParamsWithStripe): Promise<Stripe.Source>;
   _create (data: ({ customer: string } & Stripe.CustomerSourceCreateParams) | Stripe.SourceCreateParams, params: ParamsWithStripe): Promise<Stripe.CustomerSource | Stripe.Source> {
     const { stripe } = this.filterParams(params);
-    if ('customer' in data) {
+    if ("customer" in data) {
       const { customer, ...rest } = data;
       if (customer) {
         // @ts-ignore
@@ -50,7 +50,7 @@ export class SourceService extends BaseService<ISourceService> implements ISourc
   _remove (id: string, params: ParamsWithStripeQuery<{ customer: string }>) {
     const { query, stripe } = this.filterParams(params);
     if (!query.customer) {
-      debug('Missing Stripe customer id');
+      debug("Missing Stripe customer id");
     }
     return this.stripe.customers.deleteSource(query.customer, id, stripe);
   }

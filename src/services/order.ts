@@ -1,6 +1,6 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
 export interface IOrderService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.OrderListParams>, Stripe.Order>;
@@ -34,7 +34,7 @@ export class OrderService extends BaseService<IOrderService> implements IOrderSe
   _patch (id: string, data: ({ submit: boolean } & Stripe.OrderSubmitParams) | Stripe.OrderUpdateParams, params: ParamsWithStripe): Promise<Stripe.Order> {
     const { stripe } = this.filterParams(params);
 
-    if ('submit' in data) {
+    if ("submit" in data) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { submit, ...rest } = data;
       return this.stripe.orders.submit(id, rest, stripe);
@@ -48,5 +48,5 @@ export class OrderService extends BaseService<IOrderService> implements IOrderSe
     return this.stripe.orders.update(id, data, stripe);
   }
 
-  _remove: never
+  _remove: never;
 }

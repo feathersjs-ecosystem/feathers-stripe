@@ -3,7 +3,6 @@
   "description": "A Feathers service for Stripe",
   "version": "1.0.1",
   "homepage": "https://github.com/feathersjs-ecosystem/feathers-stripe",
-  "main": "lib/",
   "keywords": [
     "stripe",
     "feathers",
@@ -23,53 +22,60 @@
   "bugs": {
     "url": "https://github.com/feathersjs-ecosystem/feathers-stripe/issues"
   },
+  "main": "dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 16"
   },
   "files": [
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
     "src/**",
-    "lib/**",
     "dist/**"
   ],
   "scripts": {
-    "compile": "shx rm -rf dist/ && tsc",
+    "build": "shx rm -rf dist/ && vite build",
     "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "publish": "git push origin --tags && npm run changelog && git push origin",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
     "lint": "eslint src/**/*.ts test/**/*.ts --fix",
-    "mocha": "mocha",
-    "coverage": "c8 npm run mocha",
-    "test": "npm run lint && npm run coverage"
-  },
-  "directories": {
-    "lib": "lib"
+    "vitest": "vitest",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@feathersjs/adapter-commons": "^4.5.15",
     "@feathersjs/commons": "^4.5.15",
     "@feathersjs/errors": "^4.5.15",
+    "@feathersjs/express": "^4.5.15",
     "@feathersjs/feathers": "^4.5.15",
     "debug": "^4.3.4",
-    "stripe": "^10.7.0"
+    "stripe": "^10.17.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.3",
     "@types/debug": "^4.1.7",
-    "@types/mocha": "^9.1.1",
-    "@types/node": "^18.7.15",
-    "@typescript-eslint/eslint-plugin": "^5.36.2",
-    "@typescript-eslint/parser": "^5.36.2",
-    "c8": "^7.12.0",
-    "chai": "^4.3.6",
-    "eslint": "^7.32.0",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "mocha": "^10.0.0",
-    "shx": "^0.3.4"
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-unicorn": "^44.0.2",
+    "prettier": "^2.7.1",
+    "shx": "^0.3.4",
+    "vite": "^3.2.3",
+    "vite-plugin-dts": "^1.7.0",
+    "vitest": "^0.25.1"
   }
 }

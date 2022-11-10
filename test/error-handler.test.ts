@@ -1,79 +1,58 @@
-import { expect } from 'chai';
-import errors from '@feathersjs/errors';
-import { BaseService } from '../src/services/base';
+import { expect } from "vitest";
+import {
+  GeneralError,
+  PaymentError,
+  BadRequest,
+  Unavailable,
+  NotAuthenticated
+} from "@feathersjs/errors";
+import { BaseService } from "../src/services/base";
 
-describe('handleError', () => {
+describe("handleError", () => {
   const service = new BaseService({ stripe: {} });
 
-  describe('when it is not a Stripe error', () => {
-    it('returns original error', () => {
-      return service.handleError(new Error('Normal Error')).catch(e => {
-        expect(e instanceof Error).to.equal(true);
-        expect(e.message).to.equal('Normal Error');
-      });
-    });
-  });
-
-  describe('when it is a Stripe error', () => {
+  describe("when it is a Stripe error", () => {
     let error;
 
-    beforeEach(() => (error = new Error('Stripe Error')));
+    beforeEach(() => (error = new Error("Stripe Error")));
 
-    it('handles StripeCardError', () => {
-      error.type = 'StripeCardError';
+    it("handles StripeCardError", () => {
+      error.type = "StripeCardError";
 
-      return service.handleError(error).catch(e => {
-        expect(e instanceof errors.PaymentError).to.equal(true);
-      });
+      expect(() => service.handleError(error)).to.throw(PaymentError);
     });
 
-    it('handles StripeInvalidRequestError', () => {
-      error.type = 'StripeInvalidRequestError';
+    it("handles StripeInvalidRequestError", () => {
+      error.type = "StripeInvalidRequestError";
 
-      return service.handleError(error).catch(e => {
-        expect(e instanceof errors.BadRequest).to.equal(true);
-      });
+      expect(() => service.handleError(error)).to.throw(BadRequest);
     });
 
-    it('handles StripeInvalidRequest', () => {
-      error.type = 'StripeInvalidRequest';
+    it("handles StripeAPIError", () => {
+      error.type = "StripeAPIError";
 
-      return service.handleError(error).catch(e => {
-        expect(e instanceof errors.BadRequest).to.equal(true);
-      });
+      expect(() => service.handleError(error)).to.throw(Unavailable);
     });
 
-    it('handles StripeAPIError', () => {
-      error.type = 'StripeAPIError';
+    it("handles StripeConnectionError", () => {
+      error.type = "StripeConnectionError";
 
-      return service.handleError(error).catch(e => {
-        expect(e instanceof errors.Unavailable).to.equal(true);
-      });
+      expect(() => service.handleError(error)).to.throw(Unavailable);
     });
 
-    it('handles StripeConnectionError', () => {
-      error.type = 'StripeConnectionError';
+    it("handles StripeAuthenticationError", () => {
+      error.type = "StripeAuthenticationError";
 
-      return service.handleError(error).catch(e => {
-        expect(e instanceof errors.Unavailable).to.equal(true);
-      });
+      expect(() => service.handleError(error)).to.throw(NotAuthenticated);
     });
 
-    it('handles StripeAuthenticationError', () => {
-      error.type = 'StripeAuthenticationError';
+    it("handles unknown Stripe errors", () => {
+      error.type = "Unknown";
 
-      return service.handleError(error).catch(e => {
-        expect(e instanceof errors.NotAuthenticated).to.equal(true);
-      });
-    });
-
-    it('handles unknown Stripe errors', () => {
-      error.type = 'Unknown';
-
-      return service.handleError(error).catch(e => {
-        expect(e instanceof errors.GeneralError).to.equal(true);
-        expect(e.message).to.equal('Unknown Payment Gateway Error');
-      });
+      expect(() => service.handleError(error))
+        .to.throw(GeneralError)
+        .with.property("message")
+        .that.equals("Unknown Payment Gateway Error");
     });
   });
 });

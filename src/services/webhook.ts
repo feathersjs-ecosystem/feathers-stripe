@@ -1,8 +1,10 @@
 // Heavily inspired from https://github.com/fixate/feathers-stripe-webhooks
-import { BaseService } from './base';
+import { BaseService } from "./base";
 
-import type { Application, Params } from '@feathersjs/feathers';
-import type Stripe from 'stripe';
+import type { Application, Params } from "@feathersjs/feathers";
+import type Stripe from "stripe";
+import type { Application as ExpressApplication } from "@feathersjs/express";
+import type { NextFunction, Request, Response } from "express";
 
 export interface IWebhookService {
   _find: never;
@@ -27,62 +29,89 @@ export interface WebHookHandlers {
 }
 
 interface WebHookOptions {
-  app: Application
-  handlers: WebHookHandlers
-  route: string
-  endpointSecret: any
-  stripe: Stripe
+  app: Application;
+  handlers: WebHookHandlers;
+  stripe: Stripe;
 }
 
-export class WebhookService extends BaseService<IWebhookService> implements IWebhookService {
-  app: Application
+export class WebhookService
+  extends BaseService<IWebhookService>
+  implements IWebhookService
+{
+  app: Application;
   handlers: WebHookHandlers;
+  options: WebHookOptions;
 
-  constructor (options: WebHookOptions) {
+  isExpressSetup = false;
+
+  constructor(options: WebHookOptions) {
     super(options);
 
     if (!options.app) {
-      throw new Error('options.app is required');
+      throw new Error("options.app is required");
     }
 
     this.app = options.app;
     this.handlers = options.handlers || {};
-
-    // @ts-ignore
-    this.app.post(options.route, (req, res, next) => {
-      const signature = req.headers['stripe-signature'];
-      if (!signature) {
-        res.status(400).end('Bad signature');
-        return;
-      }
-
-      try {
-        this.stripe.webhooks.constructEvent(req.rawBody, signature, options.endpointSecret);
-      } catch (err) {
-        res.status(400).end(err);
-        return;
-      }
-
-      next();
-    });
+    this.options = options;
   }
 
-  getHandler (event: Stripe.Event): WebHookHandler | null {
-    const parts = event.type.split('.');
+  /**
+   * registers an express route
+   * @param route
+   * @param endpointSecret
+   * @returns
+   */
+  setupExpress(route: string, endpointSecret: string) {
+    if (this.isExpressSetup) {
+      return;
+    }
+
+    (this.app as ExpressApplication).post(
+      route,
+      (req: Request, res: Response, next: NextFunction) => {
+        const signature = req.headers["stripe-signature"];
+        if (!signature) {
+          res.status(400).end("Bad signature");
+          return;
+        }
+
+        try {
+          this.stripe.webhooks.constructEvent(
+            // @ts-expect-error
+            req.rawBody,
+            signature,
+            endpointSecret
+          );
+        } catch (err) {
+          res.status(400).end(err);
+          return;
+        }
+
+        next();
+      }
+    );
+
+    this.isExpressSetup = true;
+  }
+
+  getHandler(event: Stripe.Event): WebHookHandler | null {
+    const parts = event.type.split(".");
     let node = this.handlers;
 
     for (const p of parts) {
-
       // @ts-ignore
       node = node[parts[p]];
 
-      if (!node) { return null; }
+      if (!node) {
+        return null;
+      }
     }
 
     return node as any as WebHookHandler;
   }
 
-  _create (event: Stripe.Event, params: Params) {
+  _create(event: Stripe.Event, params: Params) {
     const handler = this.getHandler(event);
     if (!handler) {
       // No handler, nothing to do
@@ -97,4 +126,26 @@ export class WebhookService extends BaseService<IWebhookService> implements IWeb
   _update: never;
   _patch: never;
   _remove: never;
+}
+
+type SetupWebHookOptions = {
+  endpointSecret: string;
+  stripe: Stripe;
+  handlers: WebHookHandlers;
+};
+
+export function setupWebhook(
+  app: Application,
+  route: string,
+  { endpointSecret, stripe, handlers }: SetupWebHookOptions
+) {
+  const service = new WebhookService({
+    handlers,
+    stripe,
+    app
+  });
+
+  service.setupExpress(route, endpointSecret);
+
+  return service;
 }

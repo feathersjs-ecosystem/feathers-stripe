@@ -1,9 +1,9 @@
-import type Stripe from 'stripe';
-import { BaseService } from './base';
-import makeDebug from 'debug';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
+import type Stripe from "stripe";
+import { BaseService } from "./base";
+import makeDebug from "debug";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
 
-const debug = makeDebug('feathers-stripe:external-account');
+const debug = makeDebug("feathers-stripe:external-account");
 
 export interface IExternalAccountService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.ExternalAccountListParams & { account: string }>, Stripe.BankAccount | Stripe.Card>;
@@ -19,7 +19,7 @@ export class ExternalAccountService extends BaseService<IExternalAccountService>
     const filtered = this.filterParams(params);
     const { account, ...query } = filtered.query;
     if (!account) {
-      debug('Missing Stripe account id');
+      debug("Missing Stripe account id");
     }
     return this.handlePaginate(
       filtered,
@@ -30,7 +30,7 @@ export class ExternalAccountService extends BaseService<IExternalAccountService>
   _get (id: string, params: ParamsWithStripeQuery<{ account: string }>) {
     const { query, stripe } = this.filterParams(params);
     if (!query.account) {
-      debug('Missing Stripe account id');
+      debug("Missing Stripe account id");
     }
     return this.stripe.accounts.retrieveExternalAccount(
       query.account,
@@ -44,7 +44,7 @@ export class ExternalAccountService extends BaseService<IExternalAccountService>
     const { stripe } = this.filterParams(params);
     const { account, ...rest } = data;
     if (!account) {
-      debug('Missing Stripe account id');
+      debug("Missing Stripe account id");
     }
     return this.stripe.accounts.createExternalAccount(account, rest, stripe);
   }
@@ -52,7 +52,7 @@ export class ExternalAccountService extends BaseService<IExternalAccountService>
   _update (id: string, data: Stripe.ExternalAccountUpdateParams, params: ParamsWithStripeQuery<{ account: string }>) {
     const { query, stripe } = this.filterParams(params);
     if (!query.account) {
-      debug('Missing Stripe account id');
+      debug("Missing Stripe account id");
     }
     return this.stripe.accounts.updateExternalAccount(
       query.account,
@@ -69,7 +69,7 @@ export class ExternalAccountService extends BaseService<IExternalAccountService>
   _remove (id: string, params: ParamsWithStripeQuery<{ account: string }>) {
     const { query, stripe } = this.filterParams(params);
     if (!query.account) {
-      debug('Missing Stripe account id');
+      debug("Missing Stripe account id");
     }
     return this.stripe.accounts.deleteExternalAccount(
       query.account,

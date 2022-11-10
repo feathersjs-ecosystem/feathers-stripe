@@ -1,6 +1,6 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
 export interface ITransactionService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.BalanceTransactionListParams>, Stripe.BalanceTransaction>;

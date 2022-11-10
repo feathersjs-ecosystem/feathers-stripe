@@ -1,6 +1,6 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
 export interface IInvoiceService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.InvoiceListParams>, Stripe.Invoice>;
@@ -39,7 +39,7 @@ export class InvoiceService extends BaseService<IInvoiceService> implements IInv
 
   _patch (id: string, data: ({ pay: boolean } & Stripe.InvoicePayParams) | Stripe.InvoiceUpdateParams, params: ParamsWithStripe): Promise<Stripe.Invoice> {
     const { stripe } = this.filterParams(params);
-    if ('pay' in data) {
+    if ("pay" in data) {
       const { pay } = data;
       if (pay) {
         return this.stripe.invoices.pay(id, stripe);
@@ -49,5 +49,5 @@ export class InvoiceService extends BaseService<IInvoiceService> implements IInv
     return this._update(id, data, params);
   }
 
-  _remove: never
+  _remove: never;
 }

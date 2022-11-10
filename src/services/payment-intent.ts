@@ -1,6 +1,6 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
 export interface IPaymentIntentService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.PaymentIntentListParams>, Stripe.PaymentIntent>;
@@ -32,7 +32,7 @@ export class PaymentIntentService extends BaseService<IPaymentIntentService> imp
 
   _patch (id: string, data: { capture: boolean } | Stripe.PaymentIntentUpdateParams, params: ParamsWithStripe): Promise<Stripe.PaymentIntent> {
     const { stripe } = this.filterParams(params);
-    if ('capture' in data) {
+    if ("capture" in data) {
       return this.stripe.paymentIntents.capture(id, stripe);
     }
 
@@ -44,5 +44,5 @@ export class PaymentIntentService extends BaseService<IPaymentIntentService> imp
     return this.stripe.paymentIntents.update(id, data, stripe);
   }
 
-  _remove: never
+  _remove: never;
 }

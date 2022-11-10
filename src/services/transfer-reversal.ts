@@ -1,9 +1,9 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
-import makeDebug from 'debug';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
+import makeDebug from "debug";
 
-const debug = makeDebug('feathers-stripe:transferReversal');
+const debug = makeDebug("feathers-stripe:transferReversal");
 
 export interface ITransferReversalService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.TransferReversalListParams & { transfer: string }>, Stripe.TransferReversal>;
@@ -19,7 +19,7 @@ export class TransferReversalService extends BaseService<ITransferReversalServic
     const filtered = this.filterParams(params);
     const { transfer, ...query } = filtered.query;
     if (!transfer) {
-      debug('Missing Stripe transfer id');
+      debug("Missing Stripe transfer id");
     }
     return this.handlePaginate(
       filtered,
@@ -30,7 +30,7 @@ export class TransferReversalService extends BaseService<ITransferReversalServic
   _get (id: string, params: ParamsWithStripe) {
     const { query, stripe } = this.filterParams(params);
     if (!query.transfer) {
-      debug('Missing Stripe transfer id');
+      debug("Missing Stripe transfer id");
     }
     return this.stripe.transfers.retrieveReversal(query.transfer, id, stripe);
   }
@@ -39,7 +39,7 @@ export class TransferReversalService extends BaseService<ITransferReversalServic
     const { stripe } = this.filterParams(params);
     const { transfer, ...rest } = data;
     if (!transfer) {
-      debug('Missing Stripe transfer id');
+      debug("Missing Stripe transfer id");
     }
     return this.stripe.transfers.createReversal(transfer, rest, stripe);
   }
@@ -47,7 +47,7 @@ export class TransferReversalService extends BaseService<ITransferReversalServic
   _update (id: string, data: Stripe.TransferReversalUpdateParams, params: ParamsWithStripeQuery<{ transfer: string }>) {
     const { query, stripe } = this.filterParams(params);
     if (!query.transfer) {
-      debug('Missing Stripe transfer id');
+      debug("Missing Stripe transfer id");
     }
     return this.stripe.transfers.updateReversal(
       query.transfer,

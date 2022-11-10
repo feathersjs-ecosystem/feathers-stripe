@@ -1,6 +1,6 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
 export interface ISubscriptionItemService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.SubscriptionItemListParams>, Stripe.SubscriptionItem>;

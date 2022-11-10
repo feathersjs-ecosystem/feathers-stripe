@@ -1,6 +1,6 @@
-import type Stripe from 'stripe';
-import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from '../types';
-import { BaseService } from './base';
+import type Stripe from "stripe";
+import type { FindMethod, ParamsWithStripe, ParamsWithStripeQuery } from "../types";
+import { BaseService } from "./base";
 
 export interface IPaymentMethodService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.PaymentMethodListParams>, Stripe.PaymentMethod>;
@@ -42,7 +42,7 @@ export class PaymentMethodService extends BaseService<IPaymentMethodService> imp
   _patch (id: string, data: ({ attach: boolean } & Stripe.PaymentMethodAttachParams) | Stripe.PaymentMethodUpdateParams, params: ParamsWithStripe): Promise<Stripe.PaymentMethod> {
     const { stripe } = this.filterParams(params);
 
-    if ('attach' in data) {
+    if ("attach" in data) {
       const { attach, ...rest } = data;
       if (attach) {
         return this.stripe.paymentMethods.attach(id, rest, stripe);
