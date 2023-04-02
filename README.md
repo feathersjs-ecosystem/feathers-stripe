@@ -1,11 +1,9 @@
 # feathers-stripe
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs-ecosystem/feathers-stripe.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://travis-ci.org/feathersjs-ecosystem/feathers-stripe.png?branch=master)](https://travis-ci.org/feathersjs-ecosystem/feathers-stripe)
-[![Dependency Status](https://img.shields.io/david/feathersjs-ecosystem/feathers-stripe.svg?style=flat-square)](https://david-dm.org/feathersjs-ecosystem/feathers-stripe)
+[![CI](https://github.com/feathersjs-ecosystem/feathers-stripe/workflows/CI/badge.svg)](https://github.com/feathersjs-ecosystem/feathers-stripe/actions?query=workflow%3ACI)
+[![Dependency Status](https://img.shields.io/librariesio/release/npm/feathers-stripe)](https://libraries.io/npm/feathers-stripe)
 [![Download Status](https://img.shields.io/npm/dm/feathers-stripe.svg?style=flat-square)](https://www.npmjs.com/package/feathers-stripe)
-[![Slack Status](http://slack.feathersjs.com/badge.svg)](http://slack.feathersjs.com)
+[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/qa8kez8QBx)
 
 > A Feathers service for Stripe
 
@@ -22,25 +20,25 @@ Please refer to the [Stripe API Docs](https://stripe.com/docs/api/node) and the 
 - Feathers `find` -> Stripe `list`
 - Feathers `get` -> Stripe `retrieve`
 - Feathers `create` -> Stripe `create`
-- Feathers `patch` -> Stripe `update` (in most cases). Some special cases include paying an invoice or an order when you pass `{pay: true}` as part of `hook.data`. See each service's code for more info.
 - Feathers `update` -> Stripe `update`
+- Feathers `patch` -> Stripe `update` (in most cases). Some special cases include paying an invoice or an order when you pass `{pay: true}` as part of `context.data`. See each service's code for more info.
 - Feathers `remove` -> Stripe `del` (in most cases). Some special cases include transfers and charges create a reversal/refund. See each service's code for more info.
 
 If a method is not supported by Stripe for a given resource it is not support here as well.
 
 Use `params.stripe` to pass additional parameters like `expand`, `idempotencyKey`, `apiVersion`, etc to the underlying Stripe methods.
 
-Many methods support/require passing special properties to `hook.data` and `hook.query` to better inform the underlying stripe methods. You are encouraged to read the source code for each service to better understand their usage. For example, the `Card` service requires a `customer` to be provided.
+Many methods support/require passing special properties to `context.data` and `context.query` to better inform the underlying stripe methods. You are encouraged to read the source code for each service to better understand their usage. For example, the `Card` service requires a `customer` to be provided.
 
-```js
-const card = await app.service('stripe/cards').create({
-  customer: 'cust_123',
-  source: { token: 'tok_123' }
+```ts
+const card = await app.service("stripe/cards").create({
+  customer: "cust_123",
+  source: { token: "tok_123" }
 });
 // stripe.customers.createSource(customer, { source: { ... } });
 
-const card = await app.service('stripe/cards').get('card_123', {
-  query: { customer: 'cust_123' }
+const card = await app.service("stripe/cards").get("card_123", {
+  query: { customer: "cust_123" }
 });
 // stripe.customers.retrieveSource(query.customer, id);
 ```
@@ -63,7 +61,6 @@ The following services are supported and map to the appropriate Stripe resource:
 - `ExternalAccount`
 - `InvoiceItem`
 - `Invoice`
-- `Order`
 - `PaymentIntent`
 - `PaymentMethod`
 - `Payout`
@@ -73,7 +70,6 @@ The following services are supported and map to the appropriate Stripe resource:
 - `Recipient`
 - `Refund`
 - `SetupIntent`
-- `Sku`
 - `Source`
 - `SubscriptionItem`
 - `Subscription`
@@ -83,18 +79,17 @@ The following services are supported and map to the appropriate Stripe resource:
 - `Transfer`
 - `Webhook`
 
-
 **This is pretty important!** Since this connects to your Stripe account you want to make sure that you don't expose these endpoints via your app unless the user has the appropriate permissions. You can prevent any external access by doing this:
 
-```js
-const { Forbidden } = require('@feathersjs/errors');
+```ts
+import { Forbidden } from "@feathersjs/errors";
 
-app.service('stripe/cards').hooks({
+app.service("stripe/cards").hooks({
   before: {
     all: [
-      context => {
-        if(context.params.provider) {
-          throw new Forbidden('You are not allowed to access this');
+      (context) => {
+        if (context.params.provider) {
+          throw new Forbidden("You are not allowed to access this");
         }
       }
     ]
@@ -104,8 +99,8 @@ app.service('stripe/cards').hooks({
 
 **This is pretty important!** You are also encouraged to use some kind of rate limiter. Checkout the [Stripe Rate Limit Docs](https://stripe.com/docs/rate-limits)
 
-```js
-const Bottleneck = require('bottleneck');
+```ts
+import Bottleneck from 'bottleneck';
 
 // Configure 100 reqs/second for production, 25 for test mode
 const readLimiter = new Bottleneck({ minTime: 10 });
@@ -159,38 +154,39 @@ app.service('stripe/cards').hooks({
 
 ## Complete Example
 
-Here's an example of a Feathers server that uses `feathers-authentication` for local auth.  It includes a `users` service that uses `feathers-mongoose`.  *Note that it does NOT implement any authorization.*
+Here's an example of a Feathers server that uses `feathers-authentication` for local auth. It includes a `users` service that uses `feathers-mongoose`. _Note that it does NOT implement any authorization._
 
-```js
-const feathers = require('@feathersjs/feathers');
-const express = require('@feathersjs/express');
-const socketio = require('@feathersjs/socketio');
-var { Charge } = require('feathers-stripe');
+```ts
+import { feathers } from "@feathersjs/feathers";
+import express from "@feathersjs/express";
+import socketio from "@feathersjs/socketio";
+import { ChargeService } from "feathers-stripe";
 
 // Initialize the application
-var app = feathers()
+const app = feathers()
   .configure(express.rest())
   .configure(socketio())
   // Needed for parsing bodies (login)
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   // A simple Message service that we can used for testing
-  .use('/stripe/charges', new Charge({ secretKey: 'your secret stripe key' }))
-  .use('/', feathers.static(__dirname + '/public'))
+  .use(
+    "/stripe/charges",
+    new ChargeService({ secretKey: "your secret stripe key" })
+  )
+  .use("/", feathers.static(__dirname + "/public"))
   .use(express.errorHandler({ html: false }));
 
+const validateCharge = () => (hook) => {
+  console.log("Validating charge code goes here");
+};
 
-function validateCharge() {
-  return function(hook) {
-    console.log('Validating charge code goes here');
-  };
-}
+const chargeService = app.service("stripe/charges");
 
-
-const chargeService = app.service('stripe/charges');
-
-chargeService.before({
-  create: [validateCharge()]
+chargeService.hooks({
+  before: {
+    create: [validateCharge()]
+  }
 });
 
 const charge = {
@@ -200,15 +196,18 @@ const charge = {
   description: "Charge for test@example.com"
 };
 
-chargeService.create(charge).then(result => {
-  console.log('Charge created', result);
-}).catch(error => {
-  console.log('Error creating charge', error);
-});
+chargeService
+  .create(charge)
+  .then((result) => {
+    console.log("Charge created", result);
+  })
+  .catch((error) => {
+    console.log("Error creating charge", error);
+  });
 
 app.listen(3030);
 
-console.log('Feathers authentication app started on 127.0.0.1:3030');
+console.log("Feathers authentication app started on 127.0.0.1:3030");
 ```
 
 ## Webhook
@@ -216,16 +215,16 @@ console.log('Feathers authentication app started on 127.0.0.1:3030');
 You can setup a webhook using the helper function `setupWebhook` in your service
 
 setupWebhook: (app, route, {
-  endpointSecret: 'webhook-endpoint-secret',
-  secretKey: 'your-secret-key'
-  handlers: {}
+endpointSecret: 'webhook-endpoint-secret',
+secretKey: 'your-secret-key'
+handlers: {}
 })
 
-```js
-module.exports = function (app) {
-  setupWebhook(app, '/stripe-webhook', {
-    endpointSecret: 'whsec_ededqwdwqdqwdqwd778qwdwqdq',
-    secretKey: 'sk_test_OINqdwqdE89EFqdwwdwqdqdWDQ',
+```ts
+export default function (app) {
+  setupWebhook(app, "/stripe-webhook", {
+    endpointSecret: "whsec_ededqwdwqdqwdqwd778qwdwqdq",
+    secretKey: "sk_test_OINqdwqdE89EFqdwwdwqdqdWDQ",
     handlers: {
       customer: {
         subscription: {
@@ -238,14 +237,12 @@ module.exports = function (app) {
   });
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('stripe-webhook');
+  const service = app.service("stripe-webhook");
 
   service.hooks(hooks);
-};
+}
 ```
 
 ## License
-
-Copyright (c) 2019
 
 Licensed under the [MIT license](LICENSE).

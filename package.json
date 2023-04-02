@@ -3,7 +3,6 @@
   "description": "A Feathers service for Stripe",
   "version": "1.0.1",
   "homepage": "https://github.com/feathersjs-ecosystem/feathers-stripe",
-  "main": "lib/",
   "keywords": [
     "stripe",
     "feathers",
@@ -23,39 +22,63 @@
   "bugs": {
     "url": "https://github.com/feathersjs-ecosystem/feathers-stripe/issues"
   },
-  "engines": {
-    "node": ">= 12"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">= 16"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "src/**",
+    "dist/**"
+  ],
   "scripts": {
+    "build": "unbuild",
     "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "publish": "git push origin --tags && npm run changelog && git push origin",
+    "preversion": "npm run lint && npm run test && npm run build",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
-    "lint": "semistandard --fix",
-    "mocha": "mocha",
-    "test": "npm run lint && npm run coverage",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --config .mocharc.json test/"
-  },
-  "semistandard": {
-    "env": [
-      "mocha"
-    ]
-  },
-  "directories": {
-    "lib": "lib"
+    "lint": "eslint src/**/*.ts test/**/*.ts --fix",
+    "vitest": "vitest",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@feathersjs/adapter-commons": "^4.5.12",
-    "@feathersjs/commons": "^4.5.12",
-    "@feathersjs/errors": "^4.5.12",
-    "debug": "^4.3.3",
-    "stripe": "^8.208.0"
+    "@feathersjs/adapter-commons": "^5.0.1",
+    "@feathersjs/commons": "^5.0.1",
+    "@feathersjs/errors": "^5.0.1",
+    "@feathersjs/express": "^5.0.1",
+    "@feathersjs/feathers": "^5.0.1",
+    "debug": "^4.3.4",
+    "stripe": "^11.17.0"
   },
   "devDependencies": {
-    "chai": "^4.3.4",
-    "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^9.0.3",
-    "semistandard": "^16.0.1"
+    "@types/debug": "^4.1.7",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-unicorn": "^46.0.0",
+    "prettier": "^2.8.7",
+    "unbuild": "^1.2.0",
+    "vite": "^4.2.1",
+    "vite-plugin-dts": "^2.1.0",
+    "vitest": "^0.29.8"
   }
 }
