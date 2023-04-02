@@ -1,16 +1,18 @@
 import { expect } from "chai";
+import { AccountLinkService } from "../src";
 import { BaseService } from "../src/services/base";
 
 describe("filterQuery", () => {
-  const service = new BaseService({ stripe: {} });
+  // @ts-expect-error - we don't need stripe for this test
+  const service = new AccountLinkService({ stripe: {} });
 
   describe("when $limit is present", () => {
     const params = {
       customer: 1,
       query: {
         $limit: 5,
-        name: "bob",
-      },
+        name: "bob"
+      }
     };
 
     it("replaces $limit with limit", () => {
@@ -36,8 +38,8 @@ describe("filterQuery", () => {
       const params = {
         customer: 1,
         query: {
-          name: "bob",
-        },
+          name: "bob"
+        }
       };
       const query = service.filterQuery(params);
       expect(query).to.deep.equal({ name: "bob" });
@@ -51,6 +53,7 @@ describe("filterParams", () => {
       return this.filterParams(params);
     }
   }
+  // @ts-expect-error - we don't need stripe for this test
   const service = new TestService({ stripe: {} });
 
   describe("when params are not present", () => {
@@ -65,12 +68,12 @@ describe("filterParams", () => {
   describe("when stripe is present", () => {
     const params = {
       stripe: {
-        expand: ["customer"],
-      },
+        expand: ["customer"]
+      }
     };
 
     it("picks off stripe", () => {
-      const { stripe } = service.filterParams(params);
+      const { stripe } = service.filterParams(params as any);
       expect(stripe).to.deep.equal(params.stripe);
     });
   });
@@ -85,19 +88,20 @@ describe("filterParams", () => {
 });
 
 describe("cleanQuery", () => {
-  const service = new BaseService({ stripe: {} });
+  // @ts-expect-error - we don't need stripe for this test
+  const service = new AccountLinkService({ stripe: {} });
 
   describe("when $ keys are present", () => {
     const query = {
       prop: { $gt: Date.now() },
       nested: { nested: { $gt: Date.now() } },
-      array: [{ $lt: Date.now() }],
+      array: [{ $lt: Date.now() }]
     };
 
     const expected = {
       prop: { gt: Date.now() },
       nested: { nested: { gt: Date.now() } },
-      array: [{ lt: Date.now() }],
+      array: [{ lt: Date.now() }]
     };
 
     it("strips keys that start with $", () => {
@@ -110,7 +114,7 @@ describe("cleanQuery", () => {
     const query = {
       prop: { gt: Date.now() },
       nested: { nested: { gt: Date.now() } },
-      array: [{ lt: Date.now() }],
+      array: [{ lt: Date.now() }]
     };
 
     it("does not modify orignal keys", () => {

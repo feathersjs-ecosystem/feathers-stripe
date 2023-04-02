@@ -147,9 +147,9 @@ export abstract class BaseService<
     return limit;
   }
 
-  cleanQuery<Q extends Query>(query: Q): Q {
+  cleanQuery<Q extends Query | Query[]>(query: Q): Q {
     if (Array.isArray(query)) {
-      // @ts-ignore
+      // @ts-expect-error TODO: fix this
       return query.map((item) => this.cleanQuery(item));
     }
     if (_.isObject(query)) {
@@ -157,10 +157,11 @@ export abstract class BaseService<
       Object.entries(result).forEach(([key, value]) => {
         let cleanKey = key;
         if (key.startsWith("$")) {
+          // @ts-expect-error TODO: fix this
           delete result[key];
           cleanKey = key.replace("$", "");
         }
-        // @ts-ignore
+        // @ts-expect-error TODO: fix this
         result[cleanKey] = this.cleanQuery(value);
       });
       return result;
@@ -168,11 +169,13 @@ export abstract class BaseService<
     return query;
   }
 
-  filterQuery<P extends Params, Q extends Query>(params: P): Q {
-    const query = Object.assign({}, params.query) as Q;
-    const limit = query.$limit || query.limit;
+  filterQuery<
+    P extends ParamsWithStripe,
+    Q = P extends Params<infer T> ? T : Query
+  >(params: P): Q {
+    const query = Object.assign({}, params.query);
+    const limit = query.$limit ?? query.limit;
     if (limit) {
-      // @ts-ignore
       query.limit = this.getLimit(limit, params.paginate);
       delete query.$limit;
     }
@@ -206,42 +209,40 @@ export abstract class BaseService<
       // no $limit is provided, it falls back to a
       // page size of 10.
       const results: R[] = [];
-      // console.time('pagination');
       await stripeMethod.autoPagingEach((result) => {
         results.push(result);
       });
-      // console.timeEnd('pagination');
       return results;
     }
     throw new MethodNotAllowed("Cannot use paginate: false on this method");
   }
 
   handleError(error: Stripe.errors.StripeError) {
-    if (error.type) {
-      switch (error.type) {
-        case "StripeCardError":
-          // A declined card error
-          throw new PaymentError(error, error);
-        case "StripeInvalidRequestError":
-          // Invalid parameters were supplied to Stripe's API
-          throw new BadRequest(error, error);
-        case "StripeAPIError":
-          // An error occurred internally with Stripe's API
-          throw new Unavailable(error, error);
-        case "StripeConnectionError":
-          // Some kind of error occurred during the HTTPS communication
-          throw new Unavailable(error, error);
-        case "StripeAuthenticationError":
-          // You probably used an incorrect API key
-          throw new NotAuthenticated(error, error);
-        case "StripeRateLimitError":
-          // Too many requests
-          throw new TooManyRequests(error, error);
-        default:
-          throw new GeneralError("Unknown Payment Gateway Error", error);
-      }
-    } else {
+    if (!error.type) {
       throw new GeneralError("Unknown Payment Gateway Error", error);
+    }
+
+    switch (error.type) {
+      case "StripeCardError":
+        // A declined card error
+        throw new PaymentError(error, error);
+      case "StripeInvalidRequestError":
+        // Invalid parameters were supplied to Stripe's API
+        throw new BadRequest(error, error);
+      case "StripeAPIError":
+        // An error occurred internally with Stripe's API
+        throw new Unavailable(error, error);
+      case "StripeConnectionError":
+        // Some kind of error occurred during the HTTPS communication
+        throw new Unavailable(error, error);
+      case "StripeAuthenticationError":
+        // You probably used an incorrect API key
+        throw new NotAuthenticated(error, error);
+      case "StripeRateLimitError":
+        // Too many requests
+        throw new TooManyRequests(error, error);
+      default:
+        throw new GeneralError("Unknown Payment Gateway Error", error);
     }
   }
 }

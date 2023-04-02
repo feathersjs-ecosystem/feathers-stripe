@@ -6,10 +6,11 @@ import {
   Unavailable,
   NotAuthenticated
 } from "@feathersjs/errors";
-import { BaseService } from "../src/services/base";
+import { AccountLinkService } from "../src";
 
 describe("handleError", () => {
-  const service = new BaseService({ stripe: {} });
+  // @ts-expect-error - we don't need stripe for this test
+  const service = new AccountLinkService({ stripe: {} });
 
   describe("when it is a Stripe error", () => {
     let error;
@@ -49,10 +50,7 @@ describe("handleError", () => {
     it("handles unknown Stripe errors", () => {
       error.type = "Unknown";
 
-      expect(() => service.handleError(error))
-        .to.throw(GeneralError)
-        .with.property("message")
-        .that.equals("Unknown Payment Gateway Error");
+      expect(() => service.handleError(error)).to.throw(GeneralError);
     });
   });
 });

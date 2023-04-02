@@ -28,7 +28,7 @@ export interface WebHookHandlers {
   };
 }
 
-interface WebHookOptions {
+export interface WebHookOptions {
   app: Application;
   handlers: WebHookHandlers;
   stripe: Stripe;
@@ -40,7 +40,7 @@ export class WebhookService
 {
   app: Application;
   handlers: WebHookHandlers;
-  options: WebHookOptions;
+  declare options: WebHookOptions;
 
   isExpressSetup = false;
 
@@ -128,7 +128,7 @@ export class WebhookService
   _remove: never;
 }
 
-type SetupWebHookOptions = {
+export type SetupWebHookOptions = {
   endpointSecret: string;
   stripe: Stripe;
   handlers: WebHookHandlers;

@@ -1,6 +1,6 @@
 {
   "include": ["src/**/*.ts"],
-  "exclude": ["test/**/*test.ts"],
+  "exclude": ["test/**/*.test.ts"],
   "compilerOptions": {
     "outDir": "dist",
     /* Basic Options */
