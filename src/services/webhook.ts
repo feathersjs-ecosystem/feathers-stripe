@@ -78,7 +78,7 @@ export class WebhookService
 
         try {
           this.stripe.webhooks.constructEvent(
-            // @ts-expect-error
+            // @ts-expect-error - rawBody is not defined in express
             req.rawBody,
             signature,
             endpointSecret
@@ -100,7 +100,7 @@ export class WebhookService
     let node = this.handlers;
 
     for (const p of parts) {
-      // @ts-ignore
+      // @ts-expect-error - node is not a string
       node = node[parts[p]];
 
       if (!node) {

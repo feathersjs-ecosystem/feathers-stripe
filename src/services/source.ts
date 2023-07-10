@@ -31,8 +31,7 @@ export class SourceService extends BaseService<ISourceService> implements ISourc
     if ("customer" in data) {
       const { customer, ...rest } = data;
       if (customer) {
-        // @ts-ignore
-        return this.stripe.customers.createSource(customer, rest, stripe);
+        return this.stripe.customers.createSource(customer, rest as Stripe.CustomerSourceCreateParams, stripe);
       }
     }
     return this.stripe.sources.create(data, stripe);
