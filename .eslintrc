@@ -4,7 +4,7 @@
     "node": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "unicorn", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -33,8 +33,7 @@
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       { "prefer": "type-imports" }
-    ],
-    "unicorn/prefer-node-protocol": ["warn"]
+    ]
   },
   "overrides": [
     {

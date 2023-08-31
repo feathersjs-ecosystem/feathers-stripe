@@ -24,7 +24,7 @@ Please refer to the [Stripe API Docs](https://stripe.com/docs/api/node) and the 
 - Feathers `patch` -> Stripe `update` (in most cases). Some special cases include paying an invoice or an order when you pass `{pay: true}` as part of `context.data`. See each service's code for more info.
 - Feathers `remove` -> Stripe `del` (in most cases). Some special cases include transfers and charges create a reversal/refund. See each service's code for more info.
 
-If a method is not supported by Stripe for a given resource it is not support here as well.
+If a method is not supported by Stripe for a given resource it is not supported here as well.
 
 Use `params.stripe` to pass additional parameters like `expand`, `idempotencyKey`, `apiVersion`, etc to the underlying Stripe methods.
 
