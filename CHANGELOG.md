@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/HEAD)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v2.0.0...HEAD)
+
+**Merged pull requests:**
+
+- dove & typescript refactor [\#118](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/118) ([fratzinger](https://github.com/fratzinger))
+
+## [v2.0.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v2.0.0) (2023-08-31)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v1.0.1...v2.0.0)
+
 ## [v1.0.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v1.0.1) (2022-03-23)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v1.0.0...v1.0.1)
@@ -29,7 +41,7 @@
 - Fixes sample code for preventing external access [\#95](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/95) ([emmanuelgeoffray](https://github.com/emmanuelgeoffray))
 - Add webhook [\#93](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/93) ([ydeshayes](https://github.com/ydeshayes))
 - Greenkeeper/stripe 8.18.0 [\#91](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/91) ([daffl](https://github.com/daffl))
-- adds account links service [\#89](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/89) ([shankarregmi](https://github.com/shankarregmi))
+- adds account links service [\#89](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/89) ([regmish](https://github.com/regmish))
 - Update all dependencies [\#85](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/85) ([daffl](https://github.com/daffl))
 
 ## [v0.10.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v0.10.1) (2019-09-11)
