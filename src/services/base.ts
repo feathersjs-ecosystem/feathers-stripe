@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type Stripe from "stripe";
 import {
   BadRequest,

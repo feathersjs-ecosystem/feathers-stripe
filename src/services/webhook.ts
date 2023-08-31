@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Heavily inspired from https://github.com/fixate/feathers-stripe-webhooks
 import { BaseService } from "./base";
 
