@@ -80,6 +80,7 @@
     "vitest": "^0.34.3"
   },
   "peerDependencies": {
-    "@feathersjs/feathers": "^5.0.0"
+    "@feathersjs/feathers": "^5.0.0",
+    "stripe": "^13.0.0"
   }
 }

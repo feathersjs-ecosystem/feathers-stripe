@@ -10,7 +10,7 @@
 ## Installation
 
 ```
-npm install feathers-stripe --save
+npm install stripe@^13 feathers-stripe --save
 ```
 
 ## Documentation
@@ -160,6 +160,7 @@ Here's an example of a Feathers server that uses `feathers-authentication` for l
 import { feathers } from "@feathersjs/feathers";
 import express from "@feathersjs/express";
 import socketio from "@feathersjs/socketio";
+import Stripe from 'stripe';
 import { ChargeService } from "feathers-stripe";
 
 // Initialize the application
@@ -172,7 +173,7 @@ const app = feathers()
   // A simple Message service that we can used for testing
   .use(
     "/stripe/charges",
-    new ChargeService({ secretKey: "your secret stripe key" })
+    new ChargeService({ stripe: new Stripe('sk_test_...') })
   )
   .use("/", feathers.static(__dirname + "/public"))
   .use(express.errorHandler({ html: false }));
@@ -214,17 +215,11 @@ console.log("Feathers authentication app started on 127.0.0.1:3030");
 
 You can setup a webhook using the helper function `setupWebhook` in your service
 
-setupWebhook: (app, route, {
-endpointSecret: 'webhook-endpoint-secret',
-secretKey: 'your-secret-key'
-handlers: {}
-})
-
 ```ts
 export default function (app) {
   setupWebhook(app, "/stripe-webhook", {
     endpointSecret: "whsec_ededqwdwqdqwdqwd778qwdwqdq",
-    secretKey: "sk_test_OINqdwqdE89EFqdwwdwqdqdWDQ",
+    stripe: new Stripe("sk_test_..."),
     handlers: {
       customer: {
         subscription: {
