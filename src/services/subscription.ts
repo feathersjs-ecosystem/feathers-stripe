@@ -41,6 +41,6 @@ export class SubscriptionService extends BaseService<ISubscriptionService> imple
 
   _remove (id: string, params: ParamsWithStripe) {
     const { stripe } = this.filterParams(params);
-    return this.stripe.subscriptions.del(id, stripe);
+    return this.stripe.subscriptions.cancel(id, stripe);
   }
 }
