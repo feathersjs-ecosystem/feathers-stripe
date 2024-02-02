@@ -28,6 +28,7 @@ export interface IUnderScoreFunctions {
   _update: never | ((id: string, data: any, params: any) => any);
   _patch: never | ((id: string, data: any, params: any) => any);
   _remove: never | ((id: string, params: any) => any);
+  _search?: never | ((...args: any) => any);
 }
 
 export type FindMethod<P, R> = (params: P) => Promise<R[] | Stripe.ApiList<R>>;

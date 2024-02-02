@@ -28,12 +28,12 @@ export interface ICardService {
     id: string,
     data: Stripe.CustomerSourceUpdateParams,
     params: ParamsWithStripeQuery<{ customer: string }>
-  ) => Promise<Stripe.BankAccount | Stripe.Card | Stripe.Source>;
+  ) => Promise<Stripe.CustomerSource>;
   _patch: (
     id: string,
     data: Stripe.CustomerSourceUpdateParams,
     params: ParamsWithStripeQuery<{ customer: string }>
-  ) => Promise<Stripe.BankAccount | Stripe.Card | Stripe.Source>;
+  ) => Promise<Stripe.CustomerSource>;
   _remove: (
     id: string,
     params: ParamsWithStripeQuery<{ customer: string }>

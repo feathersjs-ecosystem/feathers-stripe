@@ -6,6 +6,7 @@ import {
   Unavailable,
   NotAuthenticated
 } from "@feathersjs/errors";
+import Stripe from "stripe";
 import { AccountLinkService } from "../src";
 
 describe("handleError", () => {
@@ -13,42 +14,40 @@ describe("handleError", () => {
   const service = new AccountLinkService({ stripe: {} });
 
   describe("when it is a Stripe error", () => {
-    let error;
-
-    beforeEach(() => (error = new Error("Stripe Error")));
+    let error: Stripe.errors.StripeError;
 
     it("handles StripeCardError", () => {
-      error.type = "StripeCardError";
+      error = Stripe.errors.StripeError.generate({ type: "card_error" });
 
       expect(() => service.handleError(error)).to.throw(PaymentError);
     });
 
     it("handles StripeInvalidRequestError", () => {
-      error.type = "StripeInvalidRequestError";
+      error = Stripe.errors.StripeError.generate({ type: "invalid_request_error" });
 
       expect(() => service.handleError(error)).to.throw(BadRequest);
     });
 
     it("handles StripeAPIError", () => {
-      error.type = "StripeAPIError";
+      error = Stripe.errors.StripeError.generate({ type: "api_error" });
 
       expect(() => service.handleError(error)).to.throw(Unavailable);
     });
 
     it("handles StripeConnectionError", () => {
-      error.type = "StripeConnectionError";
+      error = new Stripe.errors.StripeConnectionError({ type: "api_error" })
 
       expect(() => service.handleError(error)).to.throw(Unavailable);
     });
 
     it("handles StripeAuthenticationError", () => {
-      error.type = "StripeAuthenticationError";
+      error = Stripe.errors.StripeError.generate({ type: "authentication_error" });
 
       expect(() => service.handleError(error)).to.throw(NotAuthenticated);
     });
 
     it("handles unknown Stripe errors", () => {
-      error.type = "Unknown";
+      error = Stripe.errors.StripeError.generate({ type: "Unknown" as Stripe.RawErrorType });
 
       expect(() => service.handleError(error)).to.throw(GeneralError);
     });

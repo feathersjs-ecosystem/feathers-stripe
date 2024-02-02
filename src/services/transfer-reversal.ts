@@ -7,7 +7,7 @@ const debug = makeDebug("feathers-stripe:transferReversal");
 
 export interface ITransferReversalService {
   _find: FindMethod<ParamsWithStripeQuery<Stripe.TransferReversalListParams & { transfer: string }>, Stripe.TransferReversal>;
-  _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.TransferReversal>;
+  _get: (id: string, params: ParamsWithStripe & { query: { transfer: string } }) => Promise<Stripe.TransferReversal>;
   _create: (data: Stripe.TransferReversalCreateParams & { transfer: string }, params: ParamsWithStripe) => Promise<Stripe.TransferReversal>;
   _update: (id: string, data: Stripe.TransferReversalUpdateParams, params: ParamsWithStripeQuery<{ transfer: string }>) => Promise<Stripe.TransferReversal>;
   _patch: (id: string, data: Stripe.TransferReversalUpdateParams, params: ParamsWithStripeQuery<{ transfer: string }>) => Promise<Stripe.TransferReversal>;
@@ -27,7 +27,7 @@ export class TransferReversalService extends BaseService<ITransferReversalServic
     );
   }
 
-  _get (id: string, params: ParamsWithStripe) {
+  _get (id: string, params: ParamsWithStripe & { query: { transfer: string } }) {
     const { query, stripe } = this.filterParams(params);
     if (!query.transfer) {
       debug("Missing Stripe transfer id");

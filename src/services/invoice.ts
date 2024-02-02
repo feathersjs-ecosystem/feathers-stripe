@@ -9,6 +9,9 @@ export interface IInvoiceService {
   _update: (id: string, data: Stripe.InvoiceUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Invoice>;
   _patch: (id: string, data: ({ pay: boolean } & Stripe.InvoicePayParams) | Stripe.InvoiceUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Invoice>;
   _remove: never;
+  _search: (
+    params: ParamsWithStripeQuery<Stripe.InvoiceSearchParams>
+  ) => Promise<Stripe.Invoice[] | Stripe.ApiSearchResult<Stripe.Invoice>>;
 }
 
 export class InvoiceService extends BaseService<IInvoiceService> implements IInvoiceService {
@@ -47,6 +50,14 @@ export class InvoiceService extends BaseService<IInvoiceService> implements IInv
     }
 
     return this._update(id, data, params);
+  }
+
+  _search(params: ParamsWithStripeQuery<Stripe.InvoiceSearchParams>) {
+    const filtered = this.filterParams(params);
+    return this.handlePaginate(
+      filtered,
+      this.stripe.invoices.search(filtered.query, filtered.stripe)
+    );
   }
 
   _remove: never;
