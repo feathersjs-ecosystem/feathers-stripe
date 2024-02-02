@@ -19,11 +19,28 @@ import type {
 import type { Params, Query } from "@feathersjs/feathers";
 
 type FilteredParams<T extends ParamsWithStripe = ParamsWithStripe> = {
-  query: T["query"];
+  query: Remove$QueryKeys<T["query"]>;
   stripe: T["stripe"];
   paginate: boolean;
 };
 
+export interface BaseService<I extends IUnderScoreFunctions,
+  Find extends I["_find"] = I["_find"],
+  Get extends I["_get"] = I["_get"],
+  Create extends I["_create"] = I["_create"],
+  Update extends I["_update"] = I["_update"],
+  Patch extends I["_patch"] = I["_patch"],
+  Remove extends I["_remove"] = I["_remove"],
+  Search extends I["_search"] = I["_search"]
+> {
+  _search?(params: Parameters<Search>[0]): ReturnType<Search>;
+}
+
+type Remove$QueryKeys<T> = T extends Array<infer ArrayItem> ? Remove$QueryKeys<ArrayItem>[] : T extends object ? {
+  [K in keyof T as string extends K ? never : K extends `$${infer DollarlessKey}` ? DollarlessKey : K]: T[K] extends object ? Remove$QueryKeys<T[K]> : T[K]
+} : never;
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class BaseService<
   I extends IUnderScoreFunctions,
   Find extends I["_find"] = I["_find"],
@@ -31,7 +48,8 @@ export abstract class BaseService<
   Create extends I["_create"] = I["_create"],
   Update extends I["_update"] = I["_update"],
   Patch extends I["_patch"] = I["_patch"],
-  Remove extends I["_remove"] = I["_remove"]
+  Remove extends I["_remove"] = I["_remove"],
+  Search extends I["_search"] = I["_search"]
 > {
   stripe: Stripe;
   options: StripeServiceOptions;
@@ -129,6 +147,13 @@ export abstract class BaseService<
     return (this as any)._remove(id, params).catch(this.handleError);
   }
 
+  search(params: Parameters<Search>[0]): ReturnType<Search> {
+    if (!(this as any)._search) {
+      throw new NotImplemented("Search method not implemented");
+    }
+    return (this as any)._search(params).catch(this.handleError);
+  }
+
   getLimit(
     limit: number | undefined,
     paramsPaginate: false | { max: number } | undefined
@@ -148,7 +173,7 @@ export abstract class BaseService<
     return limit;
   }
 
-  cleanQuery<Q extends Query | Query[]>(query: Q): Q {
+  cleanQuery<Q extends Query | Query[]>(query: Q): Remove$QueryKeys<Q> {
     if (Array.isArray(query)) {
       // @ts-expect-error TODO: fix this
       return query.map((item) => this.cleanQuery(item));
@@ -165,15 +190,15 @@ export abstract class BaseService<
         // @ts-expect-error TODO: fix this
         result[cleanKey] = this.cleanQuery(value);
       });
-      return result;
+      return result as unknown as Remove$QueryKeys<Q>;
     }
-    return query;
+    return query as unknown as Remove$QueryKeys<Q>;
   }
 
   filterQuery<
     P extends ParamsWithStripe,
     Q = P extends Params<infer T> ? T : Query
-  >(params: P): Q {
+  >(params: P): Remove$QueryKeys<Q> {
     const query = Object.assign({}, params.query);
     const limit = query.$limit ?? query.limit;
     if (limit) {
@@ -193,12 +218,12 @@ export abstract class BaseService<
     };
   }
 
-  async handlePaginate<R = any>(
+  async handlePaginate<R = any, M extends Stripe.ApiListPromise<R> | Stripe.ApiSearchResultPromise<R> = Stripe.ApiListPromise<R>>(
     { paginate }: FilteredParams,
-    stripeMethod: Stripe.ApiListPromise<R>
-  ): Promise<R[] | Stripe.ApiList<R>> {
+    stripeMethod: M
+  ): Promise<R[] | (M extends Stripe.ApiListPromise<R> ? Stripe.ApiList<R> : Stripe.ApiSearchResult<R>)> {
     if (paginate) {
-      return await stripeMethod;
+      return (await stripeMethod) as (M extends Stripe.ApiListPromise<R> ? Stripe.ApiList<R> : Stripe.ApiSearchResult<R>);
     }
     if (stripeMethod.autoPagingEach) {
       // NOTE: This is similar to stripe's autoPagingToArray

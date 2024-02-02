@@ -33,6 +33,9 @@ export interface ICustomerService {
     id: string,
     params: ParamsWithStripe
   ) => Promise<Stripe.DeletedCustomer>;
+  _search: (
+    params: ParamsWithStripeQuery<Stripe.CustomerSearchParams>
+  ) => Promise<Stripe.Customer[] | Stripe.ApiSearchResult<Stripe.Customer>>;
 }
 
 export class CustomerService
@@ -77,5 +80,13 @@ export class CustomerService
   _remove(id: string, params: ParamsWithStripe) {
     const { stripe } = this.filterParams(params);
     return this.stripe.customers.del(id, stripe);
+  }
+
+  _search(params: ParamsWithStripeQuery<Stripe.CustomerSearchParams>) {
+    const filtered = this.filterParams(params);
+    return this.handlePaginate(
+      filtered,
+      this.stripe.customers.search(filtered.query, filtered.stripe)
+    );
   }
 }

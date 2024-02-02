@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect, expectTypeOf } from "vitest";
 import { AccountLinkService } from "../src";
 import { BaseService } from "../src/services/base";
 
@@ -17,6 +17,9 @@ describe("filterQuery", () => {
 
     it("replaces $limit with limit", () => {
       const query = service.filterQuery(params);
+      expectTypeOf(query).toEqualTypeOf<{ limit: number; name: string }>();
+      expectTypeOf(query).not.toHaveProperty('$limit');
+      // @ts-expect-error $limit should not exits anymore on this type
       expect(query.$limit).to.equal(undefined);
       expect(query.limit).to.equal(5);
     });
@@ -29,6 +32,7 @@ describe("filterQuery", () => {
 
     it("returns original query object params", () => {
       const query = service.filterQuery(params);
+      expectTypeOf(query).toEqualTypeOf<{ limit: number; name: string }>();
       expect(query.name).to.equal("bob");
     });
   });
@@ -42,13 +46,14 @@ describe("filterQuery", () => {
         }
       };
       const query = service.filterQuery(params);
+      expectTypeOf(query).toEqualTypeOf<{ name: string }>();
       expect(query).to.deep.equal({ name: "bob" });
     });
   });
 });
 
 describe("filterParams", () => {
-  class TestService extends BaseService<any> {
+  abstract class TestService extends BaseService<any> {
     _create(data: any, params: any) {
       return this.filterParams(params);
     }
@@ -57,10 +62,9 @@ describe("filterParams", () => {
   const service = new TestService({ stripe: {} });
 
   describe("when params are not present", () => {
-    const params = undefined;
+    const params: undefined = undefined;
 
     it("returns empty values", () => {
-      // @ts-expect-error - params is undefined
       expect(() => service.filterParams(params)).to.throw();
     });
   });
@@ -106,6 +110,7 @@ describe("cleanQuery", () => {
 
     it("strips keys that start with $", () => {
       const cleanQuery = service.cleanQuery(query);
+      expectTypeOf(cleanQuery).toEqualTypeOf<typeof expected>();
       expect(cleanQuery).to.deep.equal(expected);
     });
   });
@@ -119,6 +124,7 @@ describe("cleanQuery", () => {
 
     it("does not modify orignal keys", () => {
       const cleanQuery = service.cleanQuery(query);
+      expectTypeOf(cleanQuery).toEqualTypeOf<typeof query>();
       expect(cleanQuery).to.deep.equal(query);
     });
   });
