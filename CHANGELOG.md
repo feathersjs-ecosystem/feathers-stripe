@@ -2,15 +2,23 @@
 
 ## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/HEAD)
 
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v2.0.0...HEAD)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v3.0.0...HEAD)
 
 **Merged pull requests:**
 
-- dove & typescript refactor [\#118](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/118) ([fratzinger](https://github.com/fratzinger))
+- feat: search for customer and invoice [\#119](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/119) ([TheNoim](https://github.com/TheNoim))
+
+## [v3.0.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v3.0.0) (2024-02-02)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v2.0.0...v3.0.0)
 
 ## [v2.0.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v2.0.0) (2023-08-31)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v1.0.1...v2.0.0)
+
+**Merged pull requests:**
+
+- dove & typescript refactor [\#118](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/118) ([fratzinger](https://github.com/fratzinger))
 
 ## [v1.0.1](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v1.0.1) (2022-03-23)
 

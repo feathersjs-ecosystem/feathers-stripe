@@ -18,7 +18,7 @@ describe("filterQuery", () => {
     it("replaces $limit with limit", () => {
       const query = service.filterQuery(params);
       expectTypeOf(query).toEqualTypeOf<{ limit: number; name: string }>();
-      expectTypeOf(query).not.toHaveProperty('$limit');
+      expectTypeOf(query).not.toHaveProperty("$limit");
       // @ts-expect-error $limit should not exits anymore on this type
       expect(query.$limit).to.equal(undefined);
       expect(query.limit).to.equal(5);

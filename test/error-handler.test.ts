@@ -35,7 +35,7 @@ describe("handleError", () => {
     });
 
     it("handles StripeConnectionError", () => {
-      error = new Stripe.errors.StripeConnectionError({ type: "api_error" })
+      error = new Stripe.errors.StripeConnectionError({ type: "api_error" });
 
       expect(() => service.handleError(error)).to.throw(Unavailable);
     });
