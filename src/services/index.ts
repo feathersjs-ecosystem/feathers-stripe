@@ -2,6 +2,7 @@ export { AccountService } from "./account";
 export { AccountLinkService } from "./account-links";
 export { ApplicationFeeRefundService } from "./application-fee-refund";
 export { BalanceService } from "./balance";
+export { BalanceTransactionService } from "./balance-transactions";
 export { BankAccountService } from "./bank-account";
 export { ExternalAccountService } from "./external-account";
 export { CardService } from "./card";
