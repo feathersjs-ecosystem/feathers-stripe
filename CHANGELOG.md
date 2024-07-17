@@ -2,15 +2,23 @@
 
 ## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/HEAD)
 
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v3.0.0...HEAD)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v3.1.0...HEAD)
 
 **Merged pull requests:**
 
-- feat: search for customer and invoice [\#119](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/119) ([TheNoim](https://github.com/TheNoim))
+- feat: add balance transactions service [\#120](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/120) ([TheNoim](https://github.com/TheNoim))
+
+## [v3.1.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v3.1.0) (2024-07-17)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v3.0.0...v3.1.0)
 
 ## [v3.0.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v3.0.0) (2024-02-02)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-stripe/compare/v2.0.0...v3.0.0)
+
+**Merged pull requests:**
+
+- feat: search for customer and invoice [\#119](https://github.com/feathersjs-ecosystem/feathers-stripe/pull/119) ([TheNoim](https://github.com/TheNoim))
 
 ## [v2.0.0](https://github.com/feathersjs-ecosystem/feathers-stripe/tree/v2.0.0) (2023-08-31)
 
