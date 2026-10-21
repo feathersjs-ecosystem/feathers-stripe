@@ -22,18 +22,12 @@
   "bugs": {
     "url": "https://github.com/feathersjs-ecosystem/feathers-stripe/issues"
   },
+  "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     }
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "engines": {
-    "node": ">= 16"
   },
   "files": [
     "CHANGELOG.md",
@@ -42,45 +36,44 @@
     "src/**",
     "dist/**"
   ],
-  "scripts": {
-    "build": "unbuild",
-    "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
-    "publish": "git push origin --tags && npm run changelog && git push origin",
-    "preversion": "npm run lint && npm run test && npm run build",
-    "release:patch": "npm version patch && npm publish",
-    "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish",
-    "lint": "eslint src/**/*.ts test/**/*.ts --fix",
-    "vitest": "vitest --typecheck",
-    "test": "vitest run --typecheck",
-    "coverage": "vitest run --coverage"
+  "engines": {
+    "node": ">=24.0.0"
   },
+  "packageManager": "pnpm@12.14.0",
+  "scripts": {
+    "build": "tsdown",
+    "version": "pnpm run build",
+    "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "vitest": "vitest",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "attw": "attw --pack . --profile esm-only"
+  },
+  "prettier": "@feathers-community/eslint-config/prettier",
   "dependencies": {
-    "@feathersjs/adapter-commons": "^5.0.37",
-    "@feathersjs/commons": "^5.0.37",
-    "@feathersjs/errors": "^5.0.37",
-    "@feathersjs/express": "^5.0.37",
-    "@feathersjs/feathers": "^5.0.37",
-    "debug": "^4.4.3",
-    "stripe": "^20.3.0"
+    "@feathersjs/commons": "^5.0.50",
+    "@feathersjs/errors": "^5.0.50"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.12",
-    "@types/node": "^25.1.0",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
-    "eslint": "^8.48.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-prefer-arrow": "^1.2.3",
-    "eslint-plugin-prettier": "^5.0.0",
-    "prettier": "^3.0.3",
-    "unbuild": "^3.6.1",
-    "vite": "^7.3.1",
-    "vitest": "^4.0.18"
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@feathers-community/eslint-config": "^0.3.0",
+    "@feathersjs/express": "^5.0.50",
+    "@feathersjs/feathers": "^5.0.50",
+    "@tsconfig/node24": "^24.0.5",
+    "@types/node": "^26.6.5",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "stripe": "^23.0.0",
+    "tsdown": "^0.23.1",
+    "typescript": "^6.0.3",
+    "unrun": "^0.3.1",
+    "vitest": "^5.0.5"
   },
   "peerDependencies": {
-    "@feathersjs/feathers": "^5.0.0",
-    "stripe": "^20.3.0"
+    "@feathersjs/feathers": "^5.0.50",
+    "stripe": "^23.0.0"
   }
 }
