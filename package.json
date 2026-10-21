@@ -30,7 +30,6 @@
     }
   },
   "files": [
-    "CHANGELOG.md",
     "LICENSE",
     "README.md",
     "src/**",
@@ -43,7 +42,6 @@
   "scripts": {
     "build": "tsdown",
     "version": "pnpm run build",
-    "changelog": "github_changelog_generator --no-issues -p feathers-stripe -u feathersjs-ecosystem && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "vitest": "vitest",
