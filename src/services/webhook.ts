@@ -102,25 +102,24 @@ export class WebhookService
 
   getHandler(event: Stripe.Event): WebHookHandler | null {
     const parts = event.type.split(".");
-    let node = this.handlers;
+    let node: any = this.handlers;
 
     for (const p of parts) {
-      // @ts-expect-error - node is not a string
-      node = node[parts[p]];
+      node = node[p];
 
       if (!node) {
         return null;
       }
     }
 
-    return node as any as WebHookHandler;
+    return typeof node === "function" ? node : null;
   }
 
-  _create(event: Stripe.Event, params: Params) {
+  async _create(event: Stripe.Event, params: Params) {
     const handler = this.getHandler(event);
     if (!handler) {
       // No handler, nothing to do
-      return Promise.resolve({});
+      return {};
     }
 
     return handler({ object: event.data.object, event, params, app: this.app });

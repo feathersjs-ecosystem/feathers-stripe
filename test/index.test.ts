@@ -7,7 +7,6 @@ import {
   BalanceTransactionService,
   BankAccountService,
   ExternalAccountService,
-  CardService,
   ChargeService,
   CouponService,
   CustomerService,
@@ -30,7 +29,10 @@ import {
   TransactionService,
   TransferService,
   TransferReversalService,
-  WebhookService
+  WebhookService,
+  CheckoutSessionService,
+  CustomerPortalConfigurationService,
+  CustomerPortalSessionService
 } from "../src";
 
 const services = [
@@ -41,7 +43,6 @@ const services = [
   BalanceTransactionService,
   BankAccountService,
   ExternalAccountService,
-  CardService,
   ChargeService,
   CouponService,
   CustomerService,
@@ -64,7 +65,10 @@ const services = [
   TransactionService,
   TransferService,
   TransferReversalService,
-  WebhookService
+  WebhookService,
+  CheckoutSessionService,
+  CustomerPortalConfigurationService,
+  CustomerPortalSessionService
 ];
 
 describe("feathers-stripe", () => {
