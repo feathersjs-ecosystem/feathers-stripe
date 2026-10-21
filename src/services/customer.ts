@@ -1,41 +1,41 @@
-import type Stripe from "stripe";
+import type { Stripe } from 'stripe'
 import type {
   FindMethod,
   ParamsWithStripe,
-  ParamsWithStripeQuery
-} from "../types";
-import { BaseService } from "./base";
+  ParamsWithStripeQuery,
+} from '../types.js'
+import { BaseService } from './base.js'
 
 export interface ICustomerService {
   _find: FindMethod<
     ParamsWithStripeQuery<Stripe.CustomerListParams>,
     Stripe.Customer
-  >;
+  >
   _get: (
     id: string,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.Customer | Stripe.DeletedCustomer>;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.Customer | Stripe.DeletedCustomer>
   _create: (
     data: Stripe.CustomerCreateParams,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.Customer>;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.Customer>
   _update: (
     id: string,
     data: Stripe.CustomerUpdateParams,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.Customer>;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.Customer>
   _patch: (
     id: string,
     data: Stripe.CustomerUpdateParams,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.Customer>;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.Customer>
   _remove: (
     id: string,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.DeletedCustomer>;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.DeletedCustomer>
   _search: (
-    params: ParamsWithStripeQuery<Stripe.CustomerSearchParams>
-  ) => Promise<Stripe.Customer[] | Stripe.ApiSearchResult<Stripe.Customer>>;
+    params: ParamsWithStripeQuery<Stripe.CustomerSearchParams>,
+  ) => Promise<Stripe.Customer[] | Stripe.ApiSearchResult<Stripe.Customer>>
 }
 
 export class CustomerService
@@ -43,50 +43,54 @@ export class CustomerService
   implements ICustomerService
 {
   _find(params: ParamsWithStripeQuery<Stripe.CustomerListParams>) {
-    const filtered = this.filterParams(params);
+    const filtered = this.filterParams(params)
     return this.handlePaginate(
       filtered,
-      this.stripe.customers.list(filtered.query, filtered.stripe)
-    );
+      this.stripe.customers.list(filtered.query, filtered.stripe),
+    )
   }
 
   _get(id: string, params: ParamsWithStripe) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.customers.retrieve(id, stripe);
+    const { stripe } = this.filterParams(params)
+    return this.stripe.customers.retrieve(
+      id,
+      this.retrieveParams(params),
+      stripe,
+    )
   }
 
   _create(data: Stripe.CustomerCreateParams, params: ParamsWithStripe) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.customers.create(data, stripe);
+    const { stripe } = this.filterParams(params)
+    return this.stripe.customers.create(data, stripe)
   }
 
   _update(
     id: string,
     data: Stripe.CustomerUpdateParams,
-    params: ParamsWithStripe
+    params: ParamsWithStripe,
   ) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.customers.update(id, data, stripe);
+    const { stripe } = this.filterParams(params)
+    return this.stripe.customers.update(id, data, stripe)
   }
 
   _patch(
     id: string,
     data: Stripe.CustomerUpdateParams,
-    params: ParamsWithStripe
+    params: ParamsWithStripe,
   ) {
-    return this._update(id, data, params);
+    return this._update(id, data, params)
   }
 
   _remove(id: string, params: ParamsWithStripe) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.customers.del(id, stripe);
+    const { stripe } = this.filterParams(params)
+    return this.stripe.customers.del(id, undefined, stripe)
   }
 
   _search(params: ParamsWithStripeQuery<Stripe.CustomerSearchParams>) {
-    const filtered = this.filterParams(params);
+    const filtered = this.filterParams(params)
     return this.handlePaginate(
       filtered,
-      this.stripe.customers.search(filtered.query, filtered.stripe)
-    );
+      this.stripe.customers.search(filtered.query, filtered.stripe),
+    )
   }
 }

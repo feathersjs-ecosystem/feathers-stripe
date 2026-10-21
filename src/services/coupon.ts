@@ -1,32 +1,35 @@
-import type Stripe from "stripe";
+import type { Stripe } from 'stripe'
 import type {
   FindMethod,
   ParamsWithStripe,
-  ParamsWithStripeQuery
-} from "../types";
-import { BaseService } from "./base";
+  ParamsWithStripeQuery,
+} from '../types.js'
+import { BaseService } from './base.js'
 
 export interface ICouponService {
   _find: FindMethod<
     ParamsWithStripeQuery<Stripe.CouponListParams>,
     Stripe.Coupon
-  >;
-  _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Coupon>;
+  >
+  _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Coupon>
   _create: (
     data: Stripe.CouponCreateParams,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.Coupon>;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.Coupon>
   _update: (
     id: string,
     data: Stripe.CouponUpdateParams,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.Coupon>;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.Coupon>
   _patch: (
     id: string,
     data: Stripe.CouponUpdateParams,
-    params: ParamsWithStripe
-  ) => Promise<Stripe.Coupon>;
-  _remove: never;
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.Coupon>
+  _remove: (
+    id: string,
+    params: ParamsWithStripe,
+  ) => Promise<Stripe.DeletedCoupon>
 }
 
 export class CouponService
@@ -34,39 +37,42 @@ export class CouponService
   implements ICouponService
 {
   _find(params: ParamsWithStripeQuery<Stripe.CouponListParams>) {
-    const filtered = this.filterParams(params);
+    const filtered = this.filterParams(params)
     return this.handlePaginate(
       filtered,
-      this.stripe.coupons.list(filtered.query, filtered.stripe)
-    );
+      this.stripe.coupons.list(filtered.query, filtered.stripe),
+    )
   }
 
   _get(id: string, params: ParamsWithStripe) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.coupons.retrieve(id, stripe);
+    const { stripe } = this.filterParams(params)
+    return this.stripe.coupons.retrieve(id, this.retrieveParams(params), stripe)
   }
 
   _create(data: Stripe.CouponCreateParams, params: ParamsWithStripe) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.coupons.create(data, stripe);
+    const { stripe } = this.filterParams(params)
+    return this.stripe.coupons.create(data, stripe)
   }
 
   _update(
     id: string,
     data: Stripe.CouponUpdateParams,
-    params: ParamsWithStripe
+    params: ParamsWithStripe,
   ) {
-    const { stripe } = this.filterParams(params);
-    return this.stripe.coupons.update(id, data, stripe);
+    const { stripe } = this.filterParams(params)
+    return this.stripe.coupons.update(id, data, stripe)
   }
 
   _patch(
     id: string,
     data: Stripe.CouponUpdateParams,
-    params: ParamsWithStripe
+    params: ParamsWithStripe,
   ) {
-    return this._update(id, data, params);
+    return this._update(id, data, params)
   }
 
-  _remove: never;
+  _remove(id: string, params: ParamsWithStripe) {
+    const { stripe } = this.filterParams(params)
+    return this.stripe.coupons.del(id, undefined, stripe)
+  }
 }

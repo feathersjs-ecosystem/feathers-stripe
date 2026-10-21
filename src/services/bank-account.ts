@@ -1,9 +1,7 @@
-import makeDebug from "debug";
-import type Stripe from "stripe";
-import type { FindMethod, ParamsWithStripeQuery } from "../types";
-import { BaseService } from "./base";
-
-const debug = makeDebug("feathers-stripe:card");
+import { BadRequest } from '@feathersjs/errors'
+import type { Stripe } from 'stripe'
+import type { FindMethod, ParamsWithStripeQuery } from '../types.js'
+import { BaseService } from './base.js'
 
 export interface IBankAccountService {
   _find: FindMethod<
@@ -11,33 +9,36 @@ export interface IBankAccountService {
       Stripe.CustomerListSourcesParams & { customer: string }
     >,
     Stripe.CustomerSource
-  >;
+  >
   _get: (
     id: string,
-    params: ParamsWithStripeQuery<{ customer: string }>
-  ) => Promise<Stripe.CustomerSource>;
+    params: ParamsWithStripeQuery<{ customer: string }>,
+  ) => Promise<Stripe.CustomerSource>
   _create: (
     data: Stripe.CustomerCreateSourceParams & { customer: string },
-    params: ParamsWithStripeQuery<{ customer: string }>
-  ) => Promise<Stripe.CustomerSource>;
+    params: ParamsWithStripeQuery<{ customer: string }>,
+  ) => Promise<Stripe.CustomerSource>
   _update: (
     id: string,
     data: Stripe.CustomerUpdateSourceParams,
-    params: ParamsWithStripeQuery<{ customer: string }>
-  ) => Promise<Stripe.CustomerSource>;
+    params: ParamsWithStripeQuery<{ customer: string }>,
+  ) => Promise<Stripe.CustomerSource>
   _patch: (
     id: string,
     data: Stripe.CustomerUpdateSourceParams,
-    params: ParamsWithStripeQuery<{ customer: string }>
-  ) => Promise<Stripe.CustomerSource>;
+    params: ParamsWithStripeQuery<{ customer: string }>,
+  ) => Promise<Stripe.CustomerSource>
   _remove: (
     id: string,
-    params: ParamsWithStripeQuery<{ customer: string }>
+    params: ParamsWithStripeQuery<{ customer: string }>,
   ) => Promise<
     Stripe.CustomerSource | Stripe.DeletedBankAccount | Stripe.DeletedCard
-  >;
+  >
 }
 
+/**
+ * @deprecated Customer bank accounts via sources are a legacy Stripe API. Use `PaymentMethodService` (`us_bank_account`) instead.
+ */
 export class BankAccountService
   extends BaseService<IBankAccountService>
   implements IBankAccountService
@@ -45,64 +46,74 @@ export class BankAccountService
   _find(
     params: ParamsWithStripeQuery<
       Stripe.CustomerListSourcesParams & { customer: string }
-    >
+    >,
   ) {
-    const filtered = this.filterParams(params);
-    const { customer, ...query } = filtered.query;
+    const filtered = this.filterParams(params)
+    const { customer, ...query } = filtered.query
     if (!customer) {
-      debug("Missing Stripe customer id");
+      throw new BadRequest('Missing Stripe customer id')
     }
 
     return this.handlePaginate(
       filtered,
-      this.stripe.customers.listSources(customer, query, filtered.stripe)
-    );
+      this.stripe.customers.listSources(customer, query, filtered.stripe),
+    )
   }
 
   _get(id: string, params: ParamsWithStripeQuery<{ customer: string }>) {
-    const { query, stripe } = this.filterParams(params);
+    const { query, stripe } = this.filterParams(params)
     if (!query.customer) {
-      debug("Missing Stripe customer id");
+      throw new BadRequest('Missing Stripe customer id')
     }
-    return this.stripe.customers.retrieveSource(query.customer, id, stripe);
+    return this.stripe.customers.retrieveSource(
+      query.customer,
+      id,
+      this.retrieveParams(params),
+      stripe,
+    )
   }
 
   _create(
     data: Stripe.CustomerCreateSourceParams,
-    params: ParamsWithStripeQuery<{ customer: string }>
+    params: ParamsWithStripeQuery<{ customer: string }>,
   ) {
-    const { query, stripe } = this.filterParams(params);
+    const { query, stripe } = this.filterParams(params)
     if (!query.customer) {
-      debug("Missing Stripe customer id");
+      throw new BadRequest('Missing Stripe customer id')
     }
-    return this.stripe.customers.createSource(query.customer, data, stripe);
+    return this.stripe.customers.createSource(query.customer, data, stripe)
   }
 
   _update(
     id: string,
     data: Stripe.CustomerUpdateSourceParams,
-    params: ParamsWithStripeQuery<{ customer: string }>
+    params: ParamsWithStripeQuery<{ customer: string }>,
   ) {
-    const { query, stripe } = this.filterParams(params);
+    const { query, stripe } = this.filterParams(params)
     if (!query.customer) {
-      debug("Missing Stripe customer id");
+      throw new BadRequest('Missing Stripe customer id')
     }
-    return this.stripe.customers.updateSource(query.customer, id, data, stripe);
+    return this.stripe.customers.updateSource(query.customer, id, data, stripe)
   }
 
   _patch(
     id: string,
     data: Stripe.CustomerUpdateSourceParams,
-    params: ParamsWithStripeQuery<{ customer: string }>
+    params: ParamsWithStripeQuery<{ customer: string }>,
   ) {
-    return this._update(id, data, params);
+    return this._update(id, data, params)
   }
 
   _remove(id: string, params: ParamsWithStripeQuery<{ customer: string }>) {
-    const { query, stripe } = this.filterParams(params);
+    const { query, stripe } = this.filterParams(params)
     if (!query.customer) {
-      debug("Missing Stripe customer id");
+      throw new BadRequest('Missing Stripe customer id')
     }
-    return this.stripe.customers.deleteSource(query.customer, id, stripe);
+    return this.stripe.customers.deleteSource(
+      query.customer,
+      id,
+      undefined,
+      stripe,
+    )
   }
 }
