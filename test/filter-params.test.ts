@@ -1,131 +1,141 @@
-import { expect, expectTypeOf } from "vitest";
-import { AccountLinkService } from "../src";
-import { BaseService } from "../src/services/base";
+import { expect, expectTypeOf } from 'vitest'
+import { AccountLinkService } from '../src/index.js'
+import { BaseService } from '../src/services/base.js'
 
-describe("filterQuery", () => {
+describe('filterQuery', () => {
   // @ts-expect-error - we don't need stripe for this test
-  const service = new AccountLinkService({ stripe: {} });
+  const service = new AccountLinkService({ stripe: {} })
 
-  describe("when $limit is present", () => {
+  describe('when $limit is present', () => {
     const params = {
       customer: 1,
       query: {
         $limit: 5,
-        name: "bob"
-      }
-    };
+        name: 'bob',
+      },
+    }
 
-    it("replaces $limit with limit", () => {
-      const query = service.filterQuery(params);
-      expectTypeOf(query).toEqualTypeOf<{ limit: number; name: string }>();
-      expectTypeOf(query).not.toHaveProperty("$limit");
+    it('replaces $limit with limit', () => {
+      const query = service.filterQuery(params)
+      expectTypeOf(query).toEqualTypeOf<{ limit: number; name: string }>()
+      expectTypeOf(query).not.toHaveProperty('$limit')
       // @ts-expect-error $limit should not exits anymore on this type
-      expect(query.$limit).to.equal(undefined);
-      expect(query.limit).to.equal(5);
-    });
+      expect(query.$limit).to.equal(undefined)
+      expect(query.limit).to.equal(5)
+    })
 
-    it("does not modify original params", () => {
-      const paramsCopy = Object.assign({}, params);
-      service.filterQuery(params);
-      expect(params).to.deep.equal(paramsCopy);
-    });
+    it('does not modify original params', () => {
+      const paramsCopy = { ...params }
+      service.filterQuery(params)
+      expect(params).to.deep.equal(paramsCopy)
+    })
 
-    it("returns original query object params", () => {
-      const query = service.filterQuery(params);
-      expectTypeOf(query).toEqualTypeOf<{ limit: number; name: string }>();
-      expect(query.name).to.equal("bob");
-    });
-  });
+    it('returns original query object params', () => {
+      const query = service.filterQuery(params)
+      expectTypeOf(query).toEqualTypeOf<{ limit: number; name: string }>()
+      expect(query.name).to.equal('bob')
+    })
+  })
 
-  describe("when $limit is not present", () => {
-    it("returns original query object", () => {
+  describe('when $limit is not present', () => {
+    it('returns original query object', () => {
       const params = {
         customer: 1,
         query: {
-          name: "bob"
-        }
-      };
-      const query = service.filterQuery(params);
-      expectTypeOf(query).toEqualTypeOf<{ name: string }>();
-      expect(query).to.deep.equal({ name: "bob" });
-    });
-  });
-});
+          name: 'bob',
+        },
+      }
+      const query = service.filterQuery(params)
+      expectTypeOf(query).toEqualTypeOf<{ name: string }>()
+      expect(query).to.deep.equal({ name: 'bob' })
+    })
+  })
+})
 
-describe("filterParams", () => {
+describe('filterParams', () => {
   abstract class TestService extends BaseService<any> {
     _create(data: any, params: any) {
-      return this.filterParams(params);
+      return this.filterParams(params)
     }
   }
   // @ts-expect-error - we don't need stripe for this test
-  const service = new TestService({ stripe: {} });
+  const service = new TestService({ stripe: {} })
 
-  describe("when params are not present", () => {
-    const params: undefined = undefined;
+  describe('when params are not present', () => {
+    const params: undefined = undefined
 
-    it("returns empty values", () => {
-      expect(() => service.filterParams(params)).to.throw();
-    });
-  });
+    it('returns empty values', () => {
+      expect(() => service.filterParams(params)).to.throw()
+    })
+  })
 
-  describe("when stripe is present", () => {
+  describe('when stripe is present', () => {
     const params = {
       stripe: {
-        expand: ["customer"]
-      }
-    };
+        idempotencyKey: 'key_1',
+        stripeAccount: 'acct_1',
+      },
+    }
 
-    it("picks off stripe", () => {
-      const { stripe } = service.filterParams(params as any);
-      expect(stripe).to.deep.equal(params.stripe);
-    });
-  });
+    it('picks off stripe', () => {
+      const { stripe } = service.filterParams(params as any)
+      expect(stripe).to.deep.equal(params.stripe)
+    })
 
-  describe("when stripe is not present", () => {
-    it("returns empty object", () => {
-      const params = {};
-      const { stripe } = service.filterParams(params);
-      expect(stripe).to.deep.equal(undefined);
-    });
-  });
-});
+    it('removes expand, which is not a request option', () => {
+      const { stripe } = service.filterParams({
+        stripe: { ...params.stripe, expand: ['customer'] },
+      } as any)
+      expect(stripe).to.deep.equal(params.stripe)
+    })
+  })
 
-describe("cleanQuery", () => {
+  describe('when stripe is not present', () => {
+    it('returns empty object', () => {
+      const params = {}
+      const { stripe } = service.filterParams(params)
+      expect(stripe).to.deep.equal(undefined)
+    })
+  })
+})
+
+describe('cleanQuery', () => {
+  const now = 1_700_000_000_000
+
   // @ts-expect-error - we don't need stripe for this test
-  const service = new AccountLinkService({ stripe: {} });
+  const service = new AccountLinkService({ stripe: {} })
 
-  describe("when $ keys are present", () => {
+  describe('when $ keys are present', () => {
     const query = {
-      prop: { $gt: Date.now() },
-      nested: { nested: { $gt: Date.now() } },
-      array: [{ $lt: Date.now() }]
-    };
+      prop: { $gt: now },
+      nested: { nested: { $gt: now } },
+      array: [{ $lt: now }],
+    }
 
     const expected = {
-      prop: { gt: Date.now() },
-      nested: { nested: { gt: Date.now() } },
-      array: [{ lt: Date.now() }]
-    };
+      prop: { gt: now },
+      nested: { nested: { gt: now } },
+      array: [{ lt: now }],
+    }
 
-    it("strips keys that start with $", () => {
-      const cleanQuery = service.cleanQuery(query);
-      expectTypeOf(cleanQuery).toEqualTypeOf<typeof expected>();
-      expect(cleanQuery).to.deep.equal(expected);
-    });
-  });
+    it('strips keys that start with $', () => {
+      const cleanQuery = service.cleanQuery(query)
+      expectTypeOf(cleanQuery).toEqualTypeOf<typeof expected>()
+      expect(cleanQuery).to.deep.equal(expected)
+    })
+  })
 
-  describe("when $ keys are not present", () => {
+  describe('when $ keys are not present', () => {
     const query = {
-      prop: { gt: Date.now() },
-      nested: { nested: { gt: Date.now() } },
-      array: [{ lt: Date.now() }]
-    };
+      prop: { gt: now },
+      nested: { nested: { gt: now } },
+      array: [{ lt: now }],
+    }
 
-    it("does not modify orignal keys", () => {
-      const cleanQuery = service.cleanQuery(query);
-      expectTypeOf(cleanQuery).toEqualTypeOf<typeof query>();
-      expect(cleanQuery).to.deep.equal(query);
-    });
-  });
-});
+    it('does not modify orignal keys', () => {
+      const cleanQuery = service.cleanQuery(query)
+      expectTypeOf(cleanQuery).toEqualTypeOf<typeof query>()
+      expect(cleanQuery).to.deep.equal(query)
+    })
+  })
+})

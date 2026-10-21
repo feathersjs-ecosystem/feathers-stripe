@@ -1,95 +1,101 @@
-import makeDebug from "debug";
-import type Stripe from "stripe";
-import type {
-  FindMethod,
-  ParamsWithStripeFee,
-  ParamsWithStripeQuery
-} from "../types";
-import { BaseService } from "./base";
+import { BadRequest } from '@feathersjs/errors'
+import type { Stripe } from 'stripe'
+import type { FindMethod, ParamsWithStripeQuery } from '../types.js'
+import { BaseService } from './base.js'
 
-const debug = makeDebug("feathers-stripe:application-fee-refund");
+type ParamsWithFee = ParamsWithStripeQuery<{ fee: string }>
 
 export interface IApplicationFeeRefundService {
   _find: FindMethod<
-    ParamsWithStripeQuery<Stripe.ApplicationFeeListParams & { fee: string }>,
+    ParamsWithStripeQuery<
+      Stripe.ApplicationFeeListRefundsParams & { fee: string }
+    >,
     Stripe.FeeRefund
-  >;
-  _get: (id: string, params: ParamsWithStripeFee) => Promise<Stripe.FeeRefund>;
+  >
+  _get: (id: string, params: ParamsWithFee) => Promise<Stripe.FeeRefund>
   _create: (
-    data: Stripe.FeeRefundCreateParams,
-    params: ParamsWithStripeFee
-  ) => Promise<Stripe.FeeRefund>;
+    data: Stripe.ApplicationFeeCreateRefundParams,
+    params: ParamsWithFee,
+  ) => Promise<Stripe.FeeRefund>
   _update: (
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
-    params: ParamsWithStripeFee
-  ) => Promise<Stripe.FeeRefund>;
+    data: Stripe.ApplicationFeeUpdateRefundParams,
+    params: ParamsWithFee,
+  ) => Promise<Stripe.FeeRefund>
   _patch: (
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
-    params: ParamsWithStripeFee
-  ) => Promise<Stripe.FeeRefund>;
-  _remove: never;
+    data: Stripe.ApplicationFeeUpdateRefundParams,
+    params: ParamsWithFee,
+  ) => Promise<Stripe.FeeRefund>
+  _remove: never
 }
 
+/**
+ * Refunds of an application fee. The fee id is passed as `params.query.fee`.
+ */
 export class ApplicationFeeRefundService
   extends BaseService<IApplicationFeeRefundService>
   implements IApplicationFeeRefundService
 {
   _find(
     params: ParamsWithStripeQuery<
-      Stripe.ApplicationFeeListParams & { fee: string }
-    >
+      Stripe.ApplicationFeeListRefundsParams & { fee: string }
+    >,
   ) {
-    const filtered = this.filterParams(params);
-    if (!filtered.query.fee) {
-      debug("Missing Stripe fee id");
+    const filtered = this.filterParams(params)
+    const { fee, ...query } = filtered.query
+    if (!fee) {
+      throw new BadRequest('Missing Stripe fee id')
     }
-    const { fee, ...query } = filtered.query;
     return this.handlePaginate(
       filtered,
-      this.stripe.applicationFees.listRefunds(fee, query, filtered.stripe)
-    );
+      this.stripe.applicationFees.listRefunds(fee, query, filtered.stripe),
+    )
   }
 
-  _get(id: string, params: ParamsWithStripeFee) {
-    const { stripe } = this.filterParams(params);
-    if (!stripe.fee) {
-      debug("Missing Stripe fee id");
+  _get(id: string, params: ParamsWithFee) {
+    const { query, stripe } = this.filterParams(params)
+    if (!query.fee) {
+      throw new BadRequest('Missing Stripe fee id')
     }
-    const { fee, ...rest } = stripe;
-    return this.stripe.applicationFees.retrieveRefund(fee, id, rest);
+    return this.stripe.applicationFees.retrieveRefund(
+      query.fee,
+      id,
+      this.retrieveParams(params),
+      stripe,
+    )
   }
 
-  _create(data: Stripe.FeeRefundCreateParams, params: ParamsWithStripeFee) {
-    const { stripe } = this.filterParams(params);
-    if (!stripe.fee) {
-      debug("Missing Stripe fee id");
+  _create(
+    data: Stripe.ApplicationFeeCreateRefundParams,
+    params: ParamsWithFee,
+  ) {
+    const { query, stripe } = this.filterParams(params)
+    if (!query.fee) {
+      throw new BadRequest('Missing Stripe fee id')
     }
-    const { fee, ...rest } = stripe;
-    return this.stripe.applicationFees.createRefund(fee, data, rest);
+    return this.stripe.applicationFees.createRefund(query.fee, data, stripe)
   }
 
   _update(
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
-    params: ParamsWithStripeFee
+    data: Stripe.ApplicationFeeUpdateRefundParams,
+    params: ParamsWithFee,
   ) {
-    const { stripe } = this.filterParams(params);
-    if (!stripe.fee) {
-      debug("Missing Stripe fee id");
+    const { query, stripe } = this.filterParams(params)
+    if (!query.fee) {
+      throw new BadRequest('Missing Stripe fee id')
     }
-    const { fee, ...rest } = stripe;
-    return this.stripe.applicationFees.updateRefund(fee, id, data, rest);
+    return this.stripe.applicationFees.updateRefund(query.fee, id, data, stripe)
   }
 
   _patch(
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
-    params: ParamsWithStripeFee
+    data: Stripe.ApplicationFeeUpdateRefundParams,
+    params: ParamsWithFee,
   ) {
-    return this._update(id, data, params);
+    return this._update(id, data, params)
   }
 
-  _remove: never;
+  declare _remove: never
 }

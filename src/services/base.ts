@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type Stripe from "stripe";
+import type { Stripe } from 'stripe'
 import {
   BadRequest,
   NotImplemented,
@@ -8,222 +7,279 @@ import {
   TooManyRequests,
   GeneralError,
   PaymentError,
-  MethodNotAllowed
-} from "@feathersjs/errors";
-import { _ } from "@feathersjs/commons";
+  MethodNotAllowed,
+  Forbidden,
+  FeathersError,
+} from '@feathersjs/errors'
+import { _ } from '@feathersjs/commons'
 import type {
   IUnderScoreFunctions,
   ParamsWithStripe,
-  StripeServiceOptions
-} from "../types";
-import type { Params, Query } from "@feathersjs/feathers";
+  StripeRequestOptions,
+  StripeServiceOptions,
+} from '../types.js'
+import type { Params, Query } from '@feathersjs/feathers'
 
 type FilteredParams<T extends ParamsWithStripe = ParamsWithStripe> = {
-  query: Remove$QueryKeys<T["query"]>;
-  stripe: T["stripe"];
-  paginate: boolean;
-};
-
-export interface BaseService<I extends IUnderScoreFunctions,
-  Find extends I["_find"] = I["_find"],
-  Get extends I["_get"] = I["_get"],
-  Create extends I["_create"] = I["_create"],
-  Update extends I["_update"] = I["_update"],
-  Patch extends I["_patch"] = I["_patch"],
-  Remove extends I["_remove"] = I["_remove"],
-  Search extends I["_search"] = I["_search"]
-> {
-  _search?(params: Parameters<Search>[0]): ReturnType<Search>;
+  query: Remove$QueryKeys<T['query']>
+  stripe: T['stripe']
+  paginate: boolean
 }
 
-type Remove$QueryKeys<T> = T extends Array<infer ArrayItem> ? Remove$QueryKeys<ArrayItem>[] : T extends object ? {
-  [K in keyof T as string extends K ? never : K extends `$${infer DollarlessKey}` ? DollarlessKey : K]: T[K] extends object ? Remove$QueryKeys<T[K]> : T[K]
-} : never;
+// declaration merging requires the same type parameters as the class below
+/* eslint-disable unused-imports/no-unused-vars */
+export interface BaseService<
+  I extends IUnderScoreFunctions,
+  Find extends I['_find'] = I['_find'],
+  Get extends I['_get'] = I['_get'],
+  Create extends I['_create'] = I['_create'],
+  Update extends I['_update'] = I['_update'],
+  Patch extends I['_patch'] = I['_patch'],
+  Remove extends I['_remove'] = I['_remove'],
+  Search extends NonNullable<I['_search']> = NonNullable<I['_search']>,
+> {
+  _search?(params: Parameters<Search>[0]): ReturnType<Search>
+}
+/* eslint-enable unused-imports/no-unused-vars */
+
+type Remove$QueryKeys<T> =
+  T extends Array<infer ArrayItem>
+    ? Remove$QueryKeys<ArrayItem>[]
+    : T extends object
+      ? {
+          [
+            K in keyof T as string extends K
+              ? never
+              : K extends `$${infer DollarlessKey}`
+                ? DollarlessKey
+                : K
+          ]: T[K] extends object ? Remove$QueryKeys<T[K]> : T[K]
+        }
+      : never
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class BaseService<
   I extends IUnderScoreFunctions,
-  Find extends I["_find"] = I["_find"],
-  Get extends I["_get"] = I["_get"],
-  Create extends I["_create"] = I["_create"],
-  Update extends I["_update"] = I["_update"],
-  Patch extends I["_patch"] = I["_patch"],
-  Remove extends I["_remove"] = I["_remove"],
-  Search extends I["_search"] = I["_search"]
+  Find extends I['_find'] = I['_find'],
+  Get extends I['_get'] = I['_get'],
+  Create extends I['_create'] = I['_create'],
+  Update extends I['_update'] = I['_update'],
+  Patch extends I['_patch'] = I['_patch'],
+  Remove extends I['_remove'] = I['_remove'],
+  Search extends NonNullable<I['_search']> = NonNullable<I['_search']>,
 > {
-  stripe: Stripe;
-  options: StripeServiceOptions;
+  stripe: Stripe
+  options: StripeServiceOptions
 
-  abstract _find(params: Parameters<Find>[0]): ReturnType<Find>;
-  abstract _get(id: string, params: Parameters<Get>[1]): ReturnType<Get>;
+  abstract _find(params: Parameters<Find>[0]): ReturnType<Find>
+  abstract _get(id: string, params: Parameters<Get>[1]): ReturnType<Get>
   abstract _create(
     data: Parameters<Create>[0],
-    params: Parameters<Create>[1]
-  ): ReturnType<Create>;
+    params: Parameters<Create>[1],
+  ): ReturnType<Create>
   abstract _update(
     id: string,
     data: Parameters<Update>[1],
-    params: Parameters<Update>[2]
-  ): ReturnType<Update>;
+    params: Parameters<Update>[2],
+  ): ReturnType<Update>
   abstract _patch(
     id: string,
     data: Parameters<Patch>[1],
-    params: Parameters<Patch>[2]
-  ): ReturnType<Patch>;
+    params: Parameters<Patch>[2],
+  ): ReturnType<Patch>
   abstract _remove(
     id: string,
-    params: Parameters<Remove>[1]
-  ): ReturnType<Remove>;
+    params: Parameters<Remove>[1],
+  ): ReturnType<Remove>
 
   constructor(options: StripeServiceOptions) {
     const opts = {
       // Stripe enforces 100 max and 10 default
       paginate: {
         default: 10,
-        max: 100
+        max: 100,
       },
-      ...options
-    };
+      ...options,
+    }
     if (!opts.stripe) {
-      throw new Error("Stripe service option `stripe` needs to be provided");
+      throw new Error('Stripe service option `stripe` needs to be provided')
     }
 
-    this.stripe = opts.stripe;
+    this.stripe = opts.stripe
+    this.options = opts
   }
 
   find(params: Parameters<Find>[0]): ReturnType<Find> {
-    if (!(this as any)._find) {
-      throw new NotImplemented("Find method not implemented");
-    }
-    return (this as any)._find(params).catch(this.handleError);
+    return this.callMethod('find', [params])
   }
 
   get(id: Parameters<Get>[0], params: Parameters<Get>[1]): ReturnType<Get> {
-    if (!(this as any)._get) {
-      throw new NotImplemented("Get method not implemented");
-    }
-    return (this as any)._get(id, params).catch(this.handleError);
+    return this.callMethod('get', [id, params])
   }
 
   create(
     data: Parameters<Create>[0],
-    params: Parameters<Create>[1]
+    params: Parameters<Create>[1],
   ): ReturnType<Create> {
-    if (!(this as any)._create) {
-      throw new NotImplemented("Create method not implemented");
-    }
-    return (this as any)._create(data, params).catch(this.handleError);
+    return this.callMethod('create', [data, params])
   }
 
   update(
     id: Parameters<Update>[0],
     data: Parameters<Update>[1],
-    params: Parameters<Update>[2]
+    params: Parameters<Update>[2],
   ): ReturnType<Update> {
-    if (!(this as any)._update) {
-      throw new NotImplemented("Update method not implemented");
-    }
-    return (this as any)._update(id, data, params).catch(this.handleError);
+    return this.callMethod('update', [id, data, params])
   }
 
   patch(
     id: Parameters<Patch>[0],
     data: Parameters<Patch>[1],
-    params: Parameters<Patch>[2]
+    params: Parameters<Patch>[2],
   ): ReturnType<Patch> {
-    if (!(this as any)._patch) {
-      throw new NotImplemented("Patch method not implemented");
-    }
-    return (this as any)._patch(id, data, params).catch(this.handleError);
+    return this.callMethod('patch', [id, data, params])
   }
 
   remove(
     id: Parameters<Remove>[0],
-    params: Parameters<Remove>[1]
+    params: Parameters<Remove>[1],
   ): ReturnType<Remove> {
-    if (!(this as any)._remove) {
-      throw new NotImplemented("Remove method not implemented");
-    }
-    return (this as any)._remove(id, params).catch(this.handleError);
+    return this.callMethod('remove', [id, params])
   }
 
   search(params: Parameters<Search>[0]): ReturnType<Search> {
-    if (!(this as any)._search) {
-      throw new NotImplemented("Search method not implemented");
+    return this.callMethod('search', [params])
+  }
+
+  /**
+   * Calls the underscored method and always returns a promise, so validation
+   * errors and `NotImplemented` reject instead of throwing synchronously.
+   */
+  private callMethod(method: string, args: any[]): any {
+    const run = async () => {
+      const fn = (this as any)[`_${method}`]
+      if (!fn) {
+        const name = method.charAt(0).toUpperCase() + method.slice(1)
+        throw new NotImplemented(`${name} method not implemented`)
+      }
+      try {
+        return await fn.apply(this, args)
+      } catch (error: any) {
+        return this.handleError(error)
+      }
     }
-    return (this as any)._search(params).catch(this.handleError);
+    return run()
   }
 
   getLimit(
     limit: number | undefined,
-    paramsPaginate: false | { max: number } | undefined
-  ): number {
+    paramsPaginate: false | { max: number } | undefined,
+  ): number | undefined {
     if (paramsPaginate === false) {
-      return limit;
+      return limit
     }
-    const paginate = this.options?.paginate;
+    const paginate = this.options?.paginate
     if (paginate && (paginate.default || paginate.max)) {
-      const base = paginate.default || 0;
-      const lower = typeof limit === "number" && !isNaN(limit) ? limit : base;
+      const base = paginate.default || 0
+      const lower = typeof limit === 'number' && !isNaN(limit) ? limit : base
       const upper =
-        typeof paginate.max === "number" ? paginate.max : Number.MAX_VALUE;
+        typeof paginate.max === 'number' ? paginate.max : Number.MAX_VALUE
 
-      return Math.min(lower, upper);
+      return Math.min(lower, upper)
     }
-    return limit;
+    return limit
   }
 
   cleanQuery<Q extends Query | Query[]>(query: Q): Remove$QueryKeys<Q> {
     if (Array.isArray(query)) {
       // @ts-expect-error TODO: fix this
-      return query.map((item) => this.cleanQuery(item));
+      return query.map((item) => this.cleanQuery(item))
     }
     if (_.isObject(query)) {
-      const result = Object.assign({}, query);
+      const result = { ...query }
       Object.entries(result).forEach(([key, value]) => {
-        let cleanKey = key;
-        if (key.startsWith("$")) {
+        let cleanKey = key
+        if (key.startsWith('$')) {
           // @ts-expect-error TODO: fix this
-          delete result[key];
-          cleanKey = key.replace("$", "");
+          delete result[key]
+          cleanKey = key.replace('$', '')
         }
         // @ts-expect-error TODO: fix this
-        result[cleanKey] = this.cleanQuery(value);
-      });
-      return result as unknown as Remove$QueryKeys<Q>;
+        result[cleanKey] = this.cleanQuery(value)
+      })
+      return result as unknown as Remove$QueryKeys<Q>
     }
-    return query as unknown as Remove$QueryKeys<Q>;
+    return query as unknown as Remove$QueryKeys<Q>
   }
 
   filterQuery<
     P extends ParamsWithStripe,
-    Q = P extends Params<infer T> ? T : Query
+    Q = P extends Params<infer T> ? T : Query,
   >(params: P): Remove$QueryKeys<Q> {
-    const query = Object.assign({}, params.query);
-    const limit = query.$limit ?? query.limit;
+    const query = { ...params.query }
+    const limit = query.$limit ?? query.limit
     if (limit) {
-      query.limit = this.getLimit(limit, params.paginate);
-      delete query.$limit;
+      query.limit = this.getLimit(limit, params.paginate)
+      delete query.$limit
     }
-    return this.cleanQuery<Q>(query);
+    return this.cleanQuery(query) as unknown as Remove$QueryKeys<Q>
   }
 
   filterParams<T extends ParamsWithStripe = ParamsWithStripe>(
-    params: T
+    params: T,
   ): FilteredParams<T> {
     return {
       query: this.filterQuery(params),
-      stripe: params.stripe,
-      paginate: params.paginate !== false
-    };
+      stripe: this.filterStripeOptions(params.stripe),
+      paginate: params.paginate !== false,
+    }
   }
 
-  async handlePaginate<R = any, M extends Stripe.ApiListPromise<R> | Stripe.ApiSearchResultPromise<R> = Stripe.ApiListPromise<R>>(
+  /**
+   * Removes `expand` from the request options, stripe only accepts it as a
+   * param. See `retrieveParams`.
+   */
+  filterStripeOptions<O extends StripeRequestOptions | undefined>(
+    options: O,
+  ): O {
+    if (!options || !('expand' in options)) {
+      return options
+    }
+    const { expand: _expand, ...rest } = options
+    return rest as O
+  }
+
+  /**
+   * Params for stripe's `retrieve` methods. Only `expand` is passed on, taken
+   * from `params.query.expand` or the deprecated `params.stripe.expand`.
+   */
+  retrieveParams(
+    params: ParamsWithStripe | undefined,
+  ): { expand: string[] } | undefined {
+    const expand = params?.query?.expand ?? params?.stripe?.expand
+    if (!expand) {
+      return undefined
+    }
+    return { expand: Array.isArray(expand) ? expand : [expand] }
+  }
+
+  async handlePaginate<
+    R = any,
+    M extends Stripe.ApiListPromise<R> | Stripe.ApiSearchResultPromise<R> =
+      Stripe.ApiListPromise<R>,
+  >(
     { paginate }: FilteredParams,
-    stripeMethod: M
-  ): Promise<R[] | (M extends Stripe.ApiListPromise<R> ? Stripe.ApiList<R> : Stripe.ApiSearchResult<R>)> {
+    stripeMethod: M,
+  ): Promise<
+    | R[]
+    | (M extends Stripe.ApiListPromise<R>
+        ? Stripe.ApiList<R>
+        : Stripe.ApiSearchResult<R>)
+  > {
     if (paginate) {
-      return (await stripeMethod) as (M extends Stripe.ApiListPromise<R> ? Stripe.ApiList<R> : Stripe.ApiSearchResult<R>);
+      return (await stripeMethod) as M extends Stripe.ApiListPromise<R>
+        ? Stripe.ApiList<R>
+        : Stripe.ApiSearchResult<R>
     }
     if (stripeMethod.autoPagingEach) {
       // NOTE: This is similar to stripe's autoPagingToArray
@@ -234,41 +290,48 @@ export abstract class BaseService<
       // size for each page of autoPagingEach. When
       // no $limit is provided, it falls back to a
       // page size of 10.
-      const results: R[] = [];
+      const results: R[] = []
       await stripeMethod.autoPagingEach((result) => {
-        results.push(result);
-      });
-      return results;
+        results.push(result)
+      })
+      return results
     }
-    throw new MethodNotAllowed("Cannot use paginate: false on this method");
+    throw new MethodNotAllowed('Cannot use paginate: false on this method')
   }
 
-  handleError(error: Stripe.errors.StripeError) {
+  handleError(error: Stripe.errors.StripeError | FeathersError): never {
+    if (error instanceof FeathersError) {
+      throw error
+    }
+
     if (!error.type) {
-      throw new GeneralError("Unknown Payment Gateway Error", error);
+      throw new GeneralError('Unknown Payment Gateway Error', error)
     }
 
     switch (error.type) {
-      case "StripeCardError":
+      case 'StripeCardError':
         // A declined card error
-        throw new PaymentError(error, error);
-      case "StripeInvalidRequestError":
+        throw new PaymentError(error, error)
+      case 'StripeInvalidRequestError':
         // Invalid parameters were supplied to Stripe's API
-        throw new BadRequest(error, error);
-      case "StripeAPIError":
+        throw new BadRequest(error, error)
+      case 'StripeAPIError':
         // An error occurred internally with Stripe's API
-        throw new Unavailable(error, error);
-      case "StripeConnectionError":
+        throw new Unavailable(error, error)
+      case 'StripeConnectionError':
         // Some kind of error occurred during the HTTPS communication
-        throw new Unavailable(error, error);
-      case "StripeAuthenticationError":
+        throw new Unavailable(error, error)
+      case 'StripeAuthenticationError':
         // You probably used an incorrect API key
-        throw new NotAuthenticated(error, error);
-      case "StripeRateLimitError":
+        throw new NotAuthenticated(error, error)
+      case 'StripePermissionError':
+        // The API key doesn't have permissions to perform the request
+        throw new Forbidden(error, error)
+      case 'StripeRateLimitError':
         // Too many requests
-        throw new TooManyRequests(error, error);
+        throw new TooManyRequests(error, error)
       default:
-        throw new GeneralError("Unknown Payment Gateway Error", error);
+        throw new GeneralError('Unknown Payment Gateway Error', error)
     }
   }
 }
