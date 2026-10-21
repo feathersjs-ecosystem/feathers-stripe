@@ -25,7 +25,11 @@ export type WebHookHandler = (options: {
 
 export interface WebHookHandlers {
   [key: string]: {
-    [key: string]: WebHookHandler;
+    [key: string]: WebHookHandler | {
+      [key: string]: WebHookHandler | {
+        [key: string]: WebHookHandler;
+      }
+    };
   };
 }
 

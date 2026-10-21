@@ -56,17 +56,17 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@feathersjs/adapter-commons": "^5.0.21",
-    "@feathersjs/commons": "^5.0.21",
-    "@feathersjs/errors": "^5.0.21",
-    "@feathersjs/express": "^5.0.21",
-    "@feathersjs/feathers": "^5.0.21",
-    "debug": "^4.3.4",
-    "stripe": "^14.14.0"
+    "@feathersjs/adapter-commons": "^5.0.37",
+    "@feathersjs/commons": "^5.0.37",
+    "@feathersjs/errors": "^5.0.37",
+    "@feathersjs/express": "^5.0.37",
+    "@feathersjs/feathers": "^5.0.37",
+    "debug": "^4.4.3",
+    "stripe": "^20.3.0"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.8",
-    "@types/node": "^20.11.16",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^25.1.0",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@typescript-eslint/parser": "^6.20.0",
     "eslint": "^8.48.0",
@@ -75,12 +75,12 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3",
-    "unbuild": "^2.0.0",
-    "vite": "^5.0.12",
-    "vitest": "^1.2.2"
+    "unbuild": "^3.6.1",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
   },
   "peerDependencies": {
     "@feathersjs/feathers": "^5.0.0",
-    "stripe": "^14.14.0"
+    "stripe": "^20.3.0"
   }
 }

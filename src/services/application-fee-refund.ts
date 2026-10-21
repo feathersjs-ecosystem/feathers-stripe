@@ -16,17 +16,17 @@ export interface IApplicationFeeRefundService {
   >;
   _get: (id: string, params: ParamsWithStripeFee) => Promise<Stripe.FeeRefund>;
   _create: (
-    data: Stripe.FeeRefundCreateParams,
+    data: Stripe.ApplicationFeeCreateRefundParams,
     params: ParamsWithStripeFee
   ) => Promise<Stripe.FeeRefund>;
   _update: (
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
+    data: Stripe.ApplicationFeeUpdateRefundParams,
     params: ParamsWithStripeFee
   ) => Promise<Stripe.FeeRefund>;
   _patch: (
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
+    data: Stripe.ApplicationFeeUpdateRefundParams,
     params: ParamsWithStripeFee
   ) => Promise<Stripe.FeeRefund>;
   _remove: never;
@@ -61,7 +61,7 @@ export class ApplicationFeeRefundService
     return this.stripe.applicationFees.retrieveRefund(fee, id, rest);
   }
 
-  _create(data: Stripe.FeeRefundCreateParams, params: ParamsWithStripeFee) {
+  _create(data: Stripe.ApplicationFeeCreateRefundParams, params: ParamsWithStripeFee) {
     const { stripe } = this.filterParams(params);
     if (!stripe.fee) {
       debug("Missing Stripe fee id");
@@ -72,7 +72,7 @@ export class ApplicationFeeRefundService
 
   _update(
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
+    data: Stripe.ApplicationFeeUpdateRefundParams,
     params: ParamsWithStripeFee
   ) {
     const { stripe } = this.filterParams(params);
@@ -85,7 +85,7 @@ export class ApplicationFeeRefundService
 
   _patch(
     id: string,
-    data: Stripe.FeeRefundUpdateParams,
+    data: Stripe.ApplicationFeeUpdateRefundParams,
     params: ParamsWithStripeFee
   ) {
     return this._update(id, data, params);

@@ -9,7 +9,7 @@ export interface ISourceService {
   _find: never;
   _get: (id: string, params: ParamsWithStripe) => Promise<Stripe.Source>;
   _create:
-    ((data: { customer: string } & Stripe.CustomerSourceCreateParams, params: ParamsWithStripe) => Promise<Stripe.CustomerSource>) |
+    ((data: { customer: string } & Stripe.CustomerCreateSourceParams, params: ParamsWithStripe) => Promise<Stripe.CustomerSource>) |
     ((data: Stripe.SourceCreateParams, params: ParamsWithStripe) => Promise<Stripe.Source>);
   _update: (id: string, data: Stripe.SourceUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Source>;
   _patch: (id: string, data: Stripe.SourceUpdateParams, params: ParamsWithStripe) => Promise<Stripe.Source>;
@@ -24,14 +24,14 @@ export class SourceService extends BaseService<ISourceService> implements ISourc
     return this.stripe.sources.retrieve(id, stripe);
   }
 
-  _create (data: { customer: string } & Stripe.CustomerSourceCreateParams, params: ParamsWithStripe): Promise<Stripe.CustomerSource>;
+  _create (data: { customer: string } & Stripe.CustomerCreateSourceParams, params: ParamsWithStripe): Promise<Stripe.CustomerSource>;
   _create (data: Stripe.SourceCreateParams, params: ParamsWithStripe): Promise<Stripe.Source>;
-  _create (data: ({ customer: string } & Stripe.CustomerSourceCreateParams) | Stripe.SourceCreateParams, params: ParamsWithStripe): Promise<Stripe.CustomerSource | Stripe.Source> {
+  _create (data: ({ customer: string } & Stripe.CustomerCreateSourceParams) | Stripe.SourceCreateParams, params: ParamsWithStripe): Promise<Stripe.CustomerSource | Stripe.Source> {
     const { stripe } = this.filterParams(params);
     if ("customer" in data) {
       const { customer, ...rest } = data;
       if (customer) {
-        return this.stripe.customers.createSource(customer, rest as Stripe.CustomerSourceCreateParams, stripe);
+        return this.stripe.customers.createSource(customer, rest as Stripe.CustomerCreateSourceParams, stripe);
       }
     }
     return this.stripe.sources.create(data, stripe);

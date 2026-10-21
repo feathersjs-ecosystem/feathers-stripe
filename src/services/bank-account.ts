@@ -8,7 +8,7 @@ const debug = makeDebug("feathers-stripe:card");
 export interface IBankAccountService {
   _find: FindMethod<
     ParamsWithStripeQuery<
-      Stripe.CustomerSourceListParams & { customer: string }
+      Stripe.CustomerListSourcesParams & { customer: string }
     >,
     Stripe.CustomerSource
   >;
@@ -17,17 +17,17 @@ export interface IBankAccountService {
     params: ParamsWithStripeQuery<{ customer: string }>
   ) => Promise<Stripe.CustomerSource>;
   _create: (
-    data: Stripe.CustomerSourceCreateParams & { customer: string },
+    data: Stripe.CustomerCreateSourceParams & { customer: string },
     params: ParamsWithStripeQuery<{ customer: string }>
   ) => Promise<Stripe.CustomerSource>;
   _update: (
     id: string,
-    data: Stripe.CustomerSourceUpdateParams,
+    data: Stripe.CustomerUpdateSourceParams,
     params: ParamsWithStripeQuery<{ customer: string }>
   ) => Promise<Stripe.CustomerSource>;
   _patch: (
     id: string,
-    data: Stripe.CustomerSourceUpdateParams,
+    data: Stripe.CustomerUpdateSourceParams,
     params: ParamsWithStripeQuery<{ customer: string }>
   ) => Promise<Stripe.CustomerSource>;
   _remove: (
@@ -44,7 +44,7 @@ export class BankAccountService
 {
   _find(
     params: ParamsWithStripeQuery<
-      Stripe.CustomerSourceListParams & { customer: string }
+      Stripe.CustomerListSourcesParams & { customer: string }
     >
   ) {
     const filtered = this.filterParams(params);
@@ -68,7 +68,7 @@ export class BankAccountService
   }
 
   _create(
-    data: Stripe.CustomerSourceCreateParams,
+    data: Stripe.CustomerCreateSourceParams,
     params: ParamsWithStripeQuery<{ customer: string }>
   ) {
     const { query, stripe } = this.filterParams(params);
@@ -80,7 +80,7 @@ export class BankAccountService
 
   _update(
     id: string,
-    data: Stripe.CustomerSourceUpdateParams,
+    data: Stripe.CustomerUpdateSourceParams,
     params: ParamsWithStripeQuery<{ customer: string }>
   ) {
     const { query, stripe } = this.filterParams(params);
@@ -92,7 +92,7 @@ export class BankAccountService
 
   _patch(
     id: string,
-    data: Stripe.CustomerSourceUpdateParams,
+    data: Stripe.CustomerUpdateSourceParams,
     params: ParamsWithStripeQuery<{ customer: string }>
   ) {
     return this._update(id, data, params);

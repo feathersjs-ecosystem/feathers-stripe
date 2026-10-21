@@ -77,11 +77,6 @@ export abstract class BaseService<
 
   constructor(options: StripeServiceOptions) {
     const opts = {
-      // Stripe enforces 100 max and 10 default
-      paginate: {
-        default: 10,
-        max: 100
-      },
       ...options
     };
     if (!opts.stripe) {
