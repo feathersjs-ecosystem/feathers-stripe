@@ -1,3 +1,4 @@
+import { BadRequest } from '@feathersjs/errors'
 import type { Stripe } from 'stripe'
 import type {
   FindMethod,
@@ -5,6 +6,12 @@ import type {
   ParamsWithStripeQuery,
 } from '../types.js'
 import { BaseService } from './base.js'
+
+export type PaymentIntentPatchData =
+  | ({ capture: true } & Stripe.PaymentIntentCaptureParams)
+  | ({ confirm: true } & Stripe.PaymentIntentConfirmParams)
+  | ({ cancel: true } & Stripe.PaymentIntentCancelParams)
+  | Stripe.PaymentIntentUpdateParams
 
 export interface IPaymentIntentService {
   _find: FindMethod<
@@ -23,7 +30,7 @@ export interface IPaymentIntentService {
   ) => Promise<Stripe.PaymentIntent>
   _patch: (
     id: string,
-    data: Stripe.PaymentIntentUpdateParams,
+    data: PaymentIntentPatchData,
     params: ParamsWithStripe,
   ) => Promise<Stripe.PaymentIntent>
   _remove: never
@@ -55,17 +62,36 @@ export class PaymentIntentService
     return this.stripe.paymentIntents.create(data, stripe)
   }
 
+  /**
+   * `{ capture: true }`, `{ confirm: true }` and `{ cancel: true }` capture,
+   * confirm or cancel the payment intent. The other fields are passed on as
+   * params, e.g. `{ cancel: true, cancellation_reason: 'abandoned' }`.
+   * Without one of these flags the payment intent is updated.
+   */
   _patch(
     id: string,
-    data: { capture: boolean } | Stripe.PaymentIntentUpdateParams,
+    data: PaymentIntentPatchData,
     params: ParamsWithStripe,
   ): Promise<Stripe.PaymentIntent> {
     const { stripe } = this.filterParams(params)
-    if ('capture' in data) {
-      return this.stripe.paymentIntents.capture(id, undefined, stripe)
+    const { capture, confirm, cancel, ...rest } = data as Record<string, any>
+
+    if ([capture, confirm, cancel].filter(Boolean).length > 1) {
+      throw new BadRequest(
+        'Only one of `capture`, `confirm` and `cancel` can be set',
+      )
+    }
+    if (capture) {
+      return this.stripe.paymentIntents.capture(id, rest, stripe)
+    }
+    if (confirm) {
+      return this.stripe.paymentIntents.confirm(id, rest, stripe)
+    }
+    if (cancel) {
+      return this.stripe.paymentIntents.cancel(id, rest, stripe)
     }
 
-    return this._update(id, data, params)
+    return this._update(id, rest, params)
   }
 
   _update(
