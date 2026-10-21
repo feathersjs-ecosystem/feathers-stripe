@@ -138,48 +138,48 @@ If a required parent id like `customer` is missing, the service rejects with a `
 
 Services for nested Stripe resources need the id of their parent object. It is passed in `params.query` or `data` as noted below.
 
-| Service                              | Stripe resource                | Notes                                                                                            |
-| ------------------------------------ | ------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `AccountService`                     | `accounts`                     |                                                                                                  |
-| `AccountLinkService`                 | `accountLinks`                 | `create` only                                                                                    |
-| `ApplicationFeeRefundService`        | `applicationFees.*Refund*`     | Requires `query.fee`                                                                             |
-| `BalanceService`                     | `balance`                      | `get` only. The id is used as `stripeAccount` for connected accounts                             |
-| `BalanceTransactionService`          | `balanceTransactions`          | `find` and `get` only                                                                            |
-| `BankAccountService`                 | `customers.*Source*`           | **Deprecated**, use `PaymentMethodService`. Requires `query.customer`                            |
-| `BillingMeterService`                | `billing.meters`               | `remove` deactivates the meter                                                                   |
-| `BillingMeterEventService`           | `billing.meterEvents`          | `create` only                                                                                    |
-| `ChargeService`                      | `charges`                      | `patch` with `{ capture: true }` captures. `remove` refunds the charge                           |
-| `CheckoutSessionService`             | `checkout.sessions`            | `remove` expires the session                                                                     |
-| `CouponService`                      | `coupons`                      |                                                                                                  |
-| `CreditNoteService`                  | `creditNotes`                  | `remove` voids the credit note                                                                   |
-| `CustomerService`                    | `customers`                    | Supports `search`                                                                                |
-| `CustomerPortalConfigurationService` | `billingPortal.configurations` |                                                                                                  |
-| `CustomerPortalSessionService`       | `billingPortal.sessions`       | `create` only                                                                                    |
-| `CustomerSessionService`             | `customerSessions`             | `create` only                                                                                    |
-| `DisputeService`                     | `disputes`                     |                                                                                                  |
-| `EventService`                       | `events`                       | `find` and `get` only                                                                            |
-| `ExternalAccountService`             | `accounts.*ExternalAccount*`   | Requires `query.account`, for `create` `data.account`                                            |
-| `InvoiceService`                     | `invoices`                     | `patch` with `{ pay: true }` pays the invoice. Supports `search`                                 |
-| `InvoiceItemService`                 | `invoiceItems`                 |                                                                                                  |
-| `PaymentIntentService`               | `paymentIntents`               | `patch` with `{ capture: true }` captures                                                        |
-| `PaymentLinkService`                 | `paymentLinks`                 |                                                                                                  |
-| `PaymentMethodService`               | `paymentMethods`               | `patch` with `{ attach: true, customer }` attaches. `remove` detaches                            |
-| `PayoutService`                      | `payouts`                      | `remove` cancels the payout                                                                      |
-| `PlanService`                        | `plans`                        | **Deprecated**, use `PriceService`                                                               |
-| `PriceService`                       | `prices`                       |                                                                                                  |
-| `ProductService`                     | `products`                     |                                                                                                  |
-| `PromotionCodeService`               | `promotionCodes`               |                                                                                                  |
-| `RefundService`                      | `refunds`                      |                                                                                                  |
-| `SetupIntentService`                 | `setupIntents`                 |                                                                                                  |
-| `SourceService`                      | `sources`                      | **Deprecated**, use `PaymentMethodService`. `create` with `data.customer` attaches to a customer |
-| `SubscriptionService`                | `subscriptions`                | `remove` cancels the subscription                                                                |
-| `SubscriptionItemService`            | `subscriptionItems`            |                                                                                                  |
-| `SubscriptionScheduleService`        | `subscriptionSchedules`        | `remove` cancels the schedule                                                                    |
-| `TaxRateService`                     | `taxRates`                     |                                                                                                  |
-| `TokenService`                       | `tokens`                       | `get` and `create` only                                                                          |
-| `TransferService`                    | `transfers`                    | `remove` reverses the transfer                                                                   |
-| `TransferReversalService`            | `transfers.*Reversal*`         | Requires `query.transfer`, for `create` `data.transfer`                                          |
-| `WebhookService`                     | -                              | See [Webhooks](#webhooks)                                                                        |
+| Service                              | Stripe resource                | Notes                                                                                                                                        |
+| ------------------------------------ | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AccountService`                     | `accounts`                     |                                                                                                                                              |
+| `AccountLinkService`                 | `accountLinks`                 | `create` only                                                                                                                                |
+| `ApplicationFeeRefundService`        | `applicationFees.*Refund*`     | Requires `query.fee`                                                                                                                         |
+| `BalanceService`                     | `balance`                      | `get` only. The id is used as `stripeAccount` for connected accounts                                                                         |
+| `BalanceTransactionService`          | `balanceTransactions`          | `find` and `get` only                                                                                                                        |
+| `BankAccountService`                 | `customers.*Source*`           | **Deprecated**, use `PaymentMethodService`. Requires `query.customer`                                                                        |
+| `BillingMeterService`                | `billing.meters`               | `remove` deactivates the meter                                                                                                               |
+| `BillingMeterEventService`           | `billing.meterEvents`          | `create` only                                                                                                                                |
+| `ChargeService`                      | `charges`                      | `patch` with `{ capture: true }` captures. `remove` refunds the charge                                                                       |
+| `CheckoutSessionService`             | `checkout.sessions`            | `remove` expires the session                                                                                                                 |
+| `CouponService`                      | `coupons`                      |                                                                                                                                              |
+| `CreditNoteService`                  | `creditNotes`                  | `remove` voids the credit note                                                                                                               |
+| `CustomerService`                    | `customers`                    | Supports `search`                                                                                                                            |
+| `CustomerPortalConfigurationService` | `billingPortal.configurations` |                                                                                                                                              |
+| `CustomerPortalSessionService`       | `billingPortal.sessions`       | `create` only                                                                                                                                |
+| `CustomerSessionService`             | `customerSessions`             | `create` only                                                                                                                                |
+| `DisputeService`                     | `disputes`                     |                                                                                                                                              |
+| `EventService`                       | `events`                       | `find` and `get` only                                                                                                                        |
+| `ExternalAccountService`             | `accounts.*ExternalAccount*`   | Requires `query.account`, for `create` `data.account`                                                                                        |
+| `InvoiceService`                     | `invoices`                     | `patch` with `{ pay: true }` pays the invoice. Supports `search`                                                                             |
+| `InvoiceItemService`                 | `invoiceItems`                 |                                                                                                                                              |
+| `PaymentIntentService`               | `paymentIntents`               | `patch` with `{ capture: true }`, `{ confirm: true }` or `{ cancel: true }` captures, confirms or cancels. Other fields are passed to Stripe |
+| `PaymentLinkService`                 | `paymentLinks`                 |                                                                                                                                              |
+| `PaymentMethodService`               | `paymentMethods`               | `patch` with `{ attach: true, customer }` attaches. `remove` detaches                                                                        |
+| `PayoutService`                      | `payouts`                      | `remove` cancels the payout                                                                                                                  |
+| `PlanService`                        | `plans`                        | **Deprecated**, use `PriceService`                                                                                                           |
+| `PriceService`                       | `prices`                       |                                                                                                                                              |
+| `ProductService`                     | `products`                     |                                                                                                                                              |
+| `PromotionCodeService`               | `promotionCodes`               |                                                                                                                                              |
+| `RefundService`                      | `refunds`                      |                                                                                                                                              |
+| `SetupIntentService`                 | `setupIntents`                 |                                                                                                                                              |
+| `SourceService`                      | `sources`                      | **Deprecated**, use `PaymentMethodService`. `create` with `data.customer` attaches to a customer                                             |
+| `SubscriptionService`                | `subscriptions`                | `remove` cancels the subscription                                                                                                            |
+| `SubscriptionItemService`            | `subscriptionItems`            |                                                                                                                                              |
+| `SubscriptionScheduleService`        | `subscriptionSchedules`        | `remove` cancels the schedule                                                                                                                |
+| `TaxRateService`                     | `taxRates`                     |                                                                                                                                              |
+| `TokenService`                       | `tokens`                       | `get` and `create` only                                                                                                                      |
+| `TransferService`                    | `transfers`                    | `remove` reverses the transfer                                                                                                               |
+| `TransferReversalService`            | `transfers.*Reversal*`         | Requires `query.transfer`, for `create` `data.transfer`                                                                                      |
+| `WebhookService`                     | -                              | See [Webhooks](#webhooks)                                                                                                                    |
 
 Example for a nested resource:
 

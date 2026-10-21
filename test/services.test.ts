@@ -373,10 +373,34 @@ const cases: Case[] = [
   call(
     services.PaymentIntentService,
     'patch',
-    ['pi_1', { capture: true }, params()],
+    ['pi_1', { capture: true, amount_to_capture: 500 }, params()],
     'paymentIntents.capture',
-    ['pi_1', undefined, opts],
+    ['pi_1', { amount_to_capture: 500 }, opts],
     'captures with { capture: true }',
+  ),
+  call(
+    services.PaymentIntentService,
+    'patch',
+    ['pi_1', { confirm: true, payment_method: 'pm_1' }, params()],
+    'paymentIntents.confirm',
+    ['pi_1', { payment_method: 'pm_1' }, opts],
+    'confirms with { confirm: true }',
+  ),
+  call(
+    services.PaymentIntentService,
+    'patch',
+    ['pi_1', { cancel: true, cancellation_reason: 'abandoned' }, params()],
+    'paymentIntents.cancel',
+    ['pi_1', { cancellation_reason: 'abandoned' }, opts],
+    'cancels with { cancel: true }',
+  ),
+  call(
+    services.PaymentIntentService,
+    'patch',
+    ['pi_1', { capture: false, ...data }, params()],
+    'paymentIntents.update',
+    ['pi_1', data, opts],
+    'updates with { capture: false }',
   ),
 
   ...resource(services.PaymentMethodService, 'paymentMethods', 'pm_1', [
@@ -762,6 +786,18 @@ describe('missing parent ids reject with BadRequest', () => {
     const service = new Service({ stripe })
 
     await expect(service[method](...args)).rejects.toThrow(BadRequest)
+    expect(calls).to.deep.equal([])
+  })
+})
+
+describe('PaymentIntentService.patch', () => {
+  it('rejects more than one action flag', async () => {
+    const { stripe, calls } = createStripeMock()
+    const service = new services.PaymentIntentService({ stripe })
+
+    await expect(
+      service.patch('pi_1', { capture: true, cancel: true } as any, params()),
+    ).rejects.toThrow(BadRequest)
     expect(calls).to.deep.equal([])
   })
 })
