@@ -1,126 +1,165 @@
-import { expect, vi } from "vitest";
-import type Stripe from "stripe";
-import { WebhookService, type WebHookHandler } from "../src";
+import { expect, vi } from 'vitest'
+import { NotAuthenticated } from '@feathersjs/errors'
+import type { Stripe } from 'stripe'
+import { WebhookService, type WebHookHandler } from '../src/index.js'
 
 const makeEvent = (type: string) =>
-  ({ type, data: { object: { id: "obj_123" } } }) as unknown as Stripe.Event;
+  ({ type, data: { object: { id: 'obj_123' } } }) as unknown as Stripe.Event
 
-describe("WebhookService", () => {
-  const app = {} as any;
-  const stripe = {} as any;
+describe('WebhookService', () => {
+  const app = {} as any
+  const stripe = {} as any
 
-  it("calls a handler with two levels", async () => {
-    const created = vi.fn<WebHookHandler>().mockResolvedValue("created");
+  it('calls a handler with two levels', async () => {
+    const created = vi.fn<WebHookHandler>().mockResolvedValue('created')
     const service = new WebhookService({
       app,
       stripe,
-      handlers: { customer: { created } }
-    });
-    const event = makeEvent("customer.created");
+      handlers: { customer: { created } },
+    })
+    const event = makeEvent('customer.created')
 
-    const result = await service.create(event, {});
+    const result = await service.create(event, {})
 
-    expect(result).to.equal("created");
+    expect(result).to.equal('created')
     expect(created).toHaveBeenCalledWith({
       object: event.data.object,
       event,
       params: {},
-      app
-    });
-  });
+      app,
+    })
+  })
 
-  it("calls a handler with three levels", async () => {
-    const completed = vi.fn<WebHookHandler>().mockResolvedValue("completed");
+  it('calls a handler with three levels', async () => {
+    const completed = vi.fn<WebHookHandler>().mockResolvedValue('completed')
     const service = new WebhookService({
       app,
       stripe,
-      handlers: { checkout: { session: { completed } } }
-    });
+      handlers: { checkout: { session: { completed } } },
+    })
 
     const result = await service.create(
-      makeEvent("checkout.session.completed"),
-      {}
-    );
+      makeEvent('checkout.session.completed'),
+      {},
+    )
 
-    expect(result).to.equal("completed");
-    expect(completed).toHaveBeenCalledOnce();
-  });
+    expect(result).to.equal('completed')
+    expect(completed).toHaveBeenCalledOnce()
+  })
 
-  it("calls a handler with four levels", async () => {
-    const created = vi.fn<WebHookHandler>().mockResolvedValue("created");
+  it('calls a handler with four levels', async () => {
+    const created = vi.fn<WebHookHandler>().mockResolvedValue('created')
     const service = new WebhookService({
       app,
       stripe,
-      handlers: { customer: { subscription: { trial_will_end: created } } }
-    });
+      handlers: { customer: { subscription: { trial_will_end: created } } },
+    })
 
     const result = await service.create(
-      makeEvent("customer.subscription.trial_will_end"),
-      {}
-    );
+      makeEvent('customer.subscription.trial_will_end'),
+      {},
+    )
 
-    expect(result).to.equal("created");
-  });
+    expect(result).to.equal('created')
+  })
 
-  it("calls only the matching handler", async () => {
-    const created = vi.fn<WebHookHandler>();
-    const deleted = vi.fn<WebHookHandler>();
+  it('calls only the matching handler', async () => {
+    const created = vi.fn<WebHookHandler>()
+    const deleted = vi.fn<WebHookHandler>()
     const service = new WebhookService({
       app,
       stripe,
-      handlers: { customer: { created, deleted } }
-    });
+      handlers: { customer: { created, deleted } },
+    })
 
-    await service.create(makeEvent("customer.deleted"), {});
+    await service.create(makeEvent('customer.deleted'), {})
 
-    expect(deleted).toHaveBeenCalledOnce();
-    expect(created).not.toHaveBeenCalled();
-  });
+    expect(deleted).toHaveBeenCalledOnce()
+    expect(created).not.toHaveBeenCalled()
+  })
 
-  it("resolves an empty object when no handler exists", async () => {
+  it('resolves an empty object when no handler exists', async () => {
     const service = new WebhookService({
       app,
       stripe,
-      handlers: { customer: { created: vi.fn<WebHookHandler>() } }
-    });
+      handlers: { customer: { created: vi.fn<WebHookHandler>() } },
+    })
 
-    expect(await service.create(makeEvent("invoice.paid"), {})).to.deep.equal(
-      {}
-    );
+    expect(await service.create(makeEvent('invoice.paid'), {})).to.deep.equal(
+      {},
+    )
     expect(
-      await service.create(makeEvent("customer.updated"), {})
-    ).to.deep.equal({});
-  });
+      await service.create(makeEvent('customer.updated'), {}),
+    ).to.deep.equal({})
+  })
 
-  it("resolves an empty object when the event only matches a namespace", async () => {
+  it('resolves an empty object when the event only matches a namespace', async () => {
     const service = new WebhookService({
       app,
       stripe,
-      handlers: { checkout: { session: { completed: vi.fn<WebHookHandler>() } } }
-    });
+      handlers: {
+        checkout: { session: { completed: vi.fn<WebHookHandler>() } },
+      },
+    })
 
     expect(
-      await service.create(makeEvent("checkout.session"), {})
-    ).to.deep.equal({});
-  });
+      await service.create(makeEvent('checkout.session'), {}),
+    ).to.deep.equal({})
+  })
 
-  it("requires an app", () => {
+  it('requires an app', () => {
     expect(
-      () => new WebhookService({ app: undefined, stripe, handlers: {} })
-    ).to.throw("options.app is required");
-  });
-});
+      () => new WebhookService({ app: undefined as any, stripe, handlers: {} }),
+    ).to.throw('options.app is required')
+  })
+})
 
-describe("WebhookService with synchronous handlers", () => {
-  it("resolves the return value of a synchronous handler", async () => {
+describe('WebhookService with synchronous handlers', () => {
+  it('resolves the return value of a synchronous handler', async () => {
     const service = new WebhookService({
       app: {} as any,
       stripe: {} as any,
-      handlers: { customer: { created: () => "sync" } }
-    });
+      handlers: { customer: { created: () => 'sync' } },
+    })
 
-    expect(await service.create(makeEvent("customer.created"), {})).to.equal(
-      "sync"
-    );
-  });
-});
+    expect(await service.create(makeEvent('customer.created'), {})).to.equal(
+      'sync',
+    )
+  })
+})
+
+describe('WebhookService signature enforcement', () => {
+  const created = vi.fn<WebHookHandler>(() => 'handled')
+  const service = new WebhookService({
+    app: {} as any,
+    stripe: {} as any,
+    handlers: { customer: { created } },
+  })
+
+  beforeEach(() => created.mockClear())
+
+  it('rejects external calls without a verified event', async () => {
+    await expect(
+      service.create(makeEvent('customer.created'), { provider: 'socketio' }),
+    ).rejects.toThrow(NotAuthenticated)
+    expect(created).not.toHaveBeenCalled()
+  })
+
+  it('uses the verified event instead of the request body', async () => {
+    const verified = makeEvent('customer.created')
+
+    await service.create(makeEvent('customer.deleted'), {
+      provider: 'rest',
+      stripeEvent: verified,
+    })
+
+    expect(created).toHaveBeenCalledOnce()
+    expect(created.mock.calls[0]![0].event).to.equal(verified)
+  })
+
+  it('allows internal calls without a verified event', async () => {
+    expect(await service.create(makeEvent('customer.created'), {})).to.equal(
+      'handled',
+    )
+  })
+})
