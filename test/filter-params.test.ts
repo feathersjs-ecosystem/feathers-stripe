@@ -100,20 +100,22 @@ describe('filterParams', () => {
 })
 
 describe('cleanQuery', () => {
+  const now = 1_700_000_000_000
+
   // @ts-expect-error - we don't need stripe for this test
   const service = new AccountLinkService({ stripe: {} })
 
   describe('when $ keys are present', () => {
     const query = {
-      prop: { $gt: Date.now() },
-      nested: { nested: { $gt: Date.now() } },
-      array: [{ $lt: Date.now() }],
+      prop: { $gt: now },
+      nested: { nested: { $gt: now } },
+      array: [{ $lt: now }],
     }
 
     const expected = {
-      prop: { gt: Date.now() },
-      nested: { nested: { gt: Date.now() } },
-      array: [{ lt: Date.now() }],
+      prop: { gt: now },
+      nested: { nested: { gt: now } },
+      array: [{ lt: now }],
     }
 
     it('strips keys that start with $', () => {
@@ -125,9 +127,9 @@ describe('cleanQuery', () => {
 
   describe('when $ keys are not present', () => {
     const query = {
-      prop: { gt: Date.now() },
-      nested: { nested: { gt: Date.now() } },
-      array: [{ lt: Date.now() }],
+      prop: { gt: now },
+      nested: { nested: { gt: now } },
+      array: [{ lt: now }],
     }
 
     it('does not modify orignal keys', () => {
